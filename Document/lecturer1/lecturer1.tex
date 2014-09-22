@@ -1,3 +1,5 @@
+\newcommand{\btheta}{\boldsymbol{\theta}}
+
 \author[Lecturer1]{Brendon J. Brewer\\
 Department of Statistics, The University of Auckland}
 
@@ -17,7 +19,49 @@ abbreviated as MCMC.
 There is a huge variety of Markov Chain Monte Carlo methods, and it would be
 unwise to try to cover them all in this winter school. Therefore I will focus
 on a small number of methods that are simple to implement, yet quite powerful
-and widely applicable.
+and widely applicable. At times, I will comment on popular methods that we are
+not covering, to give you some idea about what's out there.
+
+
+
+\section{Parameter Estimation}
+
+There are some parameters $\btheta$ whose values we want to know. To start, we
+need to have some idea of the set of possible values we are considering. For
+example, are the parameters integers? Real numbers? Positive real numbers?
+In some examples, the definition of the parameters already restricts the set
+of possible values. For example, {\it the proportion of extra-solar planets in
+the Milky Way that contain life} cannot be less than 0 or greater than 1.
+
+Our uncertainty about the parameters is modelled by a prior distribution
+$p(\btheta | I)$.
+
+
+\section{Assigning Prior Distributions}
+It is sometimes said that there are two different kinds of Bayesian inference,
+{\it subjective} and {\it objective}, with different methods for choosing
+priors. My view is that Bayesian describes a {\it hypothetical}
+state of prior knowledge, held by an idealised reasoner. When we apply
+Bayesian inference, we are studying how the idealised reasoner would update
+their state of knowledge based on the information we use in the calculation.
+
+In many cases, we can just use simple choices of wide prior distributions,
+invoking ``ignorance''.
+
+In some problems, it makes sense to spend a lot of time and effort thinking
+about the prior distributions. Some Bayesian statisticians, who are not
+necessarily experts in the fields of their clients, conduct elaborate interviews
+with experts to try and create a prior that models the experts' beliefs well.
+This process is called {\it elicitation}.
+For example, consider the Intergovernmental Panel on Climate Change (IPCC).
+Every XX years, they write a long and detailed report about the latest climate
+change science, trying to summarise everything that humanity knows about the
+topic. Consider the question ``{\it How much will the global average temperature
+increase in the next 100 years if we continue along our present path?}''.
+In this situation, it wouldn't be a very good idea to just use a convenient
+uniform prior!
+
+
 
 
 
