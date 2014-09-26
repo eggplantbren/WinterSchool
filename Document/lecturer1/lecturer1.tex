@@ -1,4 +1,5 @@
 \newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\data}{\boldsymbol{D}}
 
 \author[Lecturer1]{Brendon J. Brewer\\
 Department of Statistics, The University of Auckland}
@@ -23,6 +24,14 @@ and widely applicable. At times, I will comment on popular methods that we are
 not covering, to give you some idea about what's out there.
 
 
+\section{Notation}
+The common notation used by statisticians would write a Poisson distribution
+(for example), as:
+\begin{eqnarray}
+P(X = x) &=& \frac{\lambda^x e^{-\lambda}}{x!}
+\end{eqnarray}
+
+
 
 \section{Parameter Estimation}
 
@@ -35,6 +44,19 @@ the Milky Way that contain life} cannot be less than 0 or greater than 1.
 
 Our uncertainty about the parameters is modelled by a prior distribution
 $p(\btheta | I)$.
+
+Bayes' rule is a consequence of the product rule of probability. If we have
+chosen a certain prior distribution $p(\btheta | I)$, and a certain sampling
+distribution $p(\data | \btheta, I)$, then Bayes' rule allows us to calculate
+the {\it posterior distribution}:
+\begin{eqnarray}
+p(\btheta | \data, I) &=& \frac{p(\btheta | I)p(\data | \btheta, I)}{p(\data | I)}.
+\end{eqnarray}
+
+
+
+\section{What is the data?}
+
 
 
 \section{Assigning Prior Distributions}
@@ -81,6 +103,11 @@ that you use a mixture of widths.
 The effective proposal distribution is now very heavy-tailed.
 
 
+
+\section{Birth and death moves}
+Sometimes, when you are trying to fit a model to data, there is uncertainty
+not just about the values of the model parameters, but also how many model
+parameter exist in the first place. One example 
 
 
 
