@@ -25,10 +25,26 @@ not covering, to give you some idea about what's out there.
 
 
 \section{Notation}
-The common notation used by statisticians would write a Poisson distribution
-(for example), as:
+People who use probability theory tend to fall into one of two camps. The
+first group favours notation that is mathematically correct and conceptually
+clear, yet results in equations that are very large and difficult to read.
+The second group favours a very compact notation which makes equations a lot
+shorter and easier to read, but could be misinterpreted if you are not used to
+it. I fall into the second group, but to prevent any misunderstandings
+I'll describe these two kinds of notation below.
+
+Suppose we're about to flip a coin $N$ times, and are interested in the
+quantity $X$, the number of times the result is heads. According
+to the usual assumptions, the possible values for $X$ are the integers from 0
+to 10, and the probability distribution for $X$ is given by
+a binomial distribution:
+
 \begin{eqnarray}
-P(X = x) &=& \frac{\lambda^x e^{-\lambda}}{x!}
+P(X = x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
+\left(\frac{1}{2}\right)^x\left(\frac{1}{2}\right)^{10 - x}\\
+&=&
+P(X = x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
+\left(\frac{1}{2}\right)^x\left(\frac{1}{2}\right)^{10 - x}\\
 \end{eqnarray}
 
 
@@ -60,6 +76,10 @@ p(\btheta | \data, I) &=& \frac{p(\btheta | I)p(\data | \btheta, I)}{p(\data | I
 
 
 \section{Assigning Prior Distributions}
+It has been said ({\bf by whom?}) that there are only two open problems in
+Bayesian inference. The first is how to assign prior distributions, and the
+second is how to calculate the results.
+
 It is sometimes said that there are two different kinds of Bayesian inference,
 {\it subjective} and {\it objective}, with different methods for choosing
 priors. My view is that Bayesian describes a {\it hypothetical}
@@ -109,12 +129,17 @@ proposal = x + L*rng.randn()
 The performance of the Metropolis algorithm seems to depend quite strongly on
 the width of the proposal distribution. It's usually not a good idea to spend
 a long time on preliminary runs to find an optimal width. Instead, I recommend
-that you use a mixture of widths.
+that you use a mixture of widths. Basically, every time we make a proposal,
+the width is drawn from some range, rather than being constant.
 
 \begin{verbatim}
 L = 10.**(1.5 - 6.*rng.rand())
 proposal = x + L*rng.randn()
 \end{verbatim}
+
+With this proposal, the minimum width is
+$10^{-4.5} \approx 3.16 \times 10^{-5}$, and the maximum width is
+$10^{1.5} \approx 31.6$.
 
 The effective proposal distribution is now very heavy-tailed.
 
@@ -123,13 +148,26 @@ The effective proposal distribution is now very heavy-tailed.
 \section{Birth and death moves}
 Sometimes, when you are trying to fit a model to data, there is uncertainty
 not just about the values of the model parameters, but also how many model
-parameter exist in the first place. One example 
+parameter exist in the first place. One example is
+the radial velocity technique for detecting extra-solar planets
+\citep{gregory}, where the goal is to fit a signal to a sparse data set, where
+we don't know how many components (planets) there are.
 
 
 
 \section{Nested Sampling}
+Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling}.
 Several variants of Nested Sampling exist, and most of them are somewhat
-complicated. Here, I will present a simple version of Nested Sampling.
+complicated. Here, I will present a simple version of Nested Sampling which
+is sufficient to solve a wide range of problems. This approach is similar to
+the one presented in the introductory textbook by \citet{sivia}.
+
+Many more complex and sophisticated versions of
+Nested Sampling exist, such as the popular MultiNest \citep{multinest},
+my own Diffusive Nested Sampling \citep{dnest}, and several others. These
+algorithms, while all based on the insights of \citet{skilling}, are very
+different in detail. For example, MultiNest does blah, while Diffusive Nested
+Sampling does blah'.
 
 
 %Bla bla bla \citep{lecturer1:abreu10}, \citep{lecturer1:abreu100}
