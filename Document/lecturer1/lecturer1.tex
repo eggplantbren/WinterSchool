@@ -91,14 +91,30 @@ uniform prior!
 
 The version of the Metropolis algorithm presented here is sometimes called
 {\it random walk} Metropolis, because of the choice of the proposal
-distribution.
+distribution. More sophisticated choices are often possible, but usually
+require problem-specific knowledge. Consider a problem with a single unknown
+parameter $x$. If the prior is some density $\pi(x)$ and the likelihood
+function is $\mathcal{L}(x)$, then the posterior distribution will be
+proportional to $\pi(x)\mathcal{L}(x)$.
 
-Example with gaussian proposals
+The ``random walk'' proposal generates a proposed value $x'$ from a normal
+(gaussian) distribution centered around the current position $x$. The user
+is free to choose the width of the normal distribution. Here is a Python code
+snippet showing a proposal with width {\tt L}:
+
+\begin{verbatim}
+proposal = x + L*rng.randn()
+\end{verbatim}
 
 The performance of the Metropolis algorithm seems to depend quite strongly on
 the width of the proposal distribution. It's usually not a good idea to spend
 a long time on preliminary runs to find an optimal width. Instead, I recommend
 that you use a mixture of widths.
+
+\begin{verbatim}
+L = 10.**(1.5 - 6.*rng.rand())
+proposal = x + L*rng.randn()
+\end{verbatim}
 
 The effective proposal distribution is now very heavy-tailed.
 
