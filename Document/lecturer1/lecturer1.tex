@@ -41,10 +41,7 @@ a binomial distribution:
 
 \begin{eqnarray}
 P(X = x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
-\left(\frac{1}{2}\right)^x\left(\frac{1}{2}\right)^{10 - x}\\
-&=&
-P(X = x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
-\left(\frac{1}{2}\right)^x\left(\frac{1}{2}\right)^{10 - x}\\
+\left(\frac{1}{2}\right)^x\left(\frac{1}{2}\right)^{10 - x}
 \end{eqnarray}
 
 
@@ -122,20 +119,32 @@ The ``random walk'' proposal generates a proposed value $x'$ from a normal
 is free to choose the width of the normal distribution. Here is a Python code
 snippet showing a proposal with width {\tt L}:
 
-\begin{verbatim}
-proposal = x + L*rng.randn()
-\end{verbatim}
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  # Generate a proposal
+  proposal = x + L*rng.randn()
+\end{minted}
 
 The performance of the Metropolis algorithm seems to depend quite strongly on
 the width of the proposal distribution. It's usually not a good idea to spend
 a long time on preliminary runs to find an optimal width. Instead, I recommend
 that you use a mixture of widths. Basically, every time we make a proposal,
 the width is drawn from some range, rather than being constant.
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  # A heavy-tailed proposal distribution
+  # Generate a standard deviation
+  L = 10.**(1.5 - 6.*rng.rand())
 
-\begin{verbatim}
-L = 10.**(1.5 - 6.*rng.rand())
-proposal = x + L*rng.randn()
-\end{verbatim}
+  # Use the standard deviation for the proposal
+  proposal = x + L*rng.randn()
+\end{minted}
 
 With this proposal, the minimum width is
 $10^{-4.5} \approx 3.16 \times 10^{-5}$, and the maximum width is
