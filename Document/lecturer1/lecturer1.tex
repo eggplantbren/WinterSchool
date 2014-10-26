@@ -6,25 +6,44 @@ Department of Statistics, The University of Auckland}
 
 \chapter{Bayesian Inference How-To}
 
-\section{Introduction}
-
+In previous chapters you've had an overview of the fundamental ideas
+of Bayesian inference along with its historical development. This chapter
+focuses on putting these ideas into practice.
 
 Any particular application of Bayesian inference involves making choices
 about what data you are analysing, what questions you are
-asking, and what assumptions you are willing to make. Once you have made all
-of these choices, you are then faced with the question of how to calculate the
-results. Often, this involves numerical methods. The most powerful and
-popular numerical techniques are the Markov Chain Monte Carlo methods, often
-abbreviated as MCMC.
+trying to answer, and what assumptions you are willing to make. This
+model-building aspect of Bayesian inference is sometimes not taught explicitly,
+because it is 
 
-There is a huge variety of Markov Chain Monte Carlo methods, and it would be
+Once you have made all
+of these choices, you are then faced with the question of how to calculate the
+results. Usually you want to calculate the posterior distribution for some
+unknown parameters given your data, and then present the results in an
+understandable way. Since we are often dealing with complicated probability
+distributions in high dimensions, numerical methods are usually used.
+The most popular and numerical techniques are the Markov Chain Monte Carlo
+methods, often abbreviated as MCMC. Some people claim that MCMC stands for
+Monte Carlo Markov Chains, but they are wrong. % Joke okay?
+
+A huge variety of MCMC methods exists, and it would be
 unwise to try to cover them all in this winter school. Therefore I will focus
 on a small number of methods that are simple to implement, yet quite powerful
-and widely applicable. At times, I will comment on popular methods that we are
-not covering, to give you some idea about what's out there.
+and widely applicable. I will try to emphasise methods that are {\it general},
+i.e. methods that will work okay on most problems you throw at them. A
+drawback of this approach is that the methods we cover are not necessarily
+the most efficient methods possible. If you're mostly interested in one
+specific application, you'll likely be able to achieve better performance
+by using a more complex algorithm, or by taking advantage of the particular
+properties of your problem.
+
+At times, I will comment on other popular methods that we are
+not covering, and their strengths and weaknesses.
 
 
-\section{Notation}
+\section{Background}
+
+
 People who use probability theory tend to fall into one of two camps. The
 first group favours notation that is mathematically correct and conceptually
 clear, yet results in equations that are very large and difficult to read.
@@ -48,6 +67,8 @@ P(X = x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
 
 \section{Parameter Estimation}
 
+Almost all data analysis problems can be interpreted as {\it parameter
+estimation} problems.
 There are some parameters $\btheta$ whose values we want to know. To start, we
 need to have some idea of the set of possible values we are considering. For
 example, are the parameters integers? Real numbers? Positive real numbers?
