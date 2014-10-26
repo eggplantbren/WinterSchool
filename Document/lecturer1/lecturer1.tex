@@ -6,6 +6,7 @@ Department of Statistics, The University of Auckland}
 
 \chapter{Bayesian Inference How-To}
 
+\section{Introduction}
 In previous chapters you've had an overview of the fundamental ideas
 of Bayesian inference along with its historical development. This chapter
 focuses on putting these ideas into practice.
@@ -14,7 +15,7 @@ Any particular application of Bayesian inference involves making choices
 about what data you are analysing, what questions you are
 trying to answer, and what assumptions you are willing to make. This
 model-building aspect of Bayesian inference is sometimes not taught explicitly,
-because it is 
+because it is somewhat of an art.
 
 Once you have made all
 of these choices, you are then faced with the question of how to calculate the
@@ -22,9 +23,14 @@ results. Usually you want to calculate the posterior distribution for some
 unknown parameters given your data, and then present the results in an
 understandable way. Since we are often dealing with complicated probability
 distributions in high dimensions, numerical methods are usually used.
-The most popular and numerical techniques are the Markov Chain Monte Carlo
-methods, often abbreviated as MCMC. Some people claim that MCMC stands for
-Monte Carlo Markov Chains, but they are wrong. % Joke okay?
+The most popular and useful numerical techniques are the Markov Chain Monte
+Carlo methods, often abbreviated as
+MCMC\footnote{Some people claim that MCMC stands for
+Monte Carlo Markov Chains, but they are wrong.}.
+Many people ({\bf who?}) credit the rediscovery of MCMC as the main reason
+why Bayesian inference is so popular now: since it made the calculations so
+much easier, people were able to gain practical experience, which in turn
+reduced a lot of their worries about prior distributions.
 
 A huge variety of MCMC methods exists, and it would be
 unwise to try to cover them all in this winter school. Therefore I will focus
@@ -39,6 +45,25 @@ properties of your problem.
 
 At times, I will comment on other popular methods that we are
 not covering, and their strengths and weaknesses.
+
+
+\section{Python}
+Due to its popularity and relatively shallow learning curve,
+I will be using Python to implement the algorithms. The code I use will be
+written so that it works in either Python 2 or 3. I will also assume that
+each program has imported the following libraries:
+
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  import numpy as np
+  import numpy.random as rng
+  import matplotlib.pyplot as plt
+  import copy
+\end{minted}
+
 
 
 \section{Background}
