@@ -1,5 +1,6 @@
 import numpy as np
 import numpy.random as rng
+import copy
 
 # How many parameters are there?
 num_params = 4
@@ -27,6 +28,23 @@ def from_prior():
 
   return np.array([A, b, tc, width])
 
+def log_prior(params):
+  """
+  Evaluate the (log of the) prior distribution
+  """
+  A, b, tc, width = params[0], params[1], params[2], params[3]
+
+  # Minus infinity, if out of bounds
+  if A < -100. or A > 100.:
+    return -np.Inf
+  if b < 0. or b > 10.:
+    return -np.Inf
+  if tc < t_min or tc > t_max:
+    return -np.Inf
+  if width < 0. or width > t_range:
+    return -np.Inf
+
+  return 0.
 
 def log_likelihood(params):
   """
@@ -43,8 +61,16 @@ def log_likelihood(params):
   return -0.5*N*np.log(2.*np.pi) - np.sum(np.log(data[:,2])) \
             -0.5*np.sum((data[:,1] - mu)**2/data[:,2]**2)
 
+def proposal(params):
+  """
+  Generate new values for the parameters, for the Metropolis algorithm.
+  """
+  # Copy the parameters
+  new = copy.deepcopy()
 
+  # Which one should we change?
+  which = rng.randint(num_params)
+  new[which] += jump_sizes[which]*10.**(1.5 - 6.*rng.rand())*rng.rand()
+  return new
 
-params = from_prior()
-print(log_likelihood(params))
 
