@@ -66,7 +66,7 @@ def proposal(params):
   Generate new values for the parameters, for the Metropolis algorithm.
   """
   # Copy the parameters
-  new = copy.deepcopy()
+  new = copy.deepcopy(params)
 
   # Which one should we change?
   which = rng.randint(num_params)
