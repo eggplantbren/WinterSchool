@@ -59,7 +59,8 @@ seem strange:
 I will try to emphasise the underlying ideas of the methods.\\
 I will not
 be teaching specific software packages
-(e.g. {\it emcee}, {\it MultiNest}, {\it DNest3}), though I may mention them.
+(e.g. {\it DNest3}, {\it emcee}, {\it JAGS}, {\it MultiNest}, {\it Stan}),
+though I may mention them.
 \end{frame}
 
 \begin{frame}[t]{Ingredients I}
@@ -111,22 +112,40 @@ dimensional problems.
 
 
 
-\begin{frame}[t]{The Logic of the Updating Process}
-A standard ``medical testing'' example, when a diagnostic test is only
-95\% accurate (i.e. there is a 5\% probability it indicates you have
-the disease when you don't, and vice versa).
-
-Consider:\\
-$H$ = You have the disease\\
-$D$ = You test positive for the disease\\
-
-Also:\\
-$\bar{H}$ = You don't have the disease
-$\bar{D}$ = You don't test positive
+\begin{frame}[t]{Updating Probabilities: Example}
+\begin{center}
+\includegraphics[scale=0.5]{ebola.jpg}
+\end{center}
+A patient goes to the doctor because he as a fever. Define
+\begin{center}
+\begin{tabular}{ll}
+$H \equiv $ & ``The patient has Ebola''\\
+$\bar{H} \equiv $ & ``The patient does not have Ebola''.
+\end{tabular}
+\end{center}
 
 \end{frame}
 
+\begin{frame}[t]{Updating Probabilities: Example}
+Based on all of her knowledge, the doctor assigns probabilities to the two
+hypotheses.
+\begin{eqnarray}
+P(H) &=& 0.01\\
+P(\bar{H}) &=& 0.99
+\end{eqnarray}
 
+But she wants to test the patient to make sure.
+\end{frame}
+
+
+
+\begin{frame}[t]{Updating Probabilities: Example}
+The Ebola test 
+
+
+
+
+\end{frame}
 
 
 
@@ -185,7 +204,7 @@ The red curve was:
 \right.
 \end{eqnarray}
 
-and the noise was generated like this:
+and the noise was added like this:
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
@@ -220,21 +239,7 @@ These are our unknown parameters. Let's find the posterior.
 \begin{eqnarray}
 p(A, b, t_c, w | D) &=& \frac{p(A, b, t_c, w)p(D | A, b, t_c, w)}{p(D)}
 \end{eqnarray}
-
 \end{frame}
-
-
-\begin{frame}[fragile, t]{Transit Example: Problems}
-The posterior is given by:
-\begin{eqnarray}
-p(A, b, t_c, w | D) &=& \frac{p(A, b, t_c, w)p(D | A, b, t_c, w)}{p(D)}
-\end{eqnarray}
-
-But...\\
-How do we choose the {\it prior} $p(A, b, t_c, w)$?\\
-How do we choose the {\it likelihood} $p(D | A, b, t_c, w)$?
-\end{frame}
-
 
 \begin{frame}[fragile, t]{Transit Example: Problems I}
 The posterior is given by:
@@ -249,6 +254,25 @@ How do we find $p(D)$?
 \end{frame}
 
 
+\begin{frame}[t]{Choosing priors}
+The prior $p(A, b, t_c, w)$
+describes what values are plausible, without taking the data into account.
+
+Using the product rule, we can break this down:
+\begin{eqnarray}
+p(A, b, t_c, w) &=& p(A) p(b | A) p(t_c | b, A) p(w | t_c, b, A)
+\end{eqnarray}
+Often, we can assume the prior factorises like this (i.e. the priors are
+{\bf independent}):
+\begin{eqnarray}
+p(A, b, t_c, w) &=& p(A) p(b) p(t_c) p(w)
+\end{eqnarray}
+
+
+\end{frame}
+
+
+
 \begin{frame}[fragile, t]{Transit Example: Problems II}
 Even if we can calculate the posterior $p(A, b, t_c, w | D)$, it is still a
 probability distribution over a four-dimensional space.\\
@@ -257,7 +281,9 @@ probability distribution over a four-dimensional space.\\
 \end{frame}
 
 
-\begin{frame}[t]{What sampling gives us}
+
+
+\begin{frame}[t]{Answer to Problem II: Monte Carlo}
 \begin{columns}[T]
 \begin{column}{0.35\textwidth}
   \vspace{20pt}
@@ -275,6 +301,28 @@ probability distribution over a four-dimensional space.\\
 
 \end{columns}
 \end{frame}
+
+
+
+\begin{frame}[t]{Answer to Problem II: Monte Carlo}
+\begin{columns}[T]
+\begin{column}{0.35\textwidth}
+  \vspace{20pt}
+  \begin{itemize}
+  \setlength{\itemsep}{10pt}
+  \item {\bf Marginalisation} becomes trivial
+  \item We can quantify all uncertainties we might be interested in
+  \end{itemize}
+\end{column}
+\hfill
+\begin{column}{0.5\textwidth}
+  \hspace{-30pt}
+  \includegraphics[scale=0.22]{marginalisation.pdf}
+\end{column}
+
+\end{columns}
+\end{frame}
+
 
 
 \begin{frame}[t]{The Metropolis Algorithm}
