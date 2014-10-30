@@ -131,6 +131,27 @@ $p(D | \theta)$.
 The latter are often called {\bf nuisance parameters}.
 \end{frame}
 
+
+
+\begin{frame}[t]{Transit Example}
+This example is quite simple, yet it is complex enough to demonstrate many
+important principles.
+\vspace{1cm}
+
+It is also closely related to many astronomical situations!
+\end{frame}
+
+
+\begin{frame}[t]{Related to the transit example...}
+\begin{itemize}
+\item Realistic exoplanet transits
+\item Finding emission/absorption lines in spectra
+\item Finding stars/galaxies in an image
+\item ¡Y mucho más!
+\end{itemize}
+\end{frame}
+
+
 \begin{frame}[t]{Transit Example}
 \begin{figure}
 \includegraphics[scale=0.4]{Code/transit_data.pdf}
@@ -178,24 +199,6 @@ and the noise was generated like this:
 
 
 
-\begin{frame}[t]{Transit Example}
-This example is quite simple, yet it is complex enough to demonstrate many
-important principles.
-\vspace{1cm}
-
-It is also closely related to many astronomical situations!
-\end{frame}
-
-
-\begin{frame}[t]{Related to the transit example...}
-\begin{itemize}
-\item Realistic exoplanet transits
-\item Finding emission/absorption lines in spectra
-\item Finding stars/galaxies in an image
-\item ¡Y mucho más!
-\end{itemize}
-\end{frame}
-
 
 \begin{frame}[t]{Posterior Distribution vs. Maximum Likelihood}
 The practical difference between these two concepts is greater in higher
@@ -237,10 +240,20 @@ $\{$
   \begin{itemize}
   \item Generate {\bf proposal} from some distribution $q(\theta' | \theta)$
   (e.g. slightly perturb the current position).
-  \item With probability$^*$ $\alpha = \min\left(1, \frac{p(\theta')p(D|\theta')}{p(\theta)p(D|\theta)}\right)$, accept the proposal (i.e. replace $\theta$ with $\theta'$).
+  \item With probability $\alpha = \min\left(1, \frac{p(\theta')p(D|\theta')}{p(\theta)p(D|\theta)}\right)$, accept the proposal (i.e. replace $\theta$ with $\theta'$).
   \item Otherwise, stay in the same place.
   \end{itemize}
 $\}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Implementing the Metropolis Algorithm}
+To use Metropolis on the Transit Problem, we'll need functions to:
+\begin{itemize}
+\item Generate a starting point
+\item Make proposals
+\item Evaluate the prior distribution at any point
+\item Evaluate the likelihood at any point
 \end{itemize}
 \end{frame}
 
