@@ -15,10 +15,10 @@ logp, logl = log_prior(params), log_likelihood(params)
 steps = 100000
 
 # How often to save
-skip = 100
+skip = 10
 
 # How often to plot (should be divisible by skip)
-plot_skip = 100
+plot_skip = 1000
 
 # Storage array for the results
 # Extra column is for the log likelihood.
@@ -56,9 +56,12 @@ for i in range(0, steps):
     if (i+1)%plot_skip == 0:
       # Plot one of the parameters over time
       # Ignore the first 25% as burn-in
-      plt.plot(keep[(index//4):(index+1), 0], 'b')
+      plt.plot(keep[(index//4):(index+1), 2], 'b')
       plt.xlabel('Iteration')
       plt.draw()
+
+# Save the results to a file
+np.savetxt('keep.txt', keep)
 
 plt.ioff()
 plt.show()
