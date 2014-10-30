@@ -70,7 +70,7 @@ def proposal(params):
 
   # Which one should we change?
   which = rng.randint(num_params)
-  new[which] += jump_sizes[which]*10.**(1.5 - 6.*rng.rand())*rng.rand()
+  new[which] += jump_sizes[which]*10.**(1.5 - 6.*rng.rand())*rng.randn()
   return new
 
 

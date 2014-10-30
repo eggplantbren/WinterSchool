@@ -9,20 +9,20 @@ from transit_model import from_prior, log_prior, log_likelihood, proposal,\
 # Generate a starting point from the prior
 # (Feel free to use a better recipe if you have one)
 params = from_prior()
-logp = log_prior(params)
-logl = log_likelihood(params)
+logp, logl = log_prior(params), log_likelihood(params)
 
 # Total number of iterations
 steps = 100000
 
 # How often to save
-skip = 10
+skip = 100
 
 # How often to plot (should be divisible by skip)
 plot_skip = 100
 
 # Storage array for the results
-keep = np.empty((steps//skip, num_params))
+# Extra column is for the log likelihood.
+keep = np.empty((steps//skip, num_params + 1))
 
 # Plotting stuff
 plt.ion()
@@ -50,10 +50,14 @@ for i in range(0, steps):
   # Save results
   if (i+1)%skip == 0:
     index = (i+1)//skip - 1
-    keep[(i+1)//skip-1, :] = params
+    keep[(i+1)//skip-1, 0:-1] = params
+    keep[(i+1)//skip-1, -1] = logl
 
     if (i+1)%plot_skip == 0:
+      # Plot one of the parameters over time
+      # Ignore the first 25% as burn-in
       plt.plot(keep[(index//4):(index+1), 0], 'b')
+      plt.xlabel('Iteration')
       plt.draw()
 
 plt.ioff()
