@@ -90,14 +90,14 @@ this is a function of $\theta$ called the {\bf likelihood}.
 \begin{frame}[t]{The Posterior Distribution}
 The data helps us by changing our prior distribution to the {\bf posterior
 distribution}, given by
-\begin{eqnarray}
+\begin{eqnarray*}
 p(\theta | D) &=& \frac{p(\theta) p(D|\theta)}{p(D)}
-\end{eqnarray}
+\end{eqnarray*}
 where the denominator is the normalisation constant, usually called either
 the {\bf marginal likelihood} or the {\bf evidence}.
-\begin{eqnarray}
+\begin{eqnarray*}
 p(D) &=& \int p(\theta)p(D|\theta) \, d\theta.
-\end{eqnarray}
+\end{eqnarray*}
 
 \end{frame}
 
@@ -129,10 +129,10 @@ $\bar{H} \equiv $ & ``The patient does not have Ebola''.
 \begin{frame}[t]{Updating Probabilities: Example}
 Based on all of her knowledge, the doctor assigns probabilities to the two
 hypotheses.
-\begin{eqnarray}
+\begin{eqnarray*}
 P(H) &=& 0.01\\
 P(\bar{H}) &=& 0.99
-\end{eqnarray}
+\end{eqnarray*}
 
 But she wants to test the patient to make sure.
 \end{frame}
@@ -140,13 +140,75 @@ But she wants to test the patient to make sure.
 
 
 \begin{frame}[t]{Updating Probabilities: Example}
-The Ebola test 
+The patient is tested. Define
+
+\begin{center}
+\begin{tabular}{ll}
+$D \equiv $ & ``The {\bf test says} the patient has Ebola''\\
+$\bar{D} \equiv $ & ``The {\bf test says} the patient does not have Ebola''.
+\end{tabular}
+\end{center}
+
+If the test were perfect, we'd have $P(D | H) = 1$, $P(\bar{D} | H) = 0$,
+$P(D | \bar{H}) = 0$, and $P(\bar{D} | \bar{H}) = 1$.
+\end{frame}
 
 
+\begin{frame}[t]{Updating Probabilities: Example}
+The Ebola test isn't perfect. Suppose there's a 5\% probability it simply gives
+the wrong answer. Then we have:
+
+\begin{eqnarray*}
+P(D | H)   &=& 0.95\\
+P(\bar{D} | H) &=& 0.05\\
+P(D | \bar{H})   &=& 0.05\\
+P(\bar{D} | \bar{H}) &=& 0.95
+\end{eqnarray*}
+
+\end{frame}
+
+\begin{frame}[t]{Updating Probabilities: Example}
+Overall, there are four possibilities, considering whether the patient has
+Ebola or not, and what the test says.
+
+\begin{center}
+$(H, D)$\\
+$(\bar{H}, D)$\\
+$(H, \bar{D})$\\
+$(\bar{H}, \bar{D})$
+\end{center}
 
 
 \end{frame}
 
+\begin{frame}[t]{Updating Probabilities: Example}
+The probabilities for these four possibilities can be found using the product
+rule.
+
+\begin{eqnarray*}
+P(H, D) &=& 0.01 \times 0.95\\
+P(\bar{H}, D) &=& 0.99 \times 0.05\\
+P(H, \bar{D}) &=& 0.01 \times 0.05\\
+P(\bar{H}, \bar{D}) &=& 0.99 \times 0.95\\
+\end{eqnarray*}
+
+
+\end{frame}
+
+\begin{frame}[t]{Updating Probabilities: Example}
+The test results come back and say that the patient has Ebola. That is, we've
+learned that $D$ is true. So we can confidently rule out those possibilities
+where $D$ is false:
+
+\begin{eqnarray*}
+P(H, D) &=& 0.01 \times 0.95\\
+P(\bar{H}, D) &=& 0.99 \times 0.05\\
+P(H, \bar{D}) &=& 0.01 \times 0.05\\
+P(\bar{H}, \bar{D}) &=& 0.99 \times 0.95\\
+\end{eqnarray*}
+
+
+\end{frame}
 
 
 
@@ -179,14 +241,14 @@ It is also closely related to many astronomical situations!
 
 \begin{frame}[t]{Transit Example: The Truth}
 The red curve was:
-\begin{eqnarray}
+\begin{eqnarray*}
 \mu(t) &=& \left\{
 \begin{array}{lr}
 10, & 2.5 \leq t \leq 4.5\\
 5,  & \textnormal{otherwise}.
 \end{array}
 \right.
-\end{eqnarray}
+\end{eqnarray*}
 
 \begin{figure}
 \includegraphics[scale=0.3]{Code/transit_data.pdf}
@@ -195,14 +257,14 @@ The red curve was:
 
 \begin{frame}[fragile, t]{Transit Example: The Truth}
 The red curve was:
-\begin{eqnarray}
+\begin{eqnarray*}
 \mu(t) &=& \left\{
 \begin{array}{lr}
 10, & 2.5 \leq t \leq 4.5\\
 5,  & \textnormal{otherwise}.
 \end{array}
 \right.
-\end{eqnarray}
+\end{eqnarray*}
 
 and the noise was added like this:
 \begin{minted}[mathescape,
@@ -218,14 +280,14 @@ and the noise was added like this:
 
 \begin{frame}[fragile, t]{Transit Example: Inference}
 Let's fit the data with this model:
-\begin{eqnarray}
+\begin{eqnarray*}
 \mu(t) &=& \left\{
 \begin{array}{lr}
 A, & (t_c - w/2) \leq t \leq (t_c + w/2)\\
 A-b,  & \textnormal{otherwise}.
 \end{array}
 \right.
-\end{eqnarray}
+\end{eqnarray*}
 
 We don't know $A$, $b$, $t_c$, and $w$. But we do know the data $D$.
 \end{frame}
@@ -236,16 +298,16 @@ We don't know $A$, $b$, $t_c$, and $w$. But we do know the data $D$.
 We don't know $A$, $b$, $t_c$, and $w$.
 These are our unknown parameters. Let's find the posterior.
 
-\begin{eqnarray}
+\begin{eqnarray*}
 p(A, b, t_c, w | D) &=& \frac{p(A, b, t_c, w)p(D | A, b, t_c, w)}{p(D)}
-\end{eqnarray}
+\end{eqnarray*}
 \end{frame}
 
 \begin{frame}[fragile, t]{Transit Example: Problems I}
 The posterior is given by:
-\begin{eqnarray}
+\begin{eqnarray*}
 p(A, b, t_c, w | D) &=& \frac{p(A, b, t_c, w)p(D | A, b, t_c, w)}{p(D)}
-\end{eqnarray}
+\end{eqnarray*}
 
 But...\\
 How do we choose the {\it prior}, $p(A, b, t_c, w)$?\\
@@ -259,14 +321,14 @@ The prior $p(A, b, t_c, w)$
 describes what values are plausible, without taking the data into account.
 
 Using the product rule, we can break this down:
-\begin{eqnarray}
+\begin{eqnarray*}
 p(A, b, t_c, w) &=& p(A) p(b | A) p(t_c | b, A) p(w | t_c, b, A)
-\end{eqnarray}
+\end{eqnarray*}
 Often, we can assume the prior factorises like this (i.e. the priors are
 {\bf independent}):
-\begin{eqnarray}
+\begin{eqnarray*}
 p(A, b, t_c, w) &=& p(A) p(b) p(t_c) p(w)
-\end{eqnarray}
+\end{eqnarray*}
 
 
 \end{frame}
