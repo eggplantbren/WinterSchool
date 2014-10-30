@@ -100,6 +100,16 @@ p(D) &=& \int p(\theta)p(D|\theta) \, d\theta.
 
 \end{frame}
 
+\begin{frame}[t]{Posterior Distribution vs. Maximum Likelihood}
+The practical difference between these two concepts is greater in higher
+dimensional problems.
+\begin{center}
+\includegraphics[scale=0.35]{bayes.pdf}
+\end{center}
+\end{frame}
+
+
+
 
 \begin{frame}[t]{The Logic of the Updating Process}
 A standard ``medical testing'' example, when a diagnostic test is only
@@ -118,18 +128,6 @@ $\bar{D}$ = You don't test positive
 
 
 
-
-\begin{frame}[t]{Parameter Estimation}
-What is a parameter?
-
-\begin{itemize}
-\item A quantity whose value you would like to know; or
-\item A quantity you think you need in order to write down
-$p(D | \theta)$.
-\end{itemize}
-
-The latter are often called {\bf nuisance parameters}.
-\end{frame}
 
 
 
@@ -197,18 +195,64 @@ and the noise was generated like this:
 \end{minted}
 \end{frame}
 
+\begin{frame}[fragile, t]{Transit Example: Inference}
+Let's fit the data with this model:
+\begin{eqnarray}
+\mu(t) &=& \left\{
+\begin{array}{lr}
+A, & t_c - w/2 \leq t \leq t_c + w/2\\
+A-b,  & \textnormal{otherwise}.
+\end{array}
+\right.
+\end{eqnarray}
 
-
-
-\begin{frame}[t]{Posterior Distribution vs. Maximum Likelihood}
-The practical difference between these two concepts is greater in higher
-dimensional problems.
-\begin{center}
-\includegraphics[scale=0.35]{bayes.pdf}
-\end{center}
+We don't know $A$, $b$, $t_c$, and $w$. But we do know the data $D$.
 \end{frame}
 
 
+
+\begin{frame}[fragile, t]{Transit Example: Parameters}
+We don't know $A$, $b$, $t_c$, and $w$.
+These are our unknown parameters. Let's find the posterior.
+
+\begin{eqnarray}
+p(A, b, t_c, w | D) &=& \frac{p(A, b, t_c, w)p(D | A, b, t_c, w)}{p(D)}
+\end{eqnarray}
+
+\end{frame}
+
+
+\begin{frame}[fragile, t]{Transit Example: Problems}
+The posterior is given by:
+\begin{eqnarray}
+p(A, b, t_c, w | D) &=& \frac{p(A, b, t_c, w)p(D | A, b, t_c, w)}{p(D)}
+\end{eqnarray}
+
+But...\\
+How do we choose the {\it prior} $p(A, b, t_c, w)$?\\
+How do we choose the {\it likelihood} $p(D | A, b, t_c, w)$?
+\end{frame}
+
+
+\begin{frame}[fragile, t]{Transit Example: Problems I}
+The posterior is given by:
+\begin{eqnarray}
+p(A, b, t_c, w | D) &=& \frac{p(A, b, t_c, w)p(D | A, b, t_c, w)}{p(D)}
+\end{eqnarray}
+
+But...\\
+How do we choose the {\it prior}, $p(A, b, t_c, w)$?\\
+How do we choose the {\it likelihood}, $p(D | A, b, t_c, w)$?\\
+How do we find $p(D)$?
+\end{frame}
+
+
+\begin{frame}[fragile, t]{Transit Example: Problems II}
+Even if we can calculate the posterior $p(A, b, t_c, w | D)$, it is still a
+probability distribution over a four-dimensional space.\\
+\vspace{20pt}
+{\bf How can we understand and visualise it?}
+\end{frame}
 
 
 \begin{frame}[t]{What sampling gives us}
@@ -256,5 +300,29 @@ To use Metropolis on the Transit Problem, we'll need functions to:
 \item Evaluate the likelihood at any point
 \end{itemize}
 \end{frame}
+
+
+\begin{frame}[t]{Question}
+
+How do we choose prior distributions?
+How do we 
+
+\end{frame}
+
+
+
+\begin{frame}[t]{Parameter Estimation}
+What is a parameter?
+
+\begin{itemize}
+\item A quantity whose value you would like to know; or
+\item A quantity you think you need in order to write down
+$p(D | \theta)$.
+\end{itemize}
+
+The latter are often called {\bf nuisance parameters}.
+\end{frame}
+
+
 
 
