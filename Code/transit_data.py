@@ -19,7 +19,7 @@ y = 10. + np.zeros(t.shape)
 y[np.abs(t - 3.5) < 1.] = 5.
 
 # Plot the signal
-plt.plot(t, y, 'r-', alpha=0.5)
+plt.plot(t, y, 'r-', linewidth=2, alpha=0.5)
 
 # Add noise
 sig = 1.
@@ -31,7 +31,7 @@ data[:,0], data[:,1], data[:,2] = t, y, sig
 np.savetxt('transit_data.txt', data)
 
 # Plot the noisy data
-plt.errorbar(t, y, yerr=data[:,2], fmt='b.', alpha=0.5)
+plt.errorbar(t, y, yerr=data[:,2], fmt='b.', markersize=10, alpha=0.5)
 plt.axis([-1., 11., 0., 15.])
 plt.xlabel('Time')
 plt.ylabel('Magnitude')
