@@ -192,6 +192,8 @@ P(H, \bar{D}) &=& 0.01 \times 0.05\\
 P(\bar{H}, \bar{D}) &=& 0.99 \times 0.95\\
 \end{eqnarray*}
 
+These four possibilities are {\bf mutually exclusive} (only one of them is true)
+and exhaustive (it's not ``something else''), so the probabilities add up to 1.
 
 \end{frame}
 
@@ -203,11 +205,48 @@ where $D$ is false:
 \begin{eqnarray*}
 P(H, D) &=& 0.01 \times 0.95\\
 P(\bar{H}, D) &=& 0.99 \times 0.05\\
-P(H, \bar{D}) &=& 0.01 \times 0.05\\
-P(\bar{H}, \bar{D}) &=& 0.99 \times 0.95\\
+{\color{red} P(H, \bar{D})} &=& {\color{red} 0.01 \times 0.05}\\
+{\color{red} P(\bar{H}, \bar{D})} &=& {\color{red} 0.99 \times 0.95}\\
 \end{eqnarray*}
 
 
+\end{frame}
+
+
+\begin{frame}[t]{Updating Probabilities: Example}
+We are left with these two possibilities.
+
+\begin{eqnarray*}
+P(H, D) &=& 0.01 \times 0.95\\
+P(\bar{H}, D) &=& 0.99 \times 0.05
+\end{eqnarray*}
+
+It would be strange to modify these probabilities just because we deleted the
+other two. The only thing we have to do is renormalise them, by dividing by the total, so they sum to 1 again.
+\end{frame}
+
+\begin{frame}[t]{Updating Probabilities: Example}
+Normalising, we get
+
+\begin{eqnarray*}
+P(H, D) &=& (0.01 \times 0.95)/(0.01 \times 0.95 + 0.99\times0.05)\\
+P(\bar{H}, D) &=& (0.99 \times 0.05)/(0.01 \times 0.95 + 0.99\times0.05)
+\end{eqnarray*}
+
+It would be strange to modify these probabilities just because we deleted the
+other two. The only thing we have to do is renormalise them, by dividing by the total, so they sum to 1 again.
+\end{frame}
+
+\begin{frame}[t]{Moral}
+Bayesian updating is completely equivalent to:
+\begin{itemize}
+\item Writing a list of possible answers to your question
+\item Giving a probability to each
+\item Deleting the ones that you discover are false.
+\end{itemize}
+
+It just seems more complicated than this because we often apply it to more
+complex sets of hypotheses.
 \end{frame}
 
 
