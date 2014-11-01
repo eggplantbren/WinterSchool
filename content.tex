@@ -451,6 +451,19 @@ $\}$
 \end{itemize}
 \end{frame}
 
+\begin{frame}[t]{Acceptance Probability}
+The full acceptance probability is
+
+\begin{eqnarray}
+\alpha =
+\min\left(1, \frac{q(\theta|\theta')}{q(\theta'|\theta)}\frac{p(\theta')}{p(\theta)}\frac{p(D|\theta')}{p(D|\theta)}\right)
+\end{eqnarray}
+We'll usually make choices where the $q$s cancel out, and sometimes we'll
+choose the $q$s to also cancel out the prior ratio (easier than it sounds).
+\end{frame}
+
+
+
 \begin{frame}[t]{Implementing the Metropolis Algorithm}
 To use Metropolis on the Transit Problem, we'll need functions to:
 \begin{itemize}
