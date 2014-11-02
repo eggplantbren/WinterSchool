@@ -545,6 +545,36 @@ To use Metropolis on the Transit Problem, we'll need functions to:
 \end{frame}
 
 
+\begin{frame}[t]{Acceptance Probability}
+The full acceptance probability is
+
+\begin{eqnarray}
+\alpha =
+\min\left(1, \frac{q(\theta|\theta')}{q(\theta'|\theta)}\frac{p(\theta')}{p(\theta)}\frac{p(D|\theta')}{p(D|\theta)}\right)
+\end{eqnarray}
+
+For the random walk proposal, the $q$ ratio is equal to 1. Do you understand
+why?
+\end{frame}
+
+\begin{frame}[t, fragile]{Proposing one parameter at a time}
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  def proposal(params):
+    new = copy.deepcopy(params)
+
+    which = rng.randint(num_params) # Parameter to change
+    L = jump_sizes[which]*10.**(1.5 - 6.*rng.rand())
+    new[which] += L*rng.randn()
+    return new
+\end{minted}
+\end{frame}
+
+
+
 \begin{frame}[t, fragile]{Useful Plots: The Trace Plot}
 \begin{minted}[mathescape,
                numbersep=5pt,
