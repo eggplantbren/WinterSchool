@@ -479,6 +479,32 @@ To use Metropolis on the Transit Problem, we'll need functions to:
 \end{frame}
 
 
+\begin{frame}[t, fragile]{Random Walk Proposals}
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  # Generate a proposal
+  L = 1.
+  proposal = x + L*rng.randn()
+\end{minted}
+\end{frame}
+
+\begin{frame}[t, fragile]{Heavy-Tailed Random Walk Proposals}
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  # Generate a proposal
+  L = 10.**(1.5 - 6.*rng.rand())
+  proposal = x + L*rng.randn()
+\end{minted}
+\end{frame}
+
+
+
 \begin{frame}[t]{Question}
 
 How do we choose prior distributions?
