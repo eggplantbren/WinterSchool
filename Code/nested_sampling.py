@@ -22,6 +22,7 @@ mcmc_steps = 1000
 # Generate N particles from the prior
 # and calculate their log likelihoods
 particles = []
+logp = np.empty(N)
 logl = np.empty(N)
 for i in range(0, N):
  x = from_prior()
@@ -31,6 +32,8 @@ for i in range(0, N):
 # Storage for results
 keep = np.empty(steps)
 
+plt.ion()
+plt.hold(False)
 
 # Main NS loop
 for i in range(0, steps):
@@ -47,5 +50,26 @@ for i in range(0, steps):
       which = rng.randint(N)
     particles[worst] = copy.deepcopy(particles[which])
 
-  # Evolve within likelihood constraint
-  
+  threshold = copy.deepcopy(logl[worst])
+
+  # Evolve within likelihood constraint using Metropolis
+  for j in range(0, mcmc_steps):
+    new = proposal(particles[worst])
+    logp_new = log_prior(new)
+    logl_new = log_likelihood(new)
+    loga = logp_new - logp[worst]
+    if loga > 0.:
+      loga = 0.
+
+    if log_likelihood(new) >= threshold and rng.rand() <= np.exp(loga):
+      particles[worst] = new
+      logp[worst] = logp_new
+      logl[worst] = logl_new
+
+  logX = -(np.arange(0, i+1) + 1.)/N
+  plt.plot(logX, keep[0:(i+1)], 'bo-')
+  plt.draw()
+
+plt.ioff()
+plt.show()
+
