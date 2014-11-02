@@ -184,13 +184,13 @@ $(\bar{H}, \bar{D})$
 \begin{frame}[t]{Updating Probabilities: Example}
 The probabilities for these four possibilities can be found using the product
 rule.
-
 \begin{eqnarray*}
 P(H, D) &=& 0.01 \times 0.95\\
 P(\bar{H}, D) &=& 0.99 \times 0.05\\
 P(H, \bar{D}) &=& 0.01 \times 0.05\\
 P(\bar{H}, \bar{D}) &=& 0.99 \times 0.95\\
 \end{eqnarray*}
+\vspace{-45pt}
 
 These four possibilities are {\bf mutually exclusive} (only one of them is true)
 and exhaustive (it's not ``something else''), so the probabilities add up to 1.
@@ -229,12 +229,9 @@ other two. The only thing we have to do is renormalise them, by dividing by the 
 Normalising, we get
 
 \begin{eqnarray*}
-P(H, D) &=& (0.01 \times 0.95)/(0.01 \times 0.95 + 0.99\times0.05)\\
-P(\bar{H}, D) &=& (0.99 \times 0.05)/(0.01 \times 0.95 + 0.99\times0.05)
+P(H | D) &=& (0.01 \times 0.95)/(0.01 \times 0.95 + 0.99\times0.05)\\
+P(\bar{H} | D) &=& (0.99 \times 0.05)/(0.01 \times 0.95 + 0.99\times0.05)
 \end{eqnarray*}
-
-It would be strange to modify these probabilities just because we deleted the
-other two. The only thing we have to do is renormalise them, by dividing by the total, so they sum to 1 again.
 \end{frame}
 
 \begin{frame}[t]{Moral}
@@ -427,6 +424,16 @@ e.g. Posterior mean of $w$:
 \end{eqnarray}
 (i.e. just the fraction of the samples in $R$).
 
+
+\end{frame}
+
+
+\begin{frame}[t]{Monte Carlo}
+Samples from the posterior are very useful, but how do we generate them?
+
+\begin{center}
+{\tt https://www.youtube.com/watch?v=Vv3f0QNWvWQ}
+\end{center}
 
 \end{frame}
 
