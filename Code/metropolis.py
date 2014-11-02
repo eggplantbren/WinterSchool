@@ -2,6 +2,9 @@ import numpy as np
 import numpy.random as rng
 import matplotlib.pyplot as plt
 
+# Set the seed
+rng.seed(0)
+
 # Import the model
 from transit_model import from_prior, log_prior, log_likelihood, proposal,\
                               num_params
@@ -56,7 +59,7 @@ for i in range(0, steps):
     if (i+1)%plot_skip == 0:
       # Plot one of the parameters over time
       # Ignore the first 25% as burn-in
-      plt.plot(keep[(index//4):(index+1), 2], 'b')
+      plt.plot(keep[(index//4):(index+1), 0], 'b')
       plt.xlabel('Iteration')
       plt.draw()
 
@@ -64,5 +67,16 @@ for i in range(0, steps):
 np.savetxt('keep.txt', keep)
 
 plt.ioff()
+plt.show()
+
+# Plotting stuff
+plt.rc("font", size=16, family="serif", serif="Computer Sans")
+plt.rc("text", usetex=True)
+
+plt.plot(keep[:,0])
+plt.title('Trace Plot')
+plt.xlabel('Iteration')
+plt.ylabel('$A$')
+plt.savefig('trace_plot.pdf', bbox_inches='tight')
 plt.show()
 
