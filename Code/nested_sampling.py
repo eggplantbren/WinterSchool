@@ -11,7 +11,7 @@ from transit_model import from_prior, log_prior, log_likelihood, proposal,\
                               num_params
 
 # Number of particles
-N = 10
+N = 5
 
 # Number of NS iterations
 steps = 100000
@@ -61,13 +61,22 @@ for i in range(0, steps):
     if loga > 0.:
       loga = 0.
 
+    # Accept
     if log_likelihood(new) >= threshold and rng.rand() <= np.exp(loga):
       particles[worst] = new
       logp[worst] = logp_new
       logl[worst] = logl_new
 
   logX = -(np.arange(0, i+1) + 1.)/N
+
   plt.plot(logX, keep[0:(i+1)], 'bo-')
+  # Smart ylim
+  temp = keep[0:(i+1)].copy()
+  if len(temp) >= 2:
+    np.sort(temp)
+    plt.ylim([temp[0.2*len(temp)], temp[-1]])
+  plt.xlabel('$\\log(X)$')
+  plt.ylabel('$\\log(L)$')
   plt.draw()
 
 plt.ioff()
