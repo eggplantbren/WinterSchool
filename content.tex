@@ -415,22 +415,19 @@ probability distribution over a four-dimensional space.\\
 
 
 \begin{frame}[t]{Answer to Problem II: Monte Carlo}
-\begin{columns}[T]
-\begin{column}{0.35\textwidth}
-  \vspace{20pt}
-  \begin{itemize}
-  \setlength{\itemsep}{10pt}
-  \item {\bf Marginalisation} becomes trivial
-  \item We can quantify all uncertainties we might be interested in
-  \end{itemize}
-\end{column}
-\hfill
-\begin{column}{0.5\textwidth}
-  \hspace{-30pt}
-  \includegraphics[scale=0.22]{marginalisation.pdf}
-\end{column}
+e.g. Posterior mean of $w$:
+\begin{eqnarray}
+\int w p(A, b, t_c, w | D) \, dA \, db \, dt_c \, dw
+\approx \frac{1}{N}\sum_{i=1}^N w_i
+\end{eqnarray}
+(i.e. just the arithmetic mean). Probability of being in some region $R$:
+\begin{eqnarray}
+\int_R p(A, b, t_c, w | D) \, dA \, db \, dt_c \, dw
+\approx \frac{1}{N}\sum_{i=1}^N \mathds{1}\left(\theta_i \in R \right)
+\end{eqnarray}
+(i.e. just the fraction of the samples in $R$).
 
-\end{columns}
+
 \end{frame}
 
 
