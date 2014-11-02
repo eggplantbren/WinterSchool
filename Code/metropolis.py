@@ -80,3 +80,10 @@ plt.ylabel('$A$')
 plt.savefig('trace_plot.pdf', bbox_inches='tight')
 plt.show()
 
+plt.hist(keep[2000:,0], 100, alpha=0.5)
+plt.title('Marginal Posterior Distribution')
+plt.xlabel('$A$')
+plt.ylabel('Number of samples')
+plt.savefig('marginal_posterior.pdf', bbox_inches='tight')
+plt.show()
+

@@ -522,6 +522,32 @@ To use Metropolis on the Transit Problem, we'll need functions to:
 \end{frame}
 
 
+\begin{frame}[t, fragile]{Useful Plots: Marginal Posterior}
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  # Marginal posterior for first parameter
+  # Excluding first 2000 points
+  plt.hist(keep[:,0], 100)
+\end{minted}
+\end{frame}
+
+\begin{frame}[t]{Useful Plots: Marginal Posterior}
+\begin{center}
+\includegraphics[scale=0.4]{Code/marginal_posterior.pdf}
+\end{center}
+\end{frame}
+
+
+\begin{frame}[t]{Comment on Histograms}
+If your histograms have so many points that they look perfectly smooth, you
+are working on an {\bf easy problem}!
+
+\end{frame}
+
+
 
 \begin{frame}[t]{Question}
 
