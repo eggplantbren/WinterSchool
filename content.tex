@@ -379,6 +379,47 @@ This motivates {\bf vague priors}.
 \end{frame}
 
 
+\begin{frame}[t]{Uniform Priors}
+Let's just use wide uniform priors.
+
+e.g.
+\begin{eqnarray*}
+p(A) = \left\{
+\begin{array}{lr}
+\frac{1}{200}, & -100 \leq A \leq 100\\
+0, & \textnormal{otherwise.}
+\end{array}
+\right.
+\end{eqnarray*}
+
+Abbreviated:
+\begin{eqnarray*}
+p(A) \sim \textnormal{Uniform}(-100, 100)
+\end{eqnarray*}
+Or even more concisely:
+\begin{eqnarray*}
+A \sim U(-100, 100)
+\end{eqnarray*}
+
+\end{frame}
+
+
+\begin{frame}[t]{Uniform Priors}
+For all four parameters:
+
+\begin{eqnarray*}
+A &\sim& U(-100, 100)\\
+b &\sim& U(0, 10)\\
+t_c &\sim& U(t_{\rm min}, t_{\rm max})\\
+w &\sim& U(0, t_{\rm max} - t_{\rm min})
+\end{eqnarray*}
+
+Where $t_{\rm min}$ and $t_{\rm max}$ give the time range of the dataset.
+Question: is this legitimate? Are we using the data to set our priors?
+
+\end{frame}
+
+
 
 \begin{frame}[fragile, t]{Transit Example: Problems II}
 Even if we can calculate the posterior $p(A, b, t_c, w | D)$, it is still a
