@@ -744,4 +744,77 @@ When assigning our priors (and sampling distribution), it is {\bf completely
 legitimate} to use two out of the three columns of our ``data'' file!
 \end{frame}
 
+\begin{frame}[t]{Alternative Vague Priors}
+How long is a piece of string?
+\begin{center}
+\includegraphics[scale=0.4]{string.jpg}
+\end{center}
+\end{frame}
+
+\begin{frame}[t]{Alternative Vague Priors}
+How long is a piece of string?
+
+{\bf Twice the distance from the middle to the end.}
+\end{frame}
+
+\begin{frame}[t]{Alternative Vague Priors}
+Same prior for $\theta$ as for $2\theta \implies$:
+
+\begin{eqnarray*}
+p(\theta) \propto \frac{1}{\theta}
+\end{eqnarray*}
+or
+\begin{eqnarray*}
+\log(\theta) \sim Uniform(,).
+\end{eqnarray*}
+
+By analogy with the log-normal distribution, I like to call this the
+{\it log-uniform} distribution.
+\end{frame}
+
+\begin{frame}[t]{Why use the log-uniform prior?}
+Let $\theta =$ the mass of a galaxy, in solar masses.
+
+``Prior ignorance'' might motivate this prior:
+
+\begin{eqnarray*}
+\theta \sim U(0, 10^{15}).
+\end{eqnarray*}
+
+\end{frame}
+
+\begin{frame}[t]{Why use the log-uniform prior?}
+``Prior ignorance'' might motivate this prior:
+
+\begin{eqnarray*}
+\theta \sim U(0, 10^{15}).
+\end{eqnarray*}
+
+But this implies:
+\begin{eqnarray*}
+P(\theta \geq 10^{14}) &=& 0.9\\
+P(\theta \geq 10^{12}) &=& 0.999.
+\end{eqnarray*}
+
+i.e. we are not ignorant at all, with respect to some questions!
+
+\end{frame}
+
+\begin{frame}[t]{Why use the log-uniform prior?}
+\begin{eqnarray*}
+\log_{10}(\theta) \sim U(5, 15).
+\end{eqnarray*}
+implies:
+\begin{eqnarray*}
+P(\theta \geq 10^{14}) &=& 0.1\\
+P(\theta \geq 10^{12}) &=& 0.3
+\end{eqnarray*}
+or
+\begin{eqnarray*}
+P(\theta \in [10^{10}, 10^{11}]) = P(\theta \in [10^{11}, 10^{12}])
+= P(\theta \in [10^{12}, 10^{13}]) ...
+\end{eqnarray*}
+
+\end{frame}
+
 
