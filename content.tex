@@ -555,6 +555,9 @@ To use Metropolis on the Transit Problem, we'll need functions to:
   L = 1.
   proposal = x + L*rng.randn()
 \end{minted}
+
+Problem: Efficiency depends strongly on {\tt L}. The only way to know the
+optimal value of {\tt L} is to have already solved the problem! Oh dear.
 \end{frame}
 
 \begin{frame}[t, fragile]{Heavy-Tailed Random Walk Proposals}
@@ -564,9 +567,12 @@ To use Metropolis on the Transit Problem, we'll need functions to:
                frame=lines,
                framesep=2mm]{python}
   # Generate a proposal
-  L = 10.**(1.5 - 6.*rng.rand())
+  L = jump_size*10.**(1.5 - 6.*rng.rand())
   proposal = x + L*rng.randn()
 \end{minted}
+where {\tt jump\_size} $\approx$ prior width.
+Don't need steps much bigger than the prior width, may need them to be much
+smaller.
 \end{frame}
 
 
@@ -699,19 +705,6 @@ of the uncertainty. This leads to:
 \end{minted}
 \end{frame}
 
-\begin{frame}[t]{Parameter Estimation}
-What is a parameter?
-
-\begin{itemize}
-\item A quantity whose value you would like to know; or
-\item A quantity you think you need in order to write down
-$p(D | \theta)$.
-\end{itemize}
-
-The latter are often called {\bf nuisance parameters}.
-\end{frame}
-
-
 \begin{frame}[t]{Bayes' Rule}
 Here is Bayes' rule again, with the background information (or assumptions)
 made explicit:
@@ -724,6 +717,24 @@ In any particular application, we make a definite choice of the prior and
 the sampling distribution, as well as what $\theta$, $D$, and $I$ are.
 
 \end{frame}
+
+
+\begin{frame}[t]{What is a parameter?}
+What is a parameter?
+
+\begin{itemize}
+\item A quantity whose value you would like to know; or
+\item A quantity you think you need in order to write down
+$p(D | \theta)$.
+\end{itemize}
+
+The latter are often called {\bf nuisance parameters}.
+For example, in the transit problem we might be interested only in $w$, but
+we can't use our ``gaussian noise'' assumption without also including $A$, $b$,
+and $t_c$.
+\end{frame}
+
+
 
 
 \begin{frame}[t]{In the Transit Example}
@@ -840,5 +851,32 @@ Easiest way: just make $\theta' = \log(\theta)$ the parameter:
 \end{itemize}
 
 Let's apply this to the $w$ (width) parameter in the transit model.
+\end{frame}
+
+\begin{frame}[t]{Safety Features}
+In ``(data) = (model) + noise'' type models, be sceptical of the gaussian
+noise assumption. For example, with $N=1000$ data points and $\sigma_i=1$ for
+all $i$, one consequence of the sampling distribution (really a prior) is:
+
+\begin{eqnarray}
+P\left(\frac{1}{N}\sum_{i=1}^N (y_i - m(t_i; \theta)) \in [-0.06, 0.06]\right)
+\approx 95\% 
+\end{eqnarray}
+
+Really? Seems a bit confident.
+\end{frame}
+
+\begin{frame}[t]{Safety Features}
+There are many ways to do this kind of thing. This is just my favourite.
+Replace:
+
+\begin{eqnarray*}
+y_i | A, b, t_c, w \sim \mathcal{N}\left(m(t_i; A, b, t_c, w), \sigma_i^2\right)
+\end{eqnarray*}
+with
+\begin{eqnarray*}
+y_i | A, b, t_c, w \sim \textnormal{Student-}t\left(m(t_i; A, b, t_c, w), (K\sigma_i)^2, \nu\right).
+\end{eqnarray*}
+
 \end{frame}
 
