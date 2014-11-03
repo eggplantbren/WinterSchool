@@ -420,6 +420,22 @@ Question: is this legitimate? Are we using the data to set our priors?
 \end{frame}
 
 
+\begin{frame}[t]{Sampling Distribution / Likelihood}
+Let's assume ``gaussian noise'':
+
+\begin{eqnarray*}
+p(y_i | A, b, t_c, w) &=& \prod_{i=1}^N \frac{1}{\sigma_i\sqrt{2\pi}}
+\exp\left[
+-\frac{1}{2\sigma_i^2}\left(y_i - m(t_i; A, b, t_c, w)\right)^2
+\right].
+\end{eqnarray*}
+or more concisely:
+\begin{eqnarray*}
+y_i | A, b, t_c, w \sim \mathcal{N}\left(m(t_i; A, b, t_c, w), \sigma_i^2\right).
+\end{eqnarray*}
+
+\end{frame}
+
 
 \begin{frame}[fragile, t]{Transit Example: Problems II}
 Even if we can calculate the posterior $p(A, b, t_c, w | D)$, it is still a
