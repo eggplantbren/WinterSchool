@@ -14,7 +14,7 @@ from transit_model import from_prior, log_prior, log_likelihood, proposal,\
 N = 5
 
 # Number of NS iterations
-steps = 100000
+steps = 5*30
 
 # MCMC steps per NS iteration
 mcmc_steps = 1000
@@ -32,6 +32,7 @@ for i in range(0, N):
 # Storage for results
 keep = np.empty(steps)
 
+plt.figure(figsize=(8, 8))
 plt.ion()
 plt.hold(False)
 
@@ -69,14 +70,22 @@ for i in range(0, steps):
 
   logX = -(np.arange(0, i+1) + 1.)/N
 
+  plt.subplot(2,1,1)
   plt.plot(logX, keep[0:(i+1)], 'bo-')
   # Smart ylim
   temp = keep[0:(i+1)].copy()
   if len(temp) >= 2:
     np.sort(temp)
     plt.ylim([temp[0.2*len(temp)], temp[-1]])
-  plt.xlabel('$\\log(X)$')
   plt.ylabel('$\\log(L)$')
+
+  plt.subplot(2,1,2)
+  # Rough posterior weights
+  logwt = logX.copy() + keep[0:(i+1)]
+  wt = np.exp(logwt - logwt.max())
+  plt.plot(logX, wt, 'bo-')
+  plt.ylabel('Posterior weights (relative)')
+  plt.xlabel('$\\log(X)$')
   plt.draw()
 
 plt.ioff()
