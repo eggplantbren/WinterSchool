@@ -697,5 +697,51 @@ The latter are often called {\bf nuisance parameters}.
 \end{frame}
 
 
+\begin{frame}[t]{Bayes' Rule}
+Here is Bayes' rule again, with the background information (or assumptions)
+made explicit:
+
+\begin{eqnarray*}
+p(\theta | D, I) &=& \frac{p(\theta | I)p(D | \theta, I)}{p(D | I)}
+\end{eqnarray*}
+
+In any particular application, we make a definite choice of the prior and
+the sampling distribution, as well as what $\theta$, $D$, and $I$ are.
+
+\end{frame}
+
+
+\begin{frame}[t]{In the Transit Example}
+Our parameters were:
+
+\begin{eqnarray*}
+\theta \equiv \{A, b, t_c, w\}
+\end{eqnarray*}
+
+What was our data $D$? We had a data file with three columns: times $\{t_i\}$,
+measurements $\{y_i\}$, and ``error bars'' $\{\sigma_i\}$. Was this all our
+data $D$?
+
+\end{frame}
+
+\begin{frame}[t]{Answer: No!}
+Only the $\{y_i\}$ from the data file was our data. Why? We wrote down
+$p(\{y_i\} | \theta, I)$, but we did not write down $p(\{t_i\} | \theta, I)$, or
+$p(\{\sigma_i\} | \theta, I)$.
+
+Therefore:
+
+\begin{eqnarray*}
+\theta &\equiv& \{A, b, t_c, w\}\\
+D &\equiv& \{y_i\}\\
+I &\equiv& \{\{t_i\}, \{\sigma_i\}, \textnormal{etc.}\}
+\end{eqnarray*}
+
+\end{frame}
+
+\begin{frame}[t]{Assigning Priors}
+When assigning our priors (and sampling distribution), it is {\bf completely
+legitimate} to use two out of the three columns of our ``data'' file!
+\end{frame}
 
 
