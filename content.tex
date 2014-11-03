@@ -521,7 +521,7 @@ choose the $q$s to also cancel out the prior ratio (easier than it sounds).
 \begin{frame}[t]{Implementing the Metropolis Algorithm}
 To use Metropolis on the Transit Problem, we'll need functions to:
 \begin{itemize}
-\item Generate a starting point
+\item Generate a starting point (I like to draw the parameters from the prior)
 \item Make proposals
 \item Evaluate the prior distribution at any point
 \item Evaluate the likelihood at any point
@@ -683,16 +683,6 @@ of the uncertainty. This leads to:
 \end{minted}
 \end{frame}
 
-
-\begin{frame}[t]{Question}
-
-How do we choose prior distributions?
-How do we 
-
-\end{frame}
-
-
-
 \begin{frame}[t]{Parameter Estimation}
 What is a parameter?
 
@@ -834,11 +824,5 @@ Easiest way: just make $\theta' = \log(\theta)$ the parameter:
 \end{itemize}
 
 Let's apply this to the $w$ (width) parameter in the transit model.
-\end{frame}
-
-
-\begin{frame}[t]{Using the log-uniform prior in Metropolis}
-
-
 \end{frame}
 
