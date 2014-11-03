@@ -11,6 +11,8 @@ As the title suggests, this session will be {\bf practical}.
 
 We will study a selection of techniques that you can use to solve any
 inference problem that comes your way!
+
+I will code in front of you, which is somewhat risky.
 \end{frame}
 
 \begin{frame}[t]{That said...}
@@ -544,6 +546,12 @@ To use Metropolis on the Transit Problem, we'll need functions to:
 \end{itemize}
 \end{frame}
 
+\begin{frame}[t]{}
+Coding...
+
+Note the use of logarithms to avoid overflow and underflow.
+\end{frame}
+
 
 \begin{frame}[t, fragile]{Random Walk Proposals}
 \begin{minted}[mathescape,
@@ -853,6 +861,10 @@ Easiest way: just make $\theta' = \log(\theta)$ the parameter:
 Let's apply this to the $w$ (width) parameter in the transit model.
 \end{frame}
 
+\begin{frame}[t]{Using the log-uniform prior in Metropolis}
+Coding...
+\end{frame}
+
 \begin{frame}[t]{Safety Features}
 In ``(data) = (model) + noise'' type models, be sceptical of the gaussian
 noise assumption. For example, with $N=1000$ data points and $\sigma_i=1$ for
@@ -884,7 +896,19 @@ y_i | A, b, t_c, w \sim \textnormal{Student-}t\left(m(t_i; A, b, t_c, w), (K\sig
 \begin{center}
 \includegraphics[scale=0.7]{t.pdf}
 \end{center}
-
 \end{frame}
 
+\begin{frame}[t]{$t$ Density}
+For a single variable...
+\begin{eqnarray*}
+p(x|\nu, \mu, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}
+{\Gamma\left(\frac{\nu}{2}\right)\sigma\sqrt{\pi\nu}}
+\left[1 + \frac{1}{\nu}\frac{(x - \mu)^2}{\sigma^2}
+\right]^{-\frac{\nu + 1}{2}}
+\end{eqnarray*}
+
+Our likelihood is a product of $N$ terms like this, and we have to code up the log
+of the likelihood. Also, remember we're scaling the widths $\sigma$ by a factor $K$.
+
+\end{frame}
 
