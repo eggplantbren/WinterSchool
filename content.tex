@@ -464,10 +464,18 @@ e.g. Posterior mean of $w$:
 \approx \frac{1}{N}\sum_{i=1}^N \mathds{1}\left(\theta_i \in R \right)
 \end{eqnarray}
 (i.e. just the fraction of the samples in $R$).
-
-
 \end{frame}
 
+
+\begin{frame}[t]{Monte Carlo}
+Samples from the posterior are very useful, but how do we generate them?
+
+\begin{center}
+Answer: {\bf Markov Chain Monte Carlo}
+\end{center}
+
+This is not the {\it only} answer, but it's the most popular.
+\end{frame}
 
 \begin{frame}[t]{Monte Carlo}
 Samples from the posterior are very useful, but how do we generate them?
@@ -477,6 +485,7 @@ Samples from the posterior are very useful, but how do we generate them?
 \end{center}
 
 \end{frame}
+
 
 
 
@@ -814,7 +823,22 @@ or
 P(\theta \in [10^{10}, 10^{11}]) = P(\theta \in [10^{11}, 10^{12}])
 = P(\theta \in [10^{12}, 10^{13}]) ...
 \end{eqnarray*}
-
 \end{frame}
 
+\begin{frame}[t]{Using the log-uniform prior in Metropolis}
+Easiest way: just make $\theta' = \log(\theta)$ the parameter:
+
+\begin{itemize}
+\item Define proposals, etc, in terms of $\theta'$, which has a uniform prior
+\item Just exponentiate it ($\theta = e^{\theta'}$) before using it in the likelihood.
+\end{itemize}
+
+Let's apply this to the $w$ (width) parameter in the transit model.
+\end{frame}
+
+
+\begin{frame}[t]{Using the log-uniform prior in Metropolis}
+
+
+\end{frame}
 
