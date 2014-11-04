@@ -931,7 +931,7 @@ p(K) = \frac{1}{2}\delta(K - 1) + \frac{1}{2}e^{-K}.
 \begin{frame}[t]{Prior for $K$}
 The prior
 \begin{eqnarray}
-p(K) = \frac{1}{2}\delta(K - 1) + \frac{1}{2}e^{-K}.
+p(K) = \frac{1}{2}\delta(K - 1) + \frac{1}{2}e^{-(K-1)}.
 \end{eqnarray}
 implies $K$ might be precisely 1, or not. Computationally, there are two
 approaches:
@@ -945,9 +945,17 @@ a method that calculates marginal likelihoods (e.g. Nested Sampling)
 
 
 \begin{frame}[t]{Prior for $K$}
+\begin{center}
+\includegraphics[scale=0.35]{Kprior.pdf}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}[t]{Prior for $K$}
 The prior
 \begin{eqnarray}
-p(K) = \frac{1}{2}\delta(K - 1) + \frac{1}{2}e^{-K}.
+p(K) = \frac{1}{2}\delta(K - 1) + \frac{1}{2}e^{-(K-1)}.
 \end{eqnarray}
 can be implemented by using $u_K$ as a parameter with a $U(0,1)$ prior,
 and letting
