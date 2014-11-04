@@ -912,3 +912,62 @@ of the likelihood. Also, remember we're scaling the widths $\sigma$ by a factor 
 
 \end{frame}
 
+
+\begin{frame}[t]{Priors for $K$ and $\nu$}
+Let's use
+\begin{eqnarray}
+\log(\nu) \sim U(\log(0.1), \log(100))
+\end{eqnarray}
+(Almost certainly not the reference prior, sorry José!)
+
+And for $K \geq 1$, let's use
+\begin{eqnarray}
+p(K) = \frac{1}{2}\delta(K - 1) + \frac{1}{2}e^{-K}.
+\end{eqnarray}
+
+\end{frame}
+
+
+\begin{frame}[t]{Prior for $K$}
+The prior
+\begin{eqnarray}
+p(K) = \frac{1}{2}\delta(K - 1) + \frac{1}{2}e^{-K}.
+\end{eqnarray}
+implies $K$ might be precisely 1, or not. Computationally, there are two
+approaches:
+
+\begin{itemize}
+\item Make a $K=1$ model and a $K\neq 1$ model, run them separately with
+a method that calculates marginal likelihoods (e.g. Nested Sampling)
+\item Make a single model which includes both possibilities.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{Prior for $K$}
+The prior
+\begin{eqnarray}
+p(K) = \frac{1}{2}\delta(K - 1) + \frac{1}{2}e^{-K}.
+\end{eqnarray}
+can be implemented by using $u_K$ as a parameter with a $U(0,1)$ prior,
+and letting
+\begin{eqnarray*}
+K = \left\{
+\begin{array}{lr}
+1, & u_K < 0.5\\
+1 - \log\left(1 - (2u_K - 1)\right), & \textnormal{otherwise.}
+\end{array}
+\right.
+\end{eqnarray*}
+\end{frame}
+
+
+\begin{frame}[t]{Relationship between $K$ and $u_K$}
+\begin{center}
+\includegraphics[scale=0.3]{uK.pdf}
+\end{center}
+
+Let's implement this and find the posterior probability that $K=1$.
+
+\end{frame}
+
