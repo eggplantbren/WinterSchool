@@ -70,7 +70,7 @@ def log_likelihood(params):
     # Get the parameters
     A = -20.*np.log(1. - params[k])
     xc = x_min + x_range*params[k+1]
-    width = np.exp(np.log(1E-3*x_range) + np.log(1E3)*params[k+2])
+    width = np.exp(np.log(1E-2*x_range) + np.log(1E2)*params[k+2])
 
     # Add the Lorentzian peak
     mu += A/(1. + ((data[:,0] - xc)/width)**2)
@@ -78,7 +78,6 @@ def log_likelihood(params):
 
   # Exponential distribution
   return np.sum(-np.log(mu) - data[:,1]/mu)
-
 
 def shuffle(params):
   # Change the order of the components
@@ -95,7 +94,9 @@ def shuffle(params):
     j = rng.randint(num_peaks)
 
   # Swap them
-  params[3*i+2:3*i+5], params[3*j+2:3*j+5] = params[3*j+2:3*j+5], params[3*i+2:3*i+5]
+  temp = params[3*i+2:3*i+5].copy()
+  params[3*i+2:3*i+5] = params[3*j+2:3*j+5]
+  params[3*j+2:3*j+5] = temp
 
   return params
 

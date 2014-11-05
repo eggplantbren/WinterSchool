@@ -7,17 +7,17 @@ import copy
 rng.seed(0)
 
 # Import the model
-from transit_model import from_prior, log_prior, log_likelihood, proposal,\
+from asteroseismology_model import from_prior, log_prior, log_likelihood, proposal,\
                               num_params
 
 # Number of particles
-N = 5
+N = 10
 
 # Number of NS iterations
-steps = 5*30
+steps = 10*50
 
 # MCMC steps per NS iteration
-mcmc_steps = 1000
+mcmc_steps = 2000
 
 # Generate N particles from the prior
 # and calculate their log likelihoods
@@ -30,7 +30,7 @@ for i in range(0, N):
  logl[i] = log_likelihood(x)
 
 # Storage for results
-keep = np.empty(steps)
+keep = np.empty((steps, num_params + 1))
 
 plt.figure(figsize=(8, 8))
 plt.ion()
@@ -41,8 +41,9 @@ for i in range(0, steps):
   # Find worst particle
   worst = np.nonzero(logl == logl.min())[0]
 
-  # Save its likelihood
-  keep[i] = logl[worst]
+  # Save its details
+  keep[i, :-1] = particles[worst]
+  keep[i, -1] = logl[worst]
 
   # Copy survivor
   if N > 1:
@@ -68,12 +69,13 @@ for i in range(0, steps):
       logp[worst] = logp_new
       logl[worst] = logl_new
 
+  # Use the deterministic approximation
   logX = -(np.arange(0, i+1) + 1.)/N
 
   plt.subplot(2,1,1)
-  plt.plot(logX, keep[0:(i+1)], 'bo-')
+  plt.plot(logX, keep[0:(i+1), -1], 'bo-')
   # Smart ylim
-  temp = keep[0:(i+1)].copy()
+  temp = keep[0:(i+1), -1].copy()
   if len(temp) >= 2:
     np.sort(temp)
     plt.ylim([temp[0.2*len(temp)], temp[-1]])
@@ -81,7 +83,7 @@ for i in range(0, steps):
 
   plt.subplot(2,1,2)
   # Rough posterior weights
-  logwt = logX.copy() + keep[0:(i+1)]
+  logwt = logX.copy() + keep[0:(i+1), -1]
   wt = np.exp(logwt - logwt.max())
   plt.plot(logX, wt, 'bo-')
   plt.ylabel('Posterior weights (relative)')
@@ -90,4 +92,10 @@ for i in range(0, steps):
 
 plt.ioff()
 plt.show()
+
+
+# Resample, to make posterior samples
+wt = wt/wt.sum()
+effective_sample_size = np.exp(-wt*np.log(wt + 1E-300))
+print(effective_sample_size)
 

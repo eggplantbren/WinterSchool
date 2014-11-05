@@ -18,9 +18,7 @@ y = 1. + np.zeros(nu.shape)
 # Put in some Lorentzians
 y = y + 30./(1. + ((nu - 3.)/0.2)**2)
 y = y + 50./(1. + ((nu - 5.)/0.2)**2)
-y = y + 30./(1. + ((nu - 7.)/0.2)**2)
-y = y + 10./(1. + ((nu - 6.)/0.2)**2)
-y = y + 10./(1. + ((nu - 4.)/0.2)**2)
+y = y + 50./(1. + ((nu - 9.)/0.2)**2)
 
 # Plot the signal
 plt.plot(nu, y, 'r-', linewidth=2, alpha=0.5)

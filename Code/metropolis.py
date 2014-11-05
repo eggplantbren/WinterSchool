@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 rng.seed(0)
 
 # Import the model
-from transit_model import from_prior, log_prior, log_likelihood, proposal,\
+from asteroseismology_model import from_prior, log_prior, log_likelihood, proposal,\
                               num_params
 
 # Generate a starting point from the prior
@@ -15,10 +15,10 @@ params = from_prior()
 logp, logl = log_prior(params), log_likelihood(params)
 
 # Total number of iterations
-steps = 100000
+steps = 200000
 
 # How often to save
-skip = 10
+skip = 100
 
 # How often to plot (should be divisible by skip)
 plot_skip = 1000
@@ -37,7 +37,9 @@ for i in range(0, steps):
   new = proposal(params)
 
   # Evaluate prior and likelihood for the proposal
-  logp_new, logl_new = log_prior(new), log_likelihood(new)
+  logp_new = log_prior(new)
+  if logp_new != -np.Inf:
+    logl_new = log_likelihood(new)
 
   # Acceptance probability
   log_alpha = (logl_new - logl) + (logp_new - logp)
@@ -59,7 +61,7 @@ for i in range(0, steps):
     if (i+1)%plot_skip == 0:
       # Plot one of the parameters over time
       # Ignore the first 25% as burn-in
-      plt.plot(keep[(index//4):(index+1), 0], 'b')
+      plt.plot(keep[(index//4):(index+1), -1], 'b')
       plt.xlabel('Iteration')
       plt.draw()
 
