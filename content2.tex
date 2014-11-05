@@ -48,6 +48,16 @@ How many stars were there?
 
 \end{frame}
 
+\begin{frame}[t]{Trans-dimensional examples}
+Perhaps you can see how to use MCMC to estimate the parameters of the
+stars ($x$ and $y$ position, and a brightness, for each), if we knew the
+number of stars.
+
+\vspace{20pt}
+But we want to know the number of stars!
+\end{frame}
+
+
 
 \begin{frame}[t]{Birth and Death}
 For problems of unknown dimensionality, the hypothesis space is the union
@@ -134,19 +144,222 @@ If you have the marginal likelihoods, it's easy:
 
 
 \begin{frame}[t]{Challenging features}
+Another motivation: standard MCMC methods can get stuck in the following
+situations:
 \begin{center}
 \includegraphics[scale=0.4]{challenges.pdf}
 \end{center}
 \end{frame}
 
-\begin{frame}[t]{Nested Sampling}
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+Nested Sampling was built to estimate the marginal likelihood.
 
+But it can also be used to generate posterior samples, and it can potentially
+work on harder problems where standard MCMC methods get stuck.
+\end{frame}
+
+\begin{frame}[t]{Nested Sampling}
+The key idea of Nested Sampling: 
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.2]{ns.png}
+\includegraphics[scale=0.4]{ns.png}
 \end{center}
 \end{figure}
 
+
 \end{frame}
+
+%##########################################################################################################################################
+
+%%##########################################################################################################################################
+%\begin{frame}{\small{\textbf{Nested Sampling}}}
+%Other methods to estimate the evidence:\\~\\
+%\begin{itemize}
+%\item [*] Harmonic mean.
+%\item [*] Thermodynamic integration.
+%\item [*] Steppingstone sampling.
+%\end{itemize}
+%\end{frame}
+%#########################
+%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+Consider the \textbf<1,2>{positive} random variable $X$ with probability density function $f(x)$ and distribution function $F(x)$. So
+
+\begin{align*}
+\text{E}(X) = \int_{0}^{\infty} x f(x) \text{d}x \visible<2>{ \equiv \int_{0}^{\infty} (1- F(x))\text{d}x	}
+\end{align*}
+
+\end{frame}
+%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+\begin{overprint}
+\onslide<1>
+\begin{figure}[]    		
+		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/CDF1.pdf}
+		\caption{Distribution function for a positive random variable X.}
+\end{figure}
+\onslide<2>
+\begin{figure}[]    		
+		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/CDF2.pdf}
+		\caption{Distribution function for a positive random variable X.}
+\end{figure}
+\end{overprint}
+\end{frame}
+%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+Note that $L(\bm\theta | \bm Y ) > 0$ can be seen as a positive random variable with $\bm \theta \sim \pi(\bm\theta)$
+\visible<2,3>{
+\begin{align*}
+\Longrightarrow Z  = \idotsint \pi(\bm\theta) L(\bm{\theta}|\bm{Y}) \text{d}\bm{\theta} = \text{E}_{\pi}\big(L(\bm{\theta}|\bm{Y})\big) 
+\end{align*}}
+\visible<3>{
+\begin{align*}
+ = \int_{0}^{\infty} (1-F(\lambda))\text{d}\lambda
+\end{align*}
+where $\lambda = L(\bm{\theta}|\bm{Y})$ and
+\begin{align*}
+F(\lambda) = \idotsint \limits_{L (\bm{\theta})< \lambda} \pi(\bm\theta) \text{d}\bm\theta
+\end{align*}}
+\end{frame}
+%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+If we define
+\begin{align*}
+	\xi(\lambda) = 1-F(\lambda) = \idotsint \limits_{L (\bm{\theta})> \lambda} \pi(\bm{\theta}) \text{d} \bm{\theta} \\
+\end{align*}
+\visible<2,3>{We have that}
+\begin{align*}
+\visible<2,3>{	Z = \int_{0}^{\infty} \xi(\lambda)\text{d}\lambda }
+	\visible<3>{= \int_{0}^{1} \mathcal L (\xi) \text{d}\xi}
+\end{align*}
+\end{frame}
+%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+\begin{overprint}
+\onslide<1>
+	\begin{figure}
+		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/AreaZ.pdf}
+	\caption{Likelihood function with area Z.}
+	\end{figure}
+	$\mathcal L (0.95) = 0.001$ means that 95\% of the draws $\bm\theta$ from the prior distribution $\pi(\bm\theta)$ will have likelihoods greater than 0.001.		
+\onslide<2>
+\begin{figure}
+	\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/Posterior.pdf}
+	\caption{Posterior sample.}
+\end{figure}	
+\end{overprint}
+\end{frame}
+%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+This area could be approximated by standard quadrature (numerical integration) method 
+\begin{align*}
+\widehat{Z} = \sum_{i=1}^{k}(\xi_{i-1}-\xi_{i}) \mathcal L_{i}
+\end{align*}
+where $\mathcal L_{i}= \mathcal L (\xi_{i})$ and $0<\xi_k<\cdots<\xi_{1}<\xi_{0}=1$.
+\end{frame}
+%######################################%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+Calculating $\mathcal L_{i}$ values. \\~\\
+
+\begin{itemize}
+	\item [*] Sample $\bm\theta=\{\theta_{1}, \ldots , \theta_{N}\}$ from the prior $\pi(\theta)$.
+	\item [*] \visible<2,3,4,5>{Set $\mathcal L_{i} = \text{min}\{L(\theta_1), \ldots , L(\theta_N)\} = L(\theta_{j})$.}
+	\item [*] \visible<3,4,5>{Replace $\theta_{j}$ by a $\theta$ draw from $\pi(\theta)$ conditional upon $L(\theta)>L(\theta_{j})$.}
+\end{itemize}
+
+\visible<4,5>{Repeat for as long as needed.}\\~\\
+
+\visible<5>{The points replaced generate a sequence of \textit{discarded points}.}
+\end{frame}
+%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+\begin{overprint}
+\onslide<1>
+\begin{figure}[]    		
+		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/SampleLike.pdf}
+		%\caption{}
+\end{figure}
+\onslide<2>
+\begin{figure}[]    		
+		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/SampleLike1.pdf}
+		\caption{The $\mathcal L$ values }
+\end{figure}
+\onslide<3>
+\begin{figure}[]    		
+		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/SampleLike2.pdf}
+		\caption{Relationship between $\mathcal L$ and $\xi$ values.}
+\end{figure}
+\end{overprint}
+\end{frame}
+%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+\begin{columns}[T]\column{0.6\textwidth}
+Estimating $\xi_{i}$ values.\\~\\
+Consider the decreasing sequence
+\begin{align*}
+0<\xi_{N}<\cdots<\xi_{1}<\xi_{0}=1
+\end{align*}
+where $\xi_{j}\sim\text{Uniform}(0,1)$, for $j=1,\ldots,N,$ \visible<2,3,4,5,6>{which implies that 
+\begin{align*}
+t = \text{max}\{ \xi_1,\ldots,\xi_{N}\} \sim \text{Beta}(N,1)
+\end{align*}
+}
+\visible<3,4,5,6>{So, we could set
+\begin{align*}
+\xi_{1}=t_{1},\quad \xi_{2}=t_{1}t_{2},\quad \ldots \quad,\quad \xi_{i}=\prod_{j=1}^{i}t_{j}, \ldots
+\end{align*}} 
+\visible<4,5,6>{or alternatively, we will consider that}
+\column{0.4\textwidth}
+\begin{figure}
+ %\hspace{4cm}  \vspace{0.001cm}
+   \includegraphics[width=1.1\textwidth,natwidth=69,natheight=87]{Patricio/xis.pdf}
+\end{figure}
+\end{columns}
+\begin{align*}
+\visible<4,5,6>{\text{E}(\log t) = -\frac{1}{N}} 
+\visible<5,6>{\Rightarrow \text{If we set}\quad \log t = -\frac{1}{N}}&\visible<5,6>{\Rightarrow t = e^{-1/N}}\\
+&\visible<6>{\Rightarrow \xi_{i}= e^{-i/N}}
+\end{align*}
+\end{frame}
+%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+\begin{figure}[]    		
+		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/PriorExplore.pdf}
+		\caption{Discrete sequence of $\xi$ values.}
+\end{figure}
+\end{frame}
+%##########################################################################################################################################
+%\begin{frame}{\small{\textbf{Nested Sampling}}}
+%Nested Sampling is given by the following steps:
+%\begin{enumerate}
+%\item Sample $N$ points $\theta_1, \ldots ,\theta_N$ from the prior;
+%\item Initialize $Z=0$ and $X_0=1$;
+%\item Repeat for $i=1, \ldots, j$;
+%			\begin{description}
+%				\item[i)  ] find the lowest likelihood $L_i=L(\theta_{l})$;
+%				\item[ii) ] set $X_i=\exp(-i/N)$;
+%				\item[iii)] set $w_i= X_{i-1}-X_{i}$;
+%				\item[iv)] update $Z= w_{i}L_{i} + Z$; and				
+%				\item[v)  ] replace $\theta_l$ by drawing a new point $\theta$ from the prior distribution restricted to $L(\theta)>L_i$.
+%			\end{description}
+%\end{enumerate}
+%\end{frame}
+%###########%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Posterior Sample}}}
+The Posterior sample can be obtained by drawing from the discarded points $\theta_1,\theta_2,\theta_3 \ldots$ with the following weights
+\begin{align*}
+p_{j} = \frac{L_{j} w_{j}}{Z} 
+\end{align*}
+where $w_{j}=\xi_{j-1} - \xi_{j}$.
+\\~\\
+\visible<2>{
+The maximum number of representative posterior samples is given by
+
+\begin{align*}
+\mathcal N = \exp \Bigg( - \sum_{j=1}^{m} p_j \log p_j \Bigg)
+\end{align*}
+}
+\end{frame}
+
 
