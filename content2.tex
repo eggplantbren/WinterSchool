@@ -60,6 +60,38 @@ proposals that try to increase or decrease the number of objects in the model.
 \end{frame}
 
 
+\begin{frame}[t]{Part II: Nested Sampling}
+Nested Sampling is a Monte Carlo method (not necessarily MCMC) that was
+introduced by John Skilling in 2004.
+
+It is very popular in astrophysics and has some unique strengths.
+\end{frame}
+
+
+\begin{frame}[t]{Marginal Likelihood}
+The {\bf marginal likelihood} is useful for ``model selection''. Consider
+two models: $M_1$ with parameters $\theta_1$, $M_2$ with parameters $\theta_2$.
+The marginal likelihoods are:
+\begin{eqnarray*}
+p(D | M_1) &=& \int p(\theta_1 | M_1) p(D | \theta_1, M_1) \, d\theta_1\\
+p(D | M_2) &=& \int p(\theta_2 | M_2) p(D | \theta_2, M_2) \, d\theta_2
+\end{eqnarray*}
+
+These are the normalising constants of the posteriors, within each model.
+\end{frame}
+
+
+
+\begin{frame}[t]{Bayesian Model Selection}
+If you have the marginal likelihoods, it's easy:
+
+\begin{eqnarray*}
+\frac{P(M_1 | D)}{P(M_2 | D)} &=& \frac{P(M_1)}{P(M_2)}
+\times \frac{P(D | M_1)}{P(D | M_2)}.
+\end{eqnarray*}
+\end{frame}
+
+
 \begin{frame}[t]{Challenging features}
 \begin{center}
 \includegraphics[scale=0.4]{challenges.pdf}
@@ -67,12 +99,7 @@ proposals that try to increase or decrease the number of objects in the model.
 \end{frame}
 
 \begin{frame}[t]{Nested Sampling}
-In 2004, John Skilling introduced {\bf Nested Sampling}, a technique
-that starts with the prior distribution, and shrinks volume at a controlled
-rate. Maps big space into easy 1-D problem.
 
-Resolves phase transition problem, and helps a little with multiple modes \&
-strong degeneracies. Figure from Skilling (2006).
 
 \begin{figure}
 \begin{center}
