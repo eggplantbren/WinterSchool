@@ -68,12 +68,13 @@ def log_likelihood(params):
   k = 2
   for i in range(0, num_peaks):
     # Get the parameters
-    A = -10.*np.log(params[k])
+    A = -20.*np.log(1. - params[k])
     xc = x_min + x_range*params[k+1]
     width = np.exp(np.log(1E-3*x_range) + np.log(1E3)*params[k+2])
 
     # Add the Lorentzian peak
     mu += A/(1. + ((data[:,0] - xc)/width)**2)
+    k += 3
 
   # Exponential distribution
   return np.sum(-np.log(mu) - data[:,1]/mu)
@@ -89,5 +90,6 @@ def proposal(params):
   # Which one should we change?
   which = rng.randint(num_params)
   new[which] += jump_sizes[which]*10.**(1.5 - 6.*rng.rand())*rng.randn()
+  new[0] = np.mod(new[0], 10.)
   return new
 
