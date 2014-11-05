@@ -70,6 +70,16 @@ proposals that try to increase or decrease the number of objects in the model.
 
 \end{frame}
 
+
+\begin{frame}[t]{Asteroseismology Example}
+
+\begin{center}
+\includegraphics[scale=0.4]{star.png}
+Image credit: Tim Bedding
+\end{center}
+
+\end{frame}
+
 \begin{frame}[t]{Asteroseismology Example}
 
 
@@ -182,57 +192,54 @@ The key idea of Nested Sampling:
 %\end{itemize}
 %\end{frame}
 %#########################
-%##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
-Consider the \textbf<1,2>{positive} random variable $X$ with probability density function $f(x)$ and distribution function $F(x)$. So
+%%##########################################################################################################################################
+%\begin{frame}{\small{\textbf{Nested Sampling}}}
+%Consider the \textbf<1,2>{positive} random variable $X$ with probability density function $f(x)$ and distribution function $F(x)$. So
 
+%\begin{align*}
+%\text{E}(X) = \int_{0}^{\infty} x f(x) \text{d}x \visible<2>{ \equiv \int_{0}^{\infty} (1- F(x))\text{d}x	}
+%\end{align*}
+
+%\end{frame}
+%%##########################################################################################################################################
+%\begin{frame}{\small{\textbf{Nested Sampling}}}
+%\begin{overprint}
+%\onslide<1>
+%\begin{figure}[]    		
+%		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/CDF1.pdf}
+%		\caption{Distribution function for a positive random variable X.}
+%\end{figure}
+%\onslide<2>
+%\begin{figure}[]    		
+%		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/CDF2.pdf}
+%		\caption{Distribution function for a positive random variable X.}
+%\end{figure}
+%\end{overprint}
+%\end{frame}
+%%##########################################################################################################################################
+%\begin{frame}{\small{\textbf{Nested Sampling}}}
+%Note that $L(\bm\theta | \bm Y ) > 0$ can be seen as a positive random variable with $\bm \theta \sim \pi(\bm\theta)$
+%\visible<2,3>{
+%\begin{align*}
+%\Longrightarrow Z  = \idotsint \pi(\bm\theta) L(\bm{\theta}|\bm{Y}) \text{d}\bm{\theta} = \text{E}_{\pi}\big(L(\bm{\theta}|\bm{Y})\big) 
+%\end{align*}}
+%\visible<3>{
+%\begin{align*}
+% = \int_{0}^{\infty} (1-F(\lambda))\text{d}\lambda
+%\end{align*}
+%where $\lambda = L(\bm{\theta}|\bm{Y})$ and
+%\begin{align*}
+%F(\lambda) = \idotsint \limits_{L (\bm{\theta})< \lambda} \pi(\bm\theta) \text{d}\bm\theta
+%\end{align*}}
+%\end{frame}
+%##########################################################################################################################################
+\begin{frame}{\small{\textbf{Nested Sampling}}}
+Define
 \begin{align*}
-\text{E}(X) = \int_{0}^{\infty} x f(x) \text{d}x \visible<2>{ \equiv \int_{0}^{\infty} (1- F(x))\text{d}x	}
+	X(l) = \int \pi(\theta) \mathds{1}\left(L(\theta) > l\right)d^\theta
 \end{align*}
 
-\end{frame}
-%##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
-\begin{overprint}
-\onslide<1>
-\begin{figure}[]    		
-		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/CDF1.pdf}
-		\caption{Distribution function for a positive random variable X.}
-\end{figure}
-\onslide<2>
-\begin{figure}[]    		
-		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/CDF2.pdf}
-		\caption{Distribution function for a positive random variable X.}
-\end{figure}
-\end{overprint}
-\end{frame}
-%##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
-Note that $L(\bm\theta | \bm Y ) > 0$ can be seen as a positive random variable with $\bm \theta \sim \pi(\bm\theta)$
-\visible<2,3>{
-\begin{align*}
-\Longrightarrow Z  = \idotsint \pi(\bm\theta) L(\bm{\theta}|\bm{Y}) \text{d}\bm{\theta} = \text{E}_{\pi}\big(L(\bm{\theta}|\bm{Y})\big) 
-\end{align*}}
-\visible<3>{
-\begin{align*}
- = \int_{0}^{\infty} (1-F(\lambda))\text{d}\lambda
-\end{align*}
-where $\lambda = L(\bm{\theta}|\bm{Y})$ and
-\begin{align*}
-F(\lambda) = \idotsint \limits_{L (\bm{\theta})< \lambda} \pi(\bm\theta) \text{d}\bm\theta
-\end{align*}}
-\end{frame}
-%##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
-If we define
-\begin{align*}
-	\xi(\lambda) = 1-F(\lambda) = \idotsint \limits_{L (\bm{\theta})> \lambda} \pi(\bm{\theta}) \text{d} \bm{\theta} \\
-\end{align*}
-\visible<2,3>{We have that}
-\begin{align*}
-\visible<2,3>{	Z = \int_{0}^{\infty} \xi(\lambda)\text{d}\lambda }
-	\visible<3>{= \int_{0}^{1} \mathcal L (\xi) \text{d}\xi}
-\end{align*}
+$X$ is the {\bf amount of prior probability} with likelihood greater than $l$.
 \end{frame}
 %##########################################################################################################################################
 \begin{frame}{\small{\textbf{Nested Sampling}}}

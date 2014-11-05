@@ -11,13 +11,13 @@ from asteroseismology_model import from_prior, log_prior, log_likelihood, propos
                               num_params
 
 # Number of particles
-N = 10
+N = 5
 
 # Number of NS iterations
-steps = 10*50
+steps = 5*50
 
 # MCMC steps per NS iteration
-mcmc_steps = 2000
+mcmc_steps = 1000
 
 # Generate N particles from the prior
 # and calculate their log likelihoods
@@ -96,6 +96,24 @@ plt.show()
 
 # Resample, to make posterior samples
 wt = wt/wt.sum()
-effective_sample_size = np.exp(-wt*np.log(wt + 1E-300))
-print(effective_sample_size)
+effective_sample_size = int(np.exp(-np.sum(wt*np.log(wt + 1E-300))))
+print('Effective Sample Size = {ess}'.format(ess=effective_sample_size))
+
+posterior_samples = np.empty((effective_sample_size, keep.shape[1]))
+k = 0
+while True:
+  # Choose one of the samples
+  which = rng.randint(keep.shape[0])
+
+  # Acceptance probability
+  prob = wt[which]/wt.max()
+
+  if rng.rand() <= prob:
+    posterior_samples[k, :] = keep[which, :]
+    k += 1
+
+  if k >= effective_sample_size:
+    break
+# Save posterior samples
+np.savetxt('keep.txt', posterior_samples)
 
