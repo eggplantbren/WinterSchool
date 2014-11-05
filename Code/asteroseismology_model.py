@@ -80,6 +80,25 @@ def log_likelihood(params):
   return np.sum(-np.log(mu) - data[:,1]/mu)
 
 
+def shuffle(params):
+  # Change the order of the components
+
+  num_peaks = int(params[0])
+
+  if num_peaks < 2:
+    return params
+
+  # Choose two peaks to swap
+  i = rng.randint(num_peaks)
+  j = rng.randint(num_peaks)
+  while i==j:
+    j = rng.randint(num_peaks)
+
+  # Swap them
+  params[3*i+2:3*i+5], params[3*j+2:3*j+5] = params[3*j+2:3*j+5], params[3*i+2:3*i+5]
+
+  return params
+
 def proposal(params):
   """
   Generate new values for the parameters, for the Metropolis algorithm.
@@ -88,8 +107,15 @@ def proposal(params):
   new = copy.deepcopy(params)
 
   # Which one should we change?
-  which = rng.randint(num_params)
+  if rng.rand() < 0.1:
+    which = 0
+  else:
+    which = rng.randint(num_params)
+
   new[which] += jump_sizes[which]*10.**(1.5 - 6.*rng.rand())*rng.randn()
   new[0] = np.mod(new[0], 10.)
+
+  new = shuffle(new)
+
   return new
 
