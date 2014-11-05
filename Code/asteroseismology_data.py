@@ -10,7 +10,7 @@ plt.rc("text", usetex=True)
 rng.seed(0)
 
 # Some frequencies
-nu = np.linspace(0., 10., 501)
+nu = np.linspace(0., 10., 201)
 
 # Make a noise-free signal
 y = 1. + np.zeros(nu.shape)
@@ -35,7 +35,7 @@ np.savetxt('asteroseismology_data.txt', data)
 
 # Plot the noisy data
 plt.plot(nu, y, 'b.', markersize=10, alpha=0.5)
-plt.axis([-1., 11., 0., 25.])
+plt.axis([-1., 11., 0., 100.])
 plt.xlabel('Frequency')
 plt.ylabel('Power')
 
