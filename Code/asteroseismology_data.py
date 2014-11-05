@@ -10,17 +10,17 @@ plt.rc("text", usetex=True)
 rng.seed(0)
 
 # Some frequencies
-nu = np.linspace(0., 10., 101)
+nu = np.linspace(0., 10., 501)
 
 # Make a noise-free signal
 y = 1. + np.zeros(nu.shape)
 
 # Put in some Lorentzians
-y = y + 30./(np.pi)/(1. + ((nu - 3.)/0.2)**2)
-y = y + 50./(np.pi)/(1. + ((nu - 5.)/0.2)**2)
-y = y + 30./(np.pi)/(1. + ((nu - 7.)/0.2)**2)
-y = y + 10./(np.pi)/(1. + ((nu - 6.)/0.2)**2)
-y = y + 10./(np.pi)/(1. + ((nu - 4.)/0.2)**2)
+y = y + 30./(1. + ((nu - 3.)/0.2)**2)
+y = y + 50./(1. + ((nu - 5.)/0.2)**2)
+y = y + 30./(1. + ((nu - 7.)/0.2)**2)
+y = y + 10./(1. + ((nu - 6.)/0.2)**2)
+y = y + 10./(1. + ((nu - 4.)/0.2)**2)
 
 # Plot the signal
 plt.plot(nu, y, 'r-', linewidth=2, alpha=0.5)
