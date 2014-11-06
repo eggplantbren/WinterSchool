@@ -292,10 +292,23 @@ and swaps their parameter values.
 
 
 
+\begin{frame}[t]{Label Switching Degeneracy}
+Consider the marginal posterior distribution for $x_1$. It will be multimodal,
+because of the label-switching issue.\\
+
+\vspace{20pt}
+In models like this, we can plot a mixture of the posterior for $x_1$, $x_2$
+(when it exists), and so on.
+\end{frame}
+
+
+
+
+
 \begin{frame}[t]{Part II: Nested Sampling}
 Nested Sampling is a Monte Carlo method (not necessarily MCMC) that was
-introduced by John Skilling in 2004.
-
+introduced by John Skilling in 2004.\\
+\vspace{20pt}
 It is very popular in astrophysics and has some unique strengths.
 \end{frame}
 
@@ -313,7 +326,6 @@ These are the normalising constants of the posteriors, within each model.
 \end{frame}
 
 
-
 \begin{frame}[t]{Bayesian Model Selection}
 If you have the marginal likelihoods, it's easy:
 
@@ -321,6 +333,11 @@ If you have the marginal likelihoods, it's easy:
 \frac{P(M_1 | D)}{P(M_2 | D)} &=& \frac{P(M_1)}{P(M_2)}
 \times \frac{P(D | M_1)}{P(D | M_2)}.
 \end{eqnarray*}
+
+\begin{eqnarray*}
+\textnormal{(posterior odds)} = \textnormal{(prior odds)} \times \textnormal{(bayes factor)}
+\end{eqnarray*}
+
 \end{frame}
 
 
@@ -339,17 +356,47 @@ But it can also be used to generate posterior samples, and it can potentially
 work on harder problems where standard MCMC methods get stuck.
 \end{frame}
 
+\begin{frame}[t]{Notation}
+When discussing Nested Sampling, we use different symbols:
+\begin{eqnarray*}
+p(D | M_1) &=& \int p(\theta_1 | M_1) p(D | \theta_1, M_1) \, d\theta_1\\
+\end{eqnarray*}
+becomes
+\begin{eqnarray*}
+Z &=& \int \pi(\theta) L(\theta) \, d\theta.
+\end{eqnarray*}
+
+$Z$ = marginal likelihood, $L(\theta)$ = likelihood function, $\pi(\theta)$ = prior
+distribution.
+\end{frame}
+
+
 \begin{frame}[t]{Nested Sampling}
-The key idea of Nested Sampling: 
+Imagine we had an easy 1-D problem, with a Uniform(0, 1) prior, and a likelihood
+that was strictly decreasing.
+
+\begin{center}
+\begin{figure}
+	\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/AreaZ.pdf}
+\caption{Likelihood function with area Z.}
+\end{figure}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}[t]{Nested Sampling}
+The key idea of Nested Sampling: Our high dimensional problem can be mapped
+onto the easy 1-D problem. Figure from Skilling (2006):
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.4]{ns.png}
+\includegraphics[scale=0.3]{ns.png}
 \end{center}
 \end{figure}
 
-
 \end{frame}
+
 
 %##########################################################################################################################################
 
@@ -404,72 +451,98 @@ The key idea of Nested Sampling:
 %\end{align*}}
 %\end{frame}
 %##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
+\begin{frame}{Nested Sampling $X$}
+\vspace{-20pt}
 Define
-\begin{align*}
-	X(l) = \int \pi(\theta) \mathds{1}\left(L(\theta) > l\right)d^\theta
-\end{align*}
+\begin{eqnarray*}
+X(L^*) = \int \pi(\theta) \mathds{1}\left(L(\theta) > L^*\right)\, d\theta
+\end{eqnarray*}
 
-$X$ is the {\bf amount of prior probability} with likelihood greater than $l$.
+\vspace{10pt}
+
+$X$ is the {\bf amount of prior probability} with likelihood greater than $L^*$.
+Loosely, $X$ is the {\bf volume} with likelihood above $L^*$.\\
+Higher $L^* \Leftrightarrow$ lower volume.
 \end{frame}
 %##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
-\begin{overprint}
-\onslide<1>
-	\begin{figure}
-		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/AreaZ.pdf}
-	\caption{Likelihood function with area Z.}
-	\end{figure}
-	$\mathcal L (0.95) = 0.001$ means that 95\% of the draws $\bm\theta$ from the prior distribution $\pi(\bm\theta)$ will have likelihoods greater than 0.001.		
-\onslide<2>
-\begin{figure}
-	\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/Posterior.pdf}
-	\caption{Posterior sample.}
-\end{figure}	
-\end{overprint}
-\end{frame}
-%##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
-This area could be approximated by standard quadrature (numerical integration) method 
-\begin{align*}
-\widehat{Z} = \sum_{i=1}^{k}(\xi_{i-1}-\xi_{i}) \mathcal L_{i}
-\end{align*}
-where $\mathcal L_{i}= \mathcal L (\xi_{i})$ and $0<\xi_k<\cdots<\xi_{1}<\xi_{0}=1$.
+%\begin{frame}{Nested Sampling: Meaning of $X$}
+%\begin{overprint}
+%\onslide<1>
+%	\begin{figure}
+%		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/AreaZ.pdf}
+%	\caption{Likelihood function with area Z.}
+%	\end{figure}
+%	$\mathcal L (0.95) = 0.001$ means that 95\% of draws $\bm\theta$ from the prior distribution $\pi(\bm\theta)$ have likelihoods greater than 0.001.		
+%\onslide<2>
+%\begin{figure}
+%	\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/Posterior.pdf}
+%	\caption{Posterior sample.}
+%\end{figure}	
+%\end{overprint}
+%\end{frame}
+%%##########################################################################################################################################
+\begin{frame}{Numerical Integration}
+If we had some points with likelihoods $L_i$, and we knew the corresponding
+$X$-values, we could approximate the integral numerically, using the
+trapezoidal rule or something similar.
+\begin{center}
+\includegraphics[scale=0.25,clip=true,angle=0]{Patricio/SampleLike2.pdf}
+\end{center}
 \end{frame}
 %######################################%##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
-Calculating $\mathcal L_{i}$ values. \\~\\
+\begin{frame}{Nested Sampling Procedure}
+This procedure gives us the likelihood values. \\
 
 \begin{itemize}
-	\item [*] Sample $\bm\theta=\{\theta_{1}, \ldots , \theta_{N}\}$ from the prior $\pi(\theta)$.
-	\item [*] \visible<2,3,4,5>{Set $\mathcal L_{i} = \text{min}\{L(\theta_1), \ldots , L(\theta_N)\} = L(\theta_{j})$.}
-	\item [*] \visible<3,4,5>{Replace $\theta_{j}$ by a $\theta$ draw from $\pi(\theta)$ conditional upon $L(\theta)>L(\theta_{j})$.}
+	\item Sample $\theta=\{\theta_{1}, \ldots , \theta_{N}\}$ from the prior $\pi(\theta)$.
+	\item Find the point $\theta_k$ with the worst
+likelihood, and let $L^*$ be its likelihood.
+	\item Replace $\theta_{k}$ with a new point from $\pi(\theta)$ but restricted to the region where $L(\theta)>L^*$.
 \end{itemize}
 
-\visible<4,5>{Repeat for as long as needed.}\\~\\
+Repeat for as long as needed.
+The points replaced generate a sequence of \textit{discarded points}.
+\end{frame}
 
-\visible<5>{The points replaced generate a sequence of \textit{discarded points}.}
+
+\begin{frame}[t]{Generating the new point}
+We need a new point from $\pi(\theta)$ but restricted to the region where $L(\theta)>L^*$. The point being replaced has the worst likelihood, so
+{\bf all the other points satisfy the constraint!}
+\vspace{20pt}
+
+So we can use one of the other points to initialise an MCMC run, trying to
+sample the prior, but rejecting any proposal with likelihood below $L^*$.
+See code.
 \end{frame}
-%##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
-\begin{overprint}
-\onslide<1>
-\begin{figure}[]    		
-		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/SampleLike.pdf}
-		%\caption{}
-\end{figure}
-\onslide<2>
-\begin{figure}[]    		
-		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/SampleLike1.pdf}
-		\caption{The $\mathcal L$ values }
-\end{figure}
-\onslide<3>
-\begin{figure}[]    		
-		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/SampleLike2.pdf}
-		\caption{Relationship between $\mathcal L$ and $\xi$ values.}
-\end{figure}
-\end{overprint}
+
+
+\begin{frame}{Nested Sampling Procedure}
+Nested Sampling gives us a sequence of points with increasing likelihoods,
+but we need to somehow know their $X$-values!
 \end{frame}
+
+
+
+%%##########################################################################################################################################
+%\begin{frame}[t]{\small{\textbf{Nested Sampling}}}
+%\begin{overprint}
+%\onslide<1>
+%\begin{figure}[]    		
+%		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/SampleLike.pdf}
+%		%\caption{}
+%\end{figure}
+%\onslide<2>
+%\begin{figure}[]    		
+%		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/SampleLike1.pdf}
+%		\caption{The $\mathcal L$ values }
+%\end{figure}
+%\onslide<3>
+%\begin{figure}[]    		
+%		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/SampleLike2.pdf}
+%		\caption{Relationship between $\mathcal L$ and $\xi$ values.}
+%\end{figure}
+%\end{overprint}
+%\end{frame}
 %##########################################################################################################################################
 \begin{frame}{\small{\textbf{Nested Sampling}}}
 \begin{columns}[T]\column{0.6\textwidth}
@@ -501,14 +574,14 @@ t = \text{max}\{ \xi_1,\ldots,\xi_{N}\} \sim \text{Beta}(N,1)
 \end{align*}
 \end{frame}
 %##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
+\begin{frame}{Deterministic Approximation}
 \begin{figure}[]    		
 		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/PriorExplore.pdf}
 		\caption{Discrete sequence of $\xi$ values.}
 \end{figure}
 \end{frame}
 %##########################################################################################################################################
-%\begin{frame}{\small{\textbf{Nested Sampling}}}
+%\begin{frame}[t]{\small{\textbf{Nested Sampling}}}
 %Nested Sampling is given by the following steps:
 %\begin{enumerate}
 %\item Sample $N$ points $\theta_1, \ldots ,\theta_N$ from the prior;
@@ -524,20 +597,18 @@ t = \text{max}\{ \xi_1,\ldots,\xi_{N}\} \sim \text{Beta}(N,1)
 %\end{enumerate}
 %\end{frame}
 %###########%##########################################################################################################################################
-\begin{frame}{\small{\textbf{Posterior Sample}}}
-The Posterior sample can be obtained by drawing from the discarded points $\theta_1,\theta_2,\theta_3 \ldots$ with the following weights
+\begin{frame}[t]{Posterior Distribution from Nested Sampling}
+The posterior sample can be obtained by assigning weights $w_j$ to the
+discarded points:
 \begin{align*}
-p_{j} = \frac{L_{j} w_{j}}{Z} 
+w_{j} = \frac{L_{j} w_{j}}{Z} 
 \end{align*}
-where $w_{j}=\xi_{j-1} - \xi_{j}$.
-\\~\\
-\visible<2>{
-The maximum number of representative posterior samples is given by
+where $w_{j}=X_{j-1} - X_{j+1}$ is the ``prior width'' associated with the
+point. The ``effective sample size'' is given by
+\begin{align*}
+ESS = \exp \left( - \sum_{j=1}^{m} w_j \log w_j \right)
+\end{align*}
 
-\begin{align*}
-\mathcal N = \exp \Bigg( - \sum_{j=1}^{m} p_j \log p_j \Bigg)
-\end{align*}
-}
 \end{frame}
 
 
