@@ -57,20 +57,6 @@ number of stars.
 But we want to know the number of stars!
 \end{frame}
 
-
-
-\begin{frame}[t]{Birth and Death}
-For problems of unknown dimensionality, the hypothesis space is the union
-of several fixed-dimension hypothesis spaces. Can add {\bf birth and death}
-proposals that try to increase or decrease the number of objects in the model.
-
-\begin{center}
-\includegraphics[scale=0.7]{drawing.pdf}
-\end{center}
-
-\end{frame}
-
-
 \begin{frame}[t]{Asteroseismology Example}
 
 \begin{center}
@@ -80,14 +66,44 @@ Image credit: Tim Bedding
 
 \end{frame}
 
-\begin{frame}[t]{Asteroseismology Example}
-
+\begin{frame}[t]{Asteroseismology: Time Series Data}
 
 \begin{center}
-\includegraphics[scale=0.4]{Code/asteroseismology_data.pdf}
+\includegraphics[scale=0.22]{betahyi1.png}\\
+Image credit: Tim Bedding
 \end{center}
 
 \end{frame}
+
+\begin{frame}[t]{Asteroseismology Example: Power Spectrum}
+
+\begin{center}
+\includegraphics[scale=0.25]{betahyi2.png}\\
+Image credit: Tim Bedding
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t]{Asteroseismology Example: Toy Dataset}
+
+\begin{center}
+\includegraphics[scale=0.35]{Code/asteroseismology_data.pdf}\\
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}[t]{Asteroseismology Example: Question}
+
+\begin{center}
+\includegraphics[scale=0.27]{Code/asteroseismology_data.pdf}
+\end{center}
+
+Given this data, how many peaks are there? And what are their parameters
+(position, height, width)?
+
+\end{frame}
+
 
 
 \begin{frame}[t]{Asteroseismology Example}
@@ -117,6 +133,146 @@ i.e.
 p(\{y_i\} | \theta) &=& \prod_{i=1}^n \frac{1}{m(x_i; \theta)}
 \exp\left[-\frac{y_i}{m(x_i; \theta)}\right].
 \end{eqnarray*}
+\end{frame}
+
+
+\begin{frame}[t]{Asteroseismology Example}
+Some simple priors are:
+
+\begin{eqnarray*}
+N &\sim& \textnormal{Uniform}\left(\{0, 1, 2, ..., 9, 10\}\right)\\
+\log(B) &\sim& \textnormal{Uniform}\left[\log(10^{-3}, \log(10^{3})\right]\\
+x_i &\sim& \textnormal{Uniform}\left(x_{\rm min}, x_{\rm max}\right)\\
+A_i &\sim& \textnormal{Exponential}(\textnormal{mean=10})\\
+\log(w_i) &\sim& \textnormal{Uniform}\left[\log(0.01 x_{\rm range}), \log(x_{\rm range})\right]
+\end{eqnarray*}
+
+\end{frame}
+
+
+
+\begin{frame}[t]{Recall: Monte Carlo}
+\begin{columns}[T]
+\begin{column}{0.35\textwidth}
+  \vspace{20pt}
+  \begin{itemize}
+  \setlength{\itemsep}{10pt}
+  \item {\bf Marginalisation} becomes trivial
+  \item We can quantify all uncertainties we might be interested in
+  \end{itemize}
+\end{column}
+\hfill
+\begin{column}{0.5\textwidth}
+  \hspace{-30pt}
+  \includegraphics[scale=0.22]{marginalisation.pdf}
+\end{column}
+
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[t]{Recall: The Metropolis Algorithm}
+
+\begin{itemize}
+\item Start at some point $\theta$ in the hypothesis space.
+\item Loop\\
+$\{$
+  \begin{itemize}
+  \item Generate {\bf proposal} from some distribution $q(\theta' | \theta)$
+  (e.g. slightly perturb the current position).
+  \item With probability $\alpha = \min\left(1, \frac{p(\theta')p(D|\theta')}{p(\theta)p(D|\theta)}\right)$, accept the proposal (i.e. replace $\theta$ with $\theta'$).
+  \item Otherwise, stay in the same place.
+  \end{itemize}
+$\}$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{Trans-Dimensional MCMC}
+For problems of unknown dimensionality, the hypothesis space is the union
+of several fixed-dimension hypothesis spaces. To do MCMC with these models,
+you need a way to move between models with different numbers of components.
+
+\begin{center}
+\includegraphics[scale=0.7]{drawing.pdf}
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}[t]{Approaches to Trans-Dimensional MCMC}
+There are several approaches:
+
+\begin{itemize}
+\item Reversible Jump MCMC (Green, 1995)\\
+\item Birth and Death MCMC (Stephens, 2000)
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[t]{Approaches to Trans-Dimensional MCMC}
+We will do our MCMC like this:
+
+\begin{itemize}
+\item Put 10 components in the model, and do MCMC as usual.
+\item Interpret the parameter $N$ as the {\bf number of components that are ``switched on''}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[t]{Code for the priors}
+Let's take a look at the Python code for the priors. Remember, the prior
+appears in two places:
+
+\begin{itemize}
+\item The function {\tt from\_prior}, which we use to generate a starting point
+\item The function {\tt log\_prior}, which calculates the log of the prior
+density, which is used to determine the acceptance probability.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{Code for the likelihood}
+Let's take a look at the Python code for the likelihood function.\\
+
+\vspace{20pt}
+
+Note how the calculation of the model curve $m(x)$ only sums over the first
+$N$ model components, the ones that are {\bf switched on}.
+
+\end{frame}
+
+\begin{frame}[t]{Label Switching Degeneracy}
+Imagine we found a solution with two peaks like this:
+
+\begin{eqnarray*}
+\textnormal{Peak 1}: \{A, t_c, w\} &=& \{5, 3, 2\}\\
+\textnormal{Peak 2}: \{A, t_c, w\} &=& \{3, 7, 1\}
+\end{eqnarray*}
+
+Then the following solution is completely equivalent:
+\begin{eqnarray*}
+\textnormal{Peak 1}: \{A, t_c, w\} &=& \{3, 7, 1\}\\
+\textnormal{Peak 2}: \{A, t_c, w\} &=& \{5, 3, 2\}
+\end{eqnarray*}
+
+\end{frame}
+
+\begin{frame}[t]{Label Switching Degeneracy}
+When there are $N$ peaks, the posterior will have $N!$ identical modes,
+corresponding to switching the order of the peaks.\\
+
+\vspace{20pt}
+We can add a proposal move that switches labels. Since the meaning of the
+models is the unchanged, this proposal will always be accepted. 
+\end{frame}
+
+
+\begin{frame}[t]{Label Switching Degeneracy}
+The {\tt shuffle} function chooses two switched-on peaks ``at random''
+and swaps their parameter values.
 \end{frame}
 
 
