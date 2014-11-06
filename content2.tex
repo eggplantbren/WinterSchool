@@ -349,7 +349,7 @@ situations:
 \end{center}
 \end{frame}
 
-\begin{frame}{\small{\textbf{Nested Sampling}}}
+\begin{frame}{Nested Sampling}
 Nested Sampling was built to estimate the marginal likelihood.
 
 But it can also be used to generate posterior samples, and it can potentially
@@ -500,8 +500,8 @@ likelihood, and let $L^*$ be its likelihood.
 	\item Replace $\theta_{k}$ with a new point from $\pi(\theta)$ but restricted to the region where $L(\theta)>L^*$.
 \end{itemize}
 
-Repeat for as long as needed.
-The points replaced generate a sequence of \textit{discarded points}.
+Repeat the last two steps many times.
+The \textit{discarded points} (the worst one at each iteration) are the output.
 \end{frame}
 
 
@@ -515,8 +515,17 @@ sample the prior, but rejecting any proposal with likelihood below $L^*$.
 See code.
 \end{frame}
 
+\begin{frame}[t]{Generating the new point}
+There are alternative versions of NS available, such as {\bf MultiNest}, that
+use different methods (not MCMC) to generate the new point.\\
+\vspace{20pt}
 
-\begin{frame}{Nested Sampling Procedure}
+I also have a version of NS called {\bf Diffusive Nested Sampling}, which is
+a better way of doing NS when using MCMC. I'm happy to discuss it offline.
+\end{frame}
+
+
+\begin{frame}[t]{Nested Sampling Procedure}
 Nested Sampling gives us a sequence of points with increasing likelihoods,
 but we need to somehow know their $X$-values!
 \end{frame}
@@ -544,40 +553,35 @@ but we need to somehow know their $X$-values!
 %\end{overprint}
 %\end{frame}
 %##########################################################################################################################################
-\begin{frame}{\small{\textbf{Nested Sampling}}}
-\begin{columns}[T]\column{0.6\textwidth}
-Estimating $\xi_{i}$ values.\\~\\
-Consider the decreasing sequence
-\begin{align*}
-0<\xi_{N}<\cdots<\xi_{1}<\xi_{0}=1
-\end{align*}
-where $\xi_{j}\sim\text{Uniform}(0,1)$, for $j=1,\ldots,N,$ \visible<2,3,4,5,6>{which implies that 
-\begin{align*}
-t = \text{max}\{ \xi_1,\ldots,\xi_{N}\} \sim \text{Beta}(N,1)
-\end{align*}
-}
-\visible<3,4,5,6>{So, we could set
-\begin{align*}
-\xi_{1}=t_{1},\quad \xi_{2}=t_{1}t_{2},\quad \ldots \quad,\quad \xi_{i}=\prod_{j=1}^{i}t_{j}, \ldots
-\end{align*}} 
-\visible<4,5,6>{or alternatively, we will consider that}
-\column{0.4\textwidth}
-\begin{figure}
- %\hspace{4cm}  \vspace{0.001cm}
-   \includegraphics[width=1.1\textwidth,natwidth=69,natheight=87]{Patricio/xis.pdf}
-\end{figure}
-\end{columns}
-\begin{align*}
-\visible<4,5,6>{\text{E}(\log t) = -\frac{1}{N}} 
-\visible<5,6>{\Rightarrow \text{If we set}\quad \log t = -\frac{1}{N}}&\visible<5,6>{\Rightarrow t = e^{-1/N}}\\
-&\visible<6>{\Rightarrow \xi_{i}= e^{-i/N}}
-\end{align*}
+\begin{frame}[t]{Estimating the $X$ values}
+Consider the simple one-dimensional problem with Uniform(0, 1) prior.\\
+
+\vspace{20pt}
+When we generate $N$ points from the prior, the distribution for the $X$-value
+of the worst point is Beta$(N, 1)$. So we can use a draw from Beta$(N,1)$ as
+a guess of the $X$ value.
 \end{frame}
+
+\begin{frame}[t]{Estimating the $X$ values}
+Each iteration, the worst point should reduce the volume by a factor that has
+a Beta$(N, 1)$ distribution. So we can do this:
+\begin{eqnarray*}
+X_1 &=& t_1\\
+X_2 &=& t_2X_1\\
+X_3 &=& t_3X_2\\
+\end{eqnarray*}
+
+and so on, where $t_i \sim $Beta$(N,1)$. Alternatively, we can use a simple
+approximation.
+\end{frame}
+
 %##########################################################################################################################################
-\begin{frame}{Deterministic Approximation}
+\begin{frame}[t]{Deterministic Approximation}
 \begin{figure}[]    		
-		\includegraphics[scale=0.28,clip=true,angle=0]{Patricio/PriorExplore.pdf}
-		\caption{Discrete sequence of $\xi$ values.}
+		\includegraphics[scale=0.22,clip=true,angle=0]{Patricio/PriorExplore.pdf}
+		\caption{Deterministic approximation. Each iteration reduces
+the volume by a factor $\approx e^{-1/N}$. e.g. if $N=5$, the worst likelihood
+accounts for about 1/5th of the remaining prior volume.}
 \end{figure}
 \end{frame}
 %##########################################################################################################################################
@@ -611,4 +615,46 @@ ESS = \exp \left( - \sum_{j=1}^{m} w_j \log w_j \right)
 
 \end{frame}
 
+\begin{frame}[t]{Information}
+NS can also calculate the {\bf information}, also known as the Kullback-Liebler
+divergence from the prior to the posterior.
+
+\begin{eqnarray*}
+\mathcal{H} &=& \int p(\theta | D) \log\left[\frac{p(\theta | D)}{p(\theta)}\right]
+\, d\theta\\
+&\approx& \log\left(
+\frac{\textnormal{volume of posterior}}{\textnormal{volume of prior}}
+\right)
+\end{eqnarray*}
+\end{frame}
+
+\begin{frame}[t]{Nested Sampling Code}
+I have written a basic implementation of Nested Sampling in Python. Let's
+use it on the transit problem and the asteroseismology problem.
+
+\end{frame}
+
+\begin{frame}[t]{Nested Sampling Plots}
+\vspace{-10pt}
+\begin{center}
+\includegraphics[scale=0.32]{ns.pdf}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[t]{Nested Sampling Plots}
+A necessary but not sufficient condition for everything being okay is that you
+see the entire peak in the posterior weights.\\
+
+\vspace{20pt}
+
+If it's not there, you haven't done enough NS iterations. i.e. your parameter
+values have lower likelihoods than what is typical of the posterior distribution.
+\end{frame}
+
+\begin{frame}[t]{Nested Sampling Plots}
+The shape of the log$(L)$ vs. log$(X)$ plot is also informative: if it is
+straight for a long time, or concave up at some point, your problem contains
+a phase transition, and it's a good thing you used Nested Sampling!
+\end{frame}
 
