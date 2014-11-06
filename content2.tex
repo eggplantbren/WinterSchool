@@ -275,6 +275,21 @@ The {\tt shuffle} function chooses two switched-on peaks ``at random''
 and swaps their parameter values.
 \end{frame}
 
+\begin{frame}[t]{Label Switching Degeneracy}
+When there are $N$ peaks, the posterior will have $N!$ identical modes,
+corresponding to switching the order of the peaks.\\
+
+\vspace{20pt}
+We can add a proposal move that switches labels. Since the meaning of the
+models is the unchanged, this proposal will always be accepted. 
+\end{frame}
+
+
+\begin{frame}[t]{Label Switching Degeneracy}
+The {\tt shuffle} function chooses two peaks ``at random''
+and swaps their parameter values.
+\end{frame}
+
 
 
 \begin{frame}[t]{Part II: Nested Sampling}

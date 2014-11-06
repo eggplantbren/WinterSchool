@@ -15,7 +15,7 @@ N = data.shape[0] # Number of data points
 
 # Some idea of how big the Metropolis proposals should be
 jump_sizes = np.ones(num_params)
-jump_sizes[0] = 10.
+jump_sizes[0] = 11.
 jump_sizes[1] = np.log(1E6)
 
 def from_prior():
@@ -26,7 +26,7 @@ def from_prior():
   params = rng.rand(num_params)
 
   # Number of components (round down to get integer)
-  params[0] = 10.*params[0]
+  params[0] = 11.*params[0]
 
   # log of background
   params[1] = np.log(1E-3) + np.log(1E6)*rng.rand()
@@ -42,7 +42,7 @@ def log_prior(params):
   """
 
   # Minus infinity, if out of bounds
-  if params[0] < 0. or params[0] > 10.:
+  if params[0] < 0. or params[0] > 11.:
     return -np.Inf
 
   if params[1] < np.log(1E-3) or params[1] > np.log(1E3):
@@ -81,17 +81,11 @@ def log_likelihood(params):
 
 def shuffle(params):
   # Change the order of the components
-
-  num_peaks = int(params[0])
-
-  if num_peaks < 2:
-    return params
-
   # Choose two peaks to swap
-  i = rng.randint(num_peaks)
-  j = rng.randint(num_peaks)
+  i = rng.randint(10)
+  j = rng.randint(10)
   while i==j:
-    j = rng.randint(num_peaks)
+    j = rng.randint(10)
 
   # Swap them
   temp = params[3*i+2:3*i+5].copy()
@@ -114,7 +108,7 @@ def proposal(params):
     which = rng.randint(num_params)
 
   new[which] += jump_sizes[which]*10.**(1.5 - 6.*rng.rand())*rng.randn()
-  new[0] = np.mod(new[0], 10.)
+  new[0] = np.mod(new[0], 11.)
 
   new = shuffle(new)
 
