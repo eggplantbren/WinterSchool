@@ -93,10 +93,31 @@ for i in range(0, steps):
 plt.ioff()
 plt.show()
 
+# Useful function
+def logsumexp(values):
+  biggest = np.max(values)
+  x = values - biggest
+  result = np.log(np.sum(np.exp(x))) + biggest
+  return result
 
-# Resample, to make posterior samples
+# Prior weights
+logw = logX.copy()
+# Normalise them
+logw -= logsumexp(logw)
+
+# Calculate marginal likelihood
+logZ = logsumexp(logw + keep[:,-1])
+print('logZ = {logZ}'.format(logZ=logZ))
+
+# Normalised posterior weights
 wt = wt/wt.sum()
+
 effective_sample_size = int(np.exp(-np.sum(wt*np.log(wt + 1E-300))))
+
+# Calculate information
+H = np.sum(wt*(keep[:,-1] - logZ))
+print('Information = {H} nats'.format(H=H))
+
 print('Effective Sample Size = {ess}'.format(ess=effective_sample_size))
 
 posterior_samples = np.empty((effective_sample_size, keep.shape[1]))
