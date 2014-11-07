@@ -142,7 +142,7 @@ Some simple priors are:
 \begin{eqnarray*}
 N &\sim& \textnormal{Uniform}\left(\{0, 1, 2, ..., 9, 10\}\right)\\
 \log(B) &\sim& \textnormal{Uniform}\left[\log(10^{-3}, \log(10^{3})\right]\\
-x_i &\sim& \textnormal{Uniform}\left(x_{\rm min}, x_{\rm max}\right)\\
+c_i &\sim& \textnormal{Uniform}\left(x_{\rm min}, x_{\rm max}\right)\\
 A_i &\sim& \textnormal{Exponential}(\textnormal{mean=10})\\
 \log(w_i) &\sim& \textnormal{Uniform}\left[\log(0.01 x_{\rm range}), \log(x_{\rm range})\right]
 \end{eqnarray*}
@@ -248,14 +248,14 @@ $N$ model components, the ones that are {\bf switched on}.
 Imagine we found a solution with two peaks like this:
 
 \begin{eqnarray*}
-\textnormal{Peak 1}: \{A, t_c, w\} &=& \{5, 3, 2\}\\
-\textnormal{Peak 2}: \{A, t_c, w\} &=& \{3, 7, 1\}
+\textnormal{Peak 1}: \{A, c, w\} &=& \{5, 3, 2\}\\
+\textnormal{Peak 2}: \{A, c, w\} &=& \{3, 7, 1\}
 \end{eqnarray*}
 
 Then the following solution is completely equivalent:
 \begin{eqnarray*}
-\textnormal{Peak 1}: \{A, t_c, w\} &=& \{3, 7, 1\}\\
-\textnormal{Peak 2}: \{A, t_c, w\} &=& \{5, 3, 2\}
+\textnormal{Peak 1}: \{A, c, w\} &=& \{3, 7, 1\}\\
+\textnormal{Peak 2}: \{A, c, w\} &=& \{5, 3, 2\}
 \end{eqnarray*}
 
 \end{frame}
@@ -602,15 +602,15 @@ accounts for about 1/5th of the remaining prior volume.}
 %\end{frame}
 %###########%##########################################################################################################################################
 \begin{frame}[t]{Posterior Distribution from Nested Sampling}
-The posterior sample can be obtained by assigning weights $w_j$ to the
+The posterior sample can be obtained by assigning weights $W_j$ to the
 discarded points:
 \begin{align*}
-w_{j} = \frac{L_{j} w_{j}}{Z} 
+W_{j} = \frac{L_{j} w_{j}}{Z} 
 \end{align*}
-where $w_{j}=X_{j-1} - X_{j+1}$ is the ``prior width'' associated with the
+where $w_{j}=X_{j-1} - X_{j+1}$ is the ``prior weight/width'' associated with the
 point. The ``effective sample size'' is given by
 \begin{align*}
-ESS = \exp \left( - \sum_{j=1}^{m} w_j \log w_j \right)
+ESS = \exp \left( - \sum_{j=1}^{m} W_j \log W_j \right)
 \end{align*}
 
 \end{frame}
@@ -623,7 +623,7 @@ divergence from the prior to the posterior.
 \mathcal{H} &=& \int p(\theta | D) \log\left[\frac{p(\theta | D)}{p(\theta)}\right]
 \, d\theta\\
 &\approx& \log\left(
-\frac{\textnormal{volume of posterior}}{\textnormal{volume of prior}}
+\frac{\textnormal{volume of prior}}{\textnormal{volume of posterior}}
 \right)
 \end{eqnarray*}
 \end{frame}
