@@ -17,7 +17,6 @@ uncertainty we should have about our conclusions.
 In previous chapters you've had an overview of the fundamental ideas
 of Bayesian inference along with its historical development. This chapter
 focuses on putting these ideas into practice.
-
 Any particular application of Bayesian inference involves making choices
 about what data you are analysing, what questions you are
 trying to answer, and what assumptions you are willing to make. This
@@ -47,12 +46,11 @@ i.e. methods that will work okay on most problems you throw at them. A
 drawback of this approach is that the methods we cover are not necessarily
 the most efficient methods possible. If you're mostly interested in one
 specific application, you'll likely be able to achieve better performance
-by using a more complex algorithm, or by taking advantage of the particular
-properties of your problem. At times, I will comment on other popular methods
-that we are not covering, and their strengths and weaknesses.
+by using a more sophisticated algorithm, or by taking advantage of the particular
+properties of your problem.
 
-There are many popular software packages available for doing Bayesian Inference, such as:
-
+There are many popular software packages (and many more unpopular ones)
+available for doing Bayesian Inference, such as:
 \begin{itemize}
 \item JAGS (Just Another Gibbs Sampler)
 \item Stan
@@ -60,13 +58,13 @@ There are many popular software packages available for doing Bayesian Inference,
 \item MultiNest
 \item DNest3
 \end{itemize}
-
-I won't be teaching you how to use any of these programs. If you or your collaborators already use one of them, that's a great reason to learn one!
+I won't be teaching you how to use any of these programs.
+If you or your collaborators already use one of them, that's a great reason to
+learn it! Please see the appendix for a discussion of the advantages and
+disadvantages of these packages.
 
 %JAGS is extremely convenient to use
 
-
- 
 \section{Python}
 Due to its popularity and relatively shallow learning curve,
 I will be using Python to implement the algorithms. The code I use will be
