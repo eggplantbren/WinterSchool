@@ -19,45 +19,41 @@ of Bayesian inference along with its historical development. This chapter
 focuses on putting these ideas into practice.
 Any particular application of Bayesian inference involves making choices
 about what data you are analysing, what questions you are
-trying to answer, and what assumptions you are willing to make. This
-model-building aspect of Bayesian inference is sometimes not taught explicitly,
-because it is somewhat of an art.
+trying to answer, and what assumptions you are willing to make.
 
 Once you have made all
 of these choices, you are then faced with the question of how to calculate the
 results. Usually you want to calculate the posterior distribution for some
-unknown parameters given your data, and then present the results in an
+unknown quantities (also known as ``parameters'') given your data,
+and then present the results in an
 understandable way. Since we are often dealing with complicated probability
-distributions in high dimensions, numerical methods are usually used.
+distributions in high dimensional spaces, numerical methods are usually used.
 The most popular and useful numerical techniques are the Markov Chain Monte
 Carlo methods, often abbreviated as
 MCMC\footnote{Some people claim that MCMC stands for
 Monte Carlo Markov Chains, but they are wrong.}.
-Many people ({\bf who?}) credit the rediscovery of MCMC as the main reason
-why Bayesian inference is so popular now: since it made the calculations so
-much easier, people were able to gain practical experience, which in turn
-reduced a lot of their worries about prior distributions.
+The rediscovery of MCMC in the 1990s
+is one of the main reasons why Bayesian inference is so popular now.
+While there were many strong philosophical arguments in favour of a Bayesian
+approach before then, many people were still uncomfortable with the
+subjective elements involved. However, once MCMC made it easy to compute the
+consequences of Bayesian models more easily, people simply got used to these
+subjective elements.
 
 A huge variety of MCMC methods exists, and it would be
 unwise to try to cover them all in this winter school. Therefore I will focus
 on a small number of methods that are simple to implement, yet quite powerful
 and widely applicable. I will try to emphasise methods that are {\it general},
-i.e. methods that will work okay on most problems you throw at them. A
-drawback of this approach is that the methods we cover are not necessarily
+i.e. methods that will work okay on most problems you might encounter. One
+disadvantage of this approach is that the methods we cover are not necessarily
 the most efficient methods possible. If you're mostly interested in one
-specific application, you'll likely be able to achieve better performance
+specific application, you'll probably be able to achieve better performance
 by using a more sophisticated algorithm, or by taking advantage of the particular
 properties of your problem.
 
 There are many popular software packages (and many more unpopular ones)
-available for doing Bayesian Inference, such as:
-\begin{itemize}
-\item JAGS (Just Another Gibbs Sampler)
-\item Stan
-\item emcee
-\item MultiNest
-\item DNest3
-\end{itemize}
+available for doing Bayesian Inference, such as JAGS (Just Another Gibbs Sampler),
+Stan, emcee, MultiNest, my own DNest3, and many more.
 I won't be teaching you how to use any of these programs.
 If you or your collaborators already use one of them, that's a great reason to
 learn it! Please see the appendix for a discussion of the advantages and
