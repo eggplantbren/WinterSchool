@@ -81,8 +81,6 @@ each program has imported the following libraries:
   import copy
 \end{minted}
 
-
-
 \section{Notation for Probability Distributions}
 There are two main types of notation that are used in probability theory. The
 first type is mathematically correct and conceptually
@@ -149,18 +147,32 @@ which is much harder to read and manipulate.
 
 
 \section{Parameter Estimation}
-
 Almost all data analysis problems can be interpreted as {\it parameter
-estimation} problems.
-There are some parameters $\btheta$ whose values we want to know. To start, we
+estimation} problems. The term {\it parameter} has a few different meanings,
+but you can just think of it as a synonym for {\it unknown quantity}. When you
+learned how to solve equations in high school algebra,
+you would have been able to find the value of an unknown quantity when you had
+enough information to determine its value with certainty.
+In science, this hardly ever happens, which is why we need probability theory.
+
+We'll donate our unknown parameters by $\btheta$, which could be a single
+parameter or perhaps a vector of parameters (e.g. the distance to a star
+and the angular diameter of the star). To start, we
 need to have some idea of the set of possible values we are considering. For
 example, are the parameters integers? Real numbers? Positive real numbers?
 In some examples, the definition of the parameters already restricts the set
 of possible values. For example, {\it the proportion of extra-solar planets in
 the Milky Way that contain life} cannot be less than 0 or greater than 1.
+Strictly speaking, it has to be a rational number, but it probably won't make
+much difference if we just say it's a real number between 0 and 1 inclusive. The
+distance to a star (measured in whatever units you like) is presumably a
+positive real number, as is its angular diameter.
+The set of possible values you're willing to consider is called the
+{\it hypothesis space}.
 
-Our uncertainty about the parameters is modelled by a prior distribution
-$p(\btheta | I)$.
+To start using Bayesian inference, you need to assign a {\it probability
+distribution} on the hypothesis space, which models your initial uncertainty
+about the parameters.
 
 Bayes' rule is a consequence of the product rule of probability. If we have
 chosen a certain prior distribution $p(\btheta | I)$, and a certain sampling
