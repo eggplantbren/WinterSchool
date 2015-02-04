@@ -123,7 +123,9 @@ exists and just use the lower case $x$ for that purpose, even though it was
 originally a dummy variable!
 The key to understanding this notation is to read $p(x)$ as ``the probability
 distribution for $x$'', and to understand what the expression following it
-really means.
+really means. If the set of possible $x$ values is continuous (so $p(x)$ gives
+the probability {\it density} instead of a probability itself) then the
+notation doesn't change.
 
 The compact notation is especially helpful in Bayesian statistics because
 we deal with conditional probability distributions a lot. For example, if we
@@ -141,21 +143,19 @@ P(A=a | B=b, C=c) &=&
 \end{eqnarray}
 which is much harder to read and manipulate.
 
-
-
-
-
-
 \section{Parameter Estimation}
 Almost all data analysis problems can be interpreted as {\it parameter
 estimation} problems. The term {\it parameter} has a few different meanings,
 but you can just think of it as a synonym for {\it unknown quantity}. When you
 learned how to solve equations in high school algebra,
-you would have been able to find the value of an unknown quantity when you had
+you would have been able to find the value of an unknown quantity
+(often called $x$) when you had
 enough information to determine its value with certainty.
-In science, this hardly ever happens, which is why we need probability theory.
+In science, we almost never have enough information to determine a quantity
+without any uncertainty, which is why we need probability theory and Bayesian
+inference.
 
-We'll donate our unknown parameters by $\btheta$, which could be a single
+We'll denote our unknown parameters by $\btheta$, which could be a single
 parameter or perhaps a vector of parameters (e.g. the distance to a star
 and the angular diameter of the star). To start, we
 need to have some idea of the set of possible values we are considering. For
@@ -164,15 +164,15 @@ In some examples, the definition of the parameters already restricts the set
 of possible values. For example, {\it the proportion of extra-solar planets in
 the Milky Way that contain life} cannot be less than 0 or greater than 1.
 Strictly speaking, it has to be a rational number, but it probably won't make
-much difference if we just say it's a real number between 0 and 1 inclusive. The
-distance to a star (measured in whatever units you like) is presumably a
+much difference if we just say it's a real number between 0 and 1 (inclusive).
+The distance to a star (measured in whatever units you like) is presumably a
 positive real number, as is its angular diameter.
 The set of possible values you're willing to consider is called the
 {\it hypothesis space}.
 
 To start using Bayesian inference, you need to assign a {\it probability
 distribution} on the hypothesis space, which models your initial uncertainty
-about the parameters.
+about the parameters. 
 
 Bayes' rule is a consequence of the product rule of probability. If we have
 chosen a certain prior distribution $p(\btheta | I)$, and a certain sampling
@@ -184,6 +184,15 @@ p(\btheta | \data, I) &=& \frac{p(\btheta | I)p(\data | \btheta, I)}{p(\data | I
 
 
 \section{Transit Example}
+
+We want to know the values of the unknown parameters.
+The {\it sampling distribution} is the probability distribution would assign
+for the data, if we knew the true values of the parameters.
+In many situations, it is conventional to assign a normal distribution
+(also known as a gaussian distribution) to each data point, where the mean
+of the normal distribution is the noise-free model prediction, and the
+standard deviation of the normal distribution is given by the size of the
+error bar. Later, we will see how to relax these assumptions.
 
 
 
