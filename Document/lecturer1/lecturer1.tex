@@ -185,6 +185,30 @@ p(\btheta | \data, I) &=& \frac{p(\btheta | I)p(\data | \btheta, I)}{p(\data | I
 
 \section{Transit Example}
 
+The true curve, shown in red in Figure~\ref{fig:transit_data}, was given by:
+\begin{eqnarray*}
+\mu(t) &=& \left\{
+\begin{array}{lr}
+10, & 2.5 \leq t \leq 4.5\\
+5,  & \textnormal{otherwise}.
+\end{array}
+\right.
+\end{eqnarray*}
+
+Let's assume that we didn't know this, but we did know the true curve
+was a function of the following form:
+\begin{eqnarray*}
+\mu(t) &=& \left\{
+\begin{array}{lr}
+A, & (t_c - w/2) \leq t \leq (t_c + w/2)\\
+A-b,  & \textnormal{otherwise}.
+\end{array}
+\right.
+\end{eqnarray*}
+
+We don't know the values of $A$, $b$, $t_c$, and $w$.
+But we do know the data $D$.
+
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{../Code/transit_data.pdf}
