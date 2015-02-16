@@ -172,9 +172,14 @@ The set of possible values you're willing to consider is called the
 
 To start using Bayesian inference, you need to assign a {\it probability
 distribution} on the hypothesis space, which models your initial uncertainty
-about the parameters. 
+about the parameters. This probability distribution is called the {\it prior},
+and models an initial state of uncertainty about the values of the parameters.
+We then use Bayes' rule, a consequence of the product rule of probability,
+to calculate the {\it posterior} distribution, which describes our updated
+state of knowledge about the values of the parameters, after taking the data
+$D$ into account.
 
-Bayes' rule is a consequence of the product rule of probability. If we have
+If we have
 chosen a certain prior distribution $p(\btheta | I)$, and a certain sampling
 distribution $p(\data | \btheta, I)$, then Bayes' rule allows us to calculate
 the {\it posterior distribution}:
@@ -206,8 +211,10 @@ A-b,  & \textnormal{otherwise}.
 \right.
 \end{eqnarray*}
 
-We don't know the values of $A$, $b$, $t_c$, and $w$.
-But we do know the data $D$.
+We don't know the values of $A$, $b$, $t_c$, and $w$,
+but we do know the data $D$. Applying Bayesian inference to this problem
+involves calculating the posterior distribution for $A$, $b$, $t_c$, and $w$,
+given the data $D$.
 
 \begin{figure}
 \begin{center}
