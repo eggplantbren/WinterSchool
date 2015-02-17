@@ -14,19 +14,27 @@ and some less plausible. Bayesian inference is the tool we use to model this
 reasoning process, and to make quantitative statements about how much
 uncertainty we should have about our conclusions. This takes the mystery out
 of data analysis, because we no longer have to come up with a new method
-every time we face a new problem. Instead, we simply specify what prior
-information we are going to use, and then we compute the result.
+every time we face a new problem. Instead, we simply specify exactly what
+information we are going to use, and then we compute the results.
 
-In previous chapters you've had an overview of the fundamental ideas
-of Bayesian inference along with its historical development. This chapter
-focuses on putting these ideas into practice.
+%In previous chapters you've had an overview of the fundamental ideas
+%of Bayesian inference along with its historical development. This chapter
+%focuses on putting these ideas into practice.
+
 Any particular application of Bayesian inference involves making choices
 about what data you are analysing, what questions you are
 trying to answer, and what assumptions you are willing to make.
+In principle, it's usually best to work with your data in the most
+raw form possible, although this is often too difficult in practice.
+Therefore, most scientists work with data that has been processed (by a ``pipeline'') and reduced to manageable size. To do Bayesian inference, you
+need to specify what {\it prior information} you have (or are willing to
+assume) about the problem, in addition to the data. Prior information is
+necessary: what you can learn from a data set depends on what you know, for
+example, about how it was produced.
 
-Once you have made all
-of these choices, you are then faced with the question of how to calculate the
-results. Usually you want to calculate the posterior distribution for some
+Once you have your data, and have specified your prior information as well,
+you are faced with the question of how to calculate the
+results. Usually you want to calculate the {\it posterior distribution} for some
 unknown quantities (also known as ``parameters'') given your data,
 and then present the results in an
 understandable way. Since we are often dealing with complicated probability
@@ -40,8 +48,8 @@ is one of the main reasons why Bayesian inference is so popular now.
 While there were many strong philosophical arguments in favour of a Bayesian
 approach before then, many people were still uncomfortable with the
 subjective elements involved. However, once MCMC made it easy to compute the
-consequences of Bayesian models more easily, people simply got used to these
-subjective elements.
+consequences of Bayesian models more easily, people simply became more relaxed
+about these subjective elements.
 
 A huge variety of MCMC methods exists, and it would be
 unwise to try to cover them all in this winter school. Therefore I will focus
