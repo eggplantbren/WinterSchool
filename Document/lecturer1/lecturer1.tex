@@ -146,8 +146,8 @@ which is much harder to read and manipulate.
 \section{Parameter Estimation}
 Almost all data analysis problems can be interpreted as {\it parameter
 estimation} problems. The term {\it parameter} has a few different meanings,
-but you can just think of it as a synonym for {\it unknown quantity}. When you
-learned how to solve equations in high school algebra,
+but you can usually just think of it as a synonym for {\it unknown quantity}.
+When you learned how to solve equations in high school algebra,
 you would have been able to find the value of an unknown quantity
 (often called $x$) when you had
 enough information to determine its value with certainty.
@@ -172,21 +172,21 @@ The set of possible values you're willing to consider is called the
 
 To start using Bayesian inference, you need to assign a {\it probability
 distribution} on the hypothesis space, which models your initial uncertainty
-about the parameters. This probability distribution is called the {\it prior},
-and models an initial state of uncertainty about the values of the parameters.
+about the parameters. This probability distribution is called the {\it prior}.
 We then use Bayes' rule, a consequence of the product rule of probability,
 to calculate the {\it posterior} distribution, which describes our updated
 state of knowledge about the values of the parameters, after taking the data
 $D$ into account.
 
-If we have
-chosen a certain prior distribution $p(\btheta | I)$, and a certain sampling
-distribution $p(\data | \btheta, I)$, then Bayes' rule allows us to calculate
-the {\it posterior distribution}:
+For a prior distribution $p(\btheta | I)$, and a sampling
+distribution $p(\data | \btheta, I)$, Bayes' rule allows us to calculate
+the {\it posterior distribution} for $\theta$:
 \begin{eqnarray}
 p(\btheta | \data, I) &=& \frac{p(\btheta | I)p(\data | \btheta, I)}{p(\data | I)}.
 \end{eqnarray}
-
+The $I$ in this equation refers to background information and assumptions:
+basically, it stands for everything you know about the problem apart from the
+data.
 
 \section{Transit Example}
 
