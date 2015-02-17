@@ -251,21 +251,22 @@ state of prior knowledge, held by an idealised reasoner. When we apply
 Bayesian inference, we are studying how the idealised reasoner would update
 their state of knowledge based on the information we use in the calculation.
 
-In many cases, we can just use simple choices of wide prior distributions,
-invoking ``ignorance''.
-
-In some problems, it makes sense to spend a lot of time and effort thinking
-about the prior distributions. Some Bayesian statisticians, who are not
+In many cases, we can just use simple ``default'' choices for the prior and
+the sampling distribution (e.g. a uniform prior for a parameter, and a
+``gaussian noise'' assumption for the data). A lot of analyses work just fine
+with these assumptions. However, occasionally it makes sense to spend a lot of
+time and effort thinking about the prior distributions. Some Bayesian statisticians, who are not
 necessarily experts in the fields of their clients, conduct elaborate interviews
 with experts to try and create a prior that models the experts' beliefs well.
 This process is called {\it elicitation}.
-For example, consider the Intergovernmental Panel on Climate Change (IPCC).
-Every XX years, they write a long and detailed report about the latest climate
-change science, trying to summarise everything that humanity knows about the
-topic. Consider the question ``{\it How much will the global average temperature
-increase in the next 100 years if we continue along our present path?}''.
-In this situation, it wouldn't be a very good idea to just use a convenient
-uniform prior!
+For example, consider the Intergovernmental Panel on Climate Change (IPCC),
+who periodically write immense reports summarising humanity's state of knowledge
+about global warming.
+Consider the question ``{\it How much will the global average temperature
+increase in the next 100 years?}''. This is exactly the kind of situation where
+elicitation of an expert's probabilities is very important: a lot is known,
+and a lot is at stake. In this situation, it wouldn't be very wise to rely on
+convenient ``vague'' priors!
 
 
 
