@@ -53,7 +53,7 @@ about these subjective elements.
 
 A huge variety of MCMC methods exists, and it would be
 unwise to try to cover them all in this winter school. Therefore I will focus
-on a small number of methods that are simple to implement, yet quite powerful
+on a small number of methods that are relatively simple to implement, yet quite powerful
 and widely applicable. I will try to emphasise methods that are {\it general},
 i.e. methods that will work okay on most problems you might encounter. One
 disadvantage of this approach is that the methods we cover are not necessarily
@@ -349,7 +349,7 @@ we don't know how many components (planets) there are.
 
 
 
-\section{Nested Sampling}
+\section{Model Selection and Nested Sampling}
 Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling}.
 Several variants of Nested Sampling exist, and most of them are somewhat
 complicated. Here, I will present a simple version of Nested Sampling which
@@ -360,8 +360,39 @@ Many more complex and sophisticated versions of
 Nested Sampling exist, such as the popular MultiNest \citep{multinest},
 my own Diffusive Nested Sampling \citep{dnest}, and several others. These
 algorithms, while all based on the insights of \citet{skilling}, are very
-different in detail. For example, MultiNest does blah, while Diffusive Nested
-Sampling does blah'.
+different in detail. See the appendix for more details.
+
+Consider two different models $M_1$ and $M_2$ which are mutually exclusive
+(they can't both be true).
+Suppose $M_1$ has parameters
+$\btheta_1$, and $M_2$ has its own parameters $\btheta_2$. The methods
+described previously can be used to calculate the posterior distribution for
+$M_1$'s parameters:
+\begin{eqnarray}
+p(\btheta_1 | D, M_1) &=& \frac{p(\btheta_1 | M_1)p(D | \btheta_1, M_1)}
+{p(D | M_1)}
+\end{eqnarray}
+You can also fit model $M_2$ to the data, i.e. get the posterior distribution
+for $M_2$'s parameters:
+\begin{eqnarray}
+p(\btheta_2 | D, M_2) &=& \frac{p(\btheta_1 | M_2)p(D | \btheta_2, M_2)}
+{p(D | M_2)}
+\end{eqnarray}
+This is all very well, but you might want to know whether $M_1$ or $M_2$ is
+more plausible overall, given your data. That is, you want the posterior
+probabilities $P(M_1 | D)$ and $P(M_2 | D)$.
+
+In this situation, it's usually easier to calculate the ratio of the two
+posterior probabilities, which is sometimes called the {\it posterior odds
+ratio}:
+\begin{eqnarray}
+\frac{P(M_2 | D)}{P(M_1 | D)} &=& \frac{P(M_2)}{P(M_1)}
+\times \frac{P(D | M_2)}{P(D | M_1)}
+\end{eqnarray}
+
+
+
+
 
 
 %Bla bla bla \citep{lecturer1:abreu10}, \citep{lecturer1:abreu100}
