@@ -390,6 +390,18 @@ ratio}:
 \times \frac{P(D | M_2)}{P(D | M_1)}
 \end{eqnarray}
 
+As you might expect, the posterior odds for $M_2$ over $M_1$ depends on the
+prior odds: was $M_2$ more plausible than $M_1$ before taking into account the
+data? The other ratio is a ratio of likelihoods, how probable was the data
+assuming $M_2$ vs assuming $M_1$? These likelihoods aren't the likelihoods
+for a specific value of the parameters, but instead likelihoods for the model
+as a whole. To distinguish this kind of likelihood from the standard kind (which
+is a function of the model parameters), the term {\it marginal likelihood} or
+{\it evidence} is used. The marginal likelihood for $M_1$ is:
+\begin{eqnarray}
+p(D | M_1) &=& \int p(\btheta_1 | M_1) p(D | \btheta_1, M_1) \, d^{N_1} \btheta_1
+\end{eqnarray}
+
 
 
 
