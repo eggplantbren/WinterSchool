@@ -188,13 +188,22 @@ $D$ into account.
 
 For a prior distribution $p(\btheta | I)$, and a sampling
 distribution $p(\data | \btheta, I)$, Bayes' rule allows us to calculate
-the {\it posterior distribution} for $\theta$:
+the {\it posterior distribution} for $\btheta$:
 \begin{eqnarray}
 p(\btheta | \data, I) &=& \frac{p(\btheta | I)p(\data | \btheta, I)}{p(\data | I)}.
 \end{eqnarray}
 The $I$ in this equation refers to background information and assumptions:
 basically, it stands for everything you know about the problem apart from the
-data.
+data. The result is a probability distribution for $\btheta$ which describes
+our state of knowledge about $\btheta$ after taking into account the data.
+
+The denominator, since it doesn't depend on $\btheta$, is a normalizing
+constant. Since the posterior must integrate to one (or sum to one, if the
+hypothesis space is discrete), we can write the denominator as:
+
+\begin{eqnarray}
+p(\data | I) &=& \int p(\btheta | I)p(\data | \btheta, I) \, d^N \btheta.
+\end{eqnarray}
 
 
 \begin{figure}
@@ -252,9 +261,6 @@ error bar. Later, we will see how to relax these assumptions.
 
 
 
-\section{What is the data?}
-
-
 
 \section{Assigning Prior Distributions}
 It has been said ({\bf by whom?}) that there are only two open problems in
@@ -285,6 +291,20 @@ elicitation of an expert's probabilities is very important: a lot is known,
 and a lot is at stake. In this situation, it wouldn't be very wise to rely on
 convenient ``vague'' priors!
 
+
+
+\section{What is the data?}
+It can sometimes be helpful to think carefully about exactly what your data set
+contains, and whether it is all ``data'' in the sense of Bayesian inference.
+In the transit example, we chose a sampling distribution for the data, but this
+sampling distribution was for the $y$-values of the data
+(the flux measurements). Note that we never assigned a probability distribution
+for the {\it times} of the data points, even though we might think of that as
+part of the data (it's probably in the same file as the measurements, after all).
+In fact, because we didn't assign a probability distribution for it, the
+timestamps were not data at all, but part of the prior information $I$.
+Therefore, it is completely justifiable to use the timestamps when assigning
+the prior and the sampling distribution.
 
 
 
