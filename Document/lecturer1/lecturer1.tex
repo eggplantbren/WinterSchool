@@ -240,7 +240,18 @@ A-b,  & \textnormal{otherwise}.
 We don't know the values of $A$, $b$, $t_c$, and $w$,
 but we do know the data $D$. Applying Bayesian inference to this problem
 involves calculating the posterior distribution for $A$, $b$, $t_c$, and $w$,
-given the data $D$.
+given the data $D$. For this specific setup, Bayes' rule states:
+
+\begin{eqnarray}
+p(A, b, t_c, w | D) &=& \frac{p(A, b, t_c, w)p(D | A, b, t_c, w)}{p(D)}
+\end{eqnarray}
+
+So, in order for the posterior distribution to be well defined, we need to
+choose a prior distribution $p(A, b, t_c, w)$ for the parameters, and a
+sampling distribution $p(D | A, b, t_c, w)$ for the data. Since the denominator
+$p(D)$ is not a function of the parameters, it plays the role of a normalising
+constant that ensures the posterior distribution integrates to 1, as any
+probability distribution must.
 
 \begin{figure}
 \begin{center}
