@@ -96,67 +96,7 @@ each program has imported the following libraries:
   import copy
 \end{minted}
 
-\section{Notation for Probability Distributions}
-There are two main types of notation that are used in probability theory. The
-first type is mathematically correct and conceptually
-clear, yet results in equations that are very large, complicated,
-and difficult to read.
-The second type is a very compact notation which makes equations a lot
-shorter and easier to read, but could be misinterpreted if you are not used to
-it. I prefer the compact notation, but to prevent any misunderstandings
-I'll describe both below.
 
-Suppose we're about to flip a coin $N$ times, and are interested in the
-quantity $X$, the number of times the result is heads. According
-to the standard assumptions, the possible values for $X$ are the integers from 0
-to 10, and the probability distribution for $X$ is given by
-a binomial distribution:
-
-\begin{eqnarray}
-P(X = x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
-\left(\frac{1}{2}\right)^x\left(\frac{1}{2}\right)^{10 - x}\\
-&=& \left(\begin{array}{cc}10\\ x\end{array}\right)
-\left(\frac{1}{2}\right)^{10}
-\end{eqnarray}
-The equation gives us all the probabilities we want, i.e. $P(X=0)$, $P(X=1)$,
-and so on. The lower case $x$ is a dummy variable: like the index in a sum, it
-can be replaced by any other symbol and the equation still holds. For example,
-replacing $x$ with $a$ gives:
-\begin{eqnarray}
-P(X = a) &=& \left(\begin{array}{cc}10\\ a\end{array}\right)
-\left(\frac{1}{2}\right)^{10}.
-\end{eqnarray}
-
-The compact notation ignores all of this and simply writes $p(x)$ instead of
-$P(X=x)$:
-\begin{eqnarray}
-p(x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
-\left(\frac{1}{2}\right)^{10}
-\end{eqnarray}
-Since $X$, the actual number of heads, isn't written anywhere, we forget it
-exists and just use the lower case $x$ for that purpose, even though it was
-originally a dummy variable!
-The key to understanding this notation is to read $p(x)$ as ``the probability
-distribution for $x$'', and to understand what the expression following it
-really means. If the set of possible $x$ values is continuous (so $p(x)$ gives
-the probability {\it density} instead of a probability itself) then the
-notation doesn't change.
-
-The compact notation is especially helpful in Bayesian statistics because
-we deal with conditional probability distributions a lot. For example, if we
-have three variables $a$, $b$, and $c$, the following is a true statement
-(it's an example of the {\it product rule} of probabilities):
-\begin{eqnarray}
-p(a, b, c) &=& p(a)p(b|a)p(c|b,a).
-\end{eqnarray}
-Written in the non-compact notation, we'd have three variables $A$, $B$, and
-$C$, and the corresponding equation would be
-\begin{eqnarray}
-P(A=a | B=b, C=c) &=&
- P(A=a)P(B=b|A=a)\\
-& & \times P(C=c|B=b,A=a)
-\end{eqnarray}
-which is much harder to read and manipulate.
 
 \section{Parameter Estimation}
 Almost all data analysis problems can be interpreted as {\it parameter
@@ -460,6 +400,68 @@ p(D | M_1) &=& \int p(\btheta_1 | M_1) p(D | \btheta_1, M_1) \, d^{N_1} \btheta_
 
 
 
+
+\section{Appendix: Notation for Probability Distributions}
+There are two main types of notation that are used in probability theory. The
+first type is mathematically correct and conceptually
+clear, yet results in equations that are very large, complicated,
+and difficult to read.
+The second type is a very compact notation which makes equations a lot
+shorter and easier to read, but could be misinterpreted if you are not used to
+it. I prefer the compact notation, but to prevent any misunderstandings
+I'll describe both below.
+
+Suppose we're about to flip a coin $N$ times, and are interested in the
+quantity $X$, the number of times the result is heads. According
+to the standard assumptions, the possible values for $X$ are the integers from 0
+to 10, and the probability distribution for $X$ is given by
+a binomial distribution:
+
+\begin{eqnarray}
+P(X = x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
+\left(\frac{1}{2}\right)^x\left(\frac{1}{2}\right)^{10 - x}\\
+&=& \left(\begin{array}{cc}10\\ x\end{array}\right)
+\left(\frac{1}{2}\right)^{10}
+\end{eqnarray}
+The equation gives us all the probabilities we want, i.e. $P(X=0)$, $P(X=1)$,
+and so on. The lower case $x$ is a dummy variable: like the index in a sum, it
+can be replaced by any other symbol and the equation still holds. For example,
+replacing $x$ with $a$ gives:
+\begin{eqnarray}
+P(X = a) &=& \left(\begin{array}{cc}10\\ a\end{array}\right)
+\left(\frac{1}{2}\right)^{10}.
+\end{eqnarray}
+
+The compact notation ignores all of this and simply writes $p(x)$ instead of
+$P(X=x)$:
+\begin{eqnarray}
+p(x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
+\left(\frac{1}{2}\right)^{10}
+\end{eqnarray}
+Since $X$, the actual number of heads, isn't written anywhere, we forget it
+exists and just use the lower case $x$ for that purpose, even though it was
+originally a dummy variable!
+The key to understanding this notation is to read $p(x)$ as ``the probability
+distribution for $x$'', and to understand what the expression following it
+really means. If the set of possible $x$ values is continuous (so $p(x)$ gives
+the probability {\it density} instead of a probability itself) then the
+notation doesn't change.
+
+The compact notation is especially helpful in Bayesian statistics because
+we deal with conditional probability distributions a lot. For example, if we
+have three variables $a$, $b$, and $c$, the following is a true statement
+(it's an example of the {\it product rule} of probabilities):
+\begin{eqnarray}
+p(a, b, c) &=& p(a)p(b|a)p(c|b,a).
+\end{eqnarray}
+Written in the non-compact notation, we'd have three variables $A$, $B$, and
+$C$, and the corresponding equation would be
+\begin{eqnarray}
+P(A=a | B=b, C=c) &=&
+ P(A=a)P(B=b|A=a)\\
+& & \times P(C=c|B=b,A=a)
+\end{eqnarray}
+which is much harder to read and manipulate.
 
 
 %Bla bla bla \citep{lecturer1:abreu10}, \citep{lecturer1:abreu100}
