@@ -25,9 +25,9 @@ information we are going to use, and then we compute the results.
 %of Bayesian inference along with its historical development. This chapter
 %focuses on putting these ideas into practice.
 
-Any particular application of Bayesian inference involves making choices
-about what data you are analysing, what questions you are
-trying to answer, and what assumptions you are willing to make.
+%Any particular application of Bayesian inference involves making choices
+%about what data you are analysing, what questions you are
+%trying to answer, and what assumptions you are willing to make.
 In principle, it's usually best to work with your data in the most
 raw form possible, although this is often too difficult in practice.
 Therefore, most scientists work with data that has been processed (by a ``pipeline'') and reduced to manageable size. To do Bayesian inference, you
@@ -39,7 +39,10 @@ example, about how it was produced.
 Once you have your data, and have specified your prior information as well,
 you are faced with the question of how to calculate the
 results. Usually you want to calculate the {\it posterior distribution} for some
-unknown quantities (also known as ``parameters'') given your data,
+unknown quantities (also known as ``parameters'') given your data, which
+describes your uncertainty about the , but takes into account the data.
+
+
 and then present the results in an
 understandable way. Since we are often dealing with complicated probability
 distributions in high dimensional spaces, numerical methods are usually used.
