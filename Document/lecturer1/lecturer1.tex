@@ -44,11 +44,11 @@ you are faced with the question of how to calculate the
 results. Usually you want to calculate the {\it posterior distribution} for some
 unknown quantities (also known as ``parameters'') given your data, which
 describes your uncertainty about the , but takes into account the data.
-
-
-and then present the results in an
-understandable way. Since we are often dealing with complicated probability
-distributions in high dimensional spaces, numerical methods are usually used.
+Since we are often dealing with (potentially) complicated probability
+distributions in high dimensional spaces, we need to {\it summarise} the
+posterior distribution in an understandable way.
+In certain problems, the summaries can be calculated analytically, but
+numerical methods are more general, so will be the focus of this chapter.
 The most popular and useful numerical techniques are the Markov Chain Monte
 Carlo methods, often abbreviated as
 MCMC\footnote{Some people claim that MCMC stands for
