@@ -328,14 +328,21 @@ Figure taken from ...
 \end{center}
 \end{figure}
 
+In Bayesian inference, the most important probability distribution is the
+posterior distribution for the parameters. We would like to be able to
+generate samples from the posterior, so we can compute probabilities,
+expectations, and other summaries easily. Markov Chain Monte Carlo allows us
+to generate these samples.
+
+\subsection{The Metropolis Algorithm}
 The Metropolis-Hastings algorithm, also known as the Metropolis algorithm, is
 the most fundamental MCMC algorithm. It is quite straightforward to implement,
 and works well on most problems.
-
 The version of the Metropolis algorithm presented here is sometimes called
-{\it random walk} Metropolis, because of the choice of the proposal
-distribution. More sophisticated choices are often possible, but usually
-require problem-specific knowledge. Consider a problem with a single unknown
+{\it random walk} Metropolis. More sophisticated choices are often possible,
+but usually require problem-specific knowledge.
+
+Consider a problem with a single unknown
 parameter $x$. If the prior is some density $\pi(x)$ and the likelihood
 function is $\mathcal{L}(x)$, then the posterior distribution will be
 proportional to $\pi(x)\mathcal{L}(x)$.
