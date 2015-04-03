@@ -307,6 +307,17 @@ P(a > b + c) &\approx& \frac{1}{N}\sum_{i=1}^N \mathds{1}\left(a_i > b_i + c_i\r
 \end{eqnarray}
 which is just the fraction of the samples that satisfy the condition.
 
+Another important use of Monte Carlo is marginalisation. Suppose again we had
+a probability distribution for five variables, but we only cared about one of
+them. For example, the marginal distribution of $a$ is given by
+\begin{eqnarray}
+p(a) &=& \int p(a, b, c, d, e) \, db \, dc \, dd \, de
+\end{eqnarray}
+which describes your uncertainty about $a$, rather than your uncertainty about
+all of the variables. This integral might be analytically intractable. With
+Monte Carlo, if you have samples in the five dimensional space but you only
+look at the first coordinate, then you have samples from $p(a)$. This is
+demonstrated graphically in Figure~\ref{fig:marginalisation}.
 
 \begin{figure}
 \begin{center}
