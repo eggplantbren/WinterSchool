@@ -275,7 +275,8 @@ the prior and the sampling distribution.
 
 \section{Markov Chain Monte Carlo}
 {\it Monte Carlo} methods allow us to calculate any property of a probability
-distribution that is an expectation value. For example, if we have a variable
+distribution that is an expectation value. For example, if we have a
+single variable
 $x$ with a probability density $p(x)$, the expected value is
 \begin{eqnarray}
 \mathds{E}(x) &=& \int_{-\infty}^{\infty} x p(x) \, dx 
@@ -287,6 +288,24 @@ we could replace the integral with a simple average:
 \begin{eqnarray}
 \mathds{E}(x) &\approx& \frac{1}{N} \sum_{i=1}^N x_i.
 \end{eqnarray}
+In one dimension, this may not seem very useful. Evaluating a one dimensional
+integral analytically is often possible, and doing it numerically using the
+trapezoidal rule (or a similar approximation) is quite straightforward.
+However, Monte Carlo really becomes useful in higher dimensional problems.
+For example, consider a problem with five unknown quantities with probability
+distribution $p(a, b, c, d, e)$, and suppose we want to know the probability
+that $a$ is greater than $b + c$. We could do the integral
+\begin{eqnarray}
+P(a > b + c) &=& \int p(a, b, c, d, e) \mathds{1}\left(a > b + c\right) \, da \, db \, dc \,dd \,de 
+\end{eqnarray}
+where $\mathds{1}\left(a > b + c\right)$ is a function that is equal to one
+where the condition is satisfied and zero where it isn't. However, if we could
+obtain a sample of points in the five dimensional space, the Monte Carlo
+estimate of the probability is simply
+\begin{eqnarray}
+P(a > b + c) &\approx& \frac{1}{N}\sum_{i=1}^N \mathds{1}\left(a_i > b_i + c_i\right)
+\end{eqnarray}
+which is just the fraction of the samples that satisfy the condition.
 
 
 \begin{figure}
