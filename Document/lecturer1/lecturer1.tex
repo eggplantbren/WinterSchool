@@ -336,16 +336,28 @@ to generate these samples.
 
 \subsection{The Metropolis Algorithm}
 The Metropolis-Hastings algorithm, also known as the Metropolis algorithm, is
-the most fundamental MCMC algorithm. It is quite straightforward to implement,
-and works well on most problems.
+the oldest and most fundamental MCMC algorithm.
+It is quite straightforward to implement, and works well on many problems.
 The version of the Metropolis algorithm presented here is sometimes called
-{\it random walk} Metropolis. More sophisticated choices are often possible,
+{\it random walk} Metropolis. More sophisticated choices are possible,
 but usually require problem-specific knowledge.
 
 Consider a problem with a single unknown
 parameter $x$. If the prior is some density $\pi(x)$ and the likelihood
 function is $\mathcal{L}(x)$, then the posterior distribution will be
-proportional to $\pi(x)\mathcal{L}(x)$.
+proportional to $\pi(x)\mathcal{L}(x)$. The normalising constant is unknown,
+but the Metropolis algorithm doesn't need to know it: all we need is the
+ability to evaluate $\pi$ and $\mathcal{L}$ at a given position in the parameter space.
+
+The Metropolis algorithm can be summarised as follows:
+\begin{itemize}
+\item Choose a starting position $x$, somewhere in the parameter space.
+\item Generate a proposed position $x'$ from a proposal distribution
+$q(x'|x)$.
+\item With probability
+$\alpha=\min\left(1, \frac{q(x|x')}{q(x'|x)}\frac{\pi(x')}{\pi(x)}\frac{\mathcal{L}(x')}{\mathcal{L}(x)}\right)$, accept the proposal
+(i.e. replace $x$ with $x'$). Otherwise, do nothing.
+\end{itemize}
 
 The ``random walk'' proposal generates a proposed value $x'$ from a normal
 (gaussian) distribution centered around the current position $x$. The user
