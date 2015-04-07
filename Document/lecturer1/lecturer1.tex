@@ -187,6 +187,14 @@ Figure~\ref{fig:transit_data}. The equation for the true curve was:
 \right.
 \end{eqnarray*}
 
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{../Code/transit_data.pdf}
+\caption{The ``transit'' data set. The red curve shows the model prediction
+based on the true values of the parameters.\label{fig:transit_data}}
+\end{center}
+\end{figure}
+
 Let's assume that we didn't know this, but we did know the true curve
 was a function of the following form:
 \begin{eqnarray*}
@@ -214,14 +222,6 @@ $p(D)$ is not a function of the parameters, it plays the role of a normalising
 constant that ensures the posterior distribution integrates to 1, as any
 probability distribution must.
 
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.5]{../Code/transit_data.pdf}
-\caption{The ``transit'' data set. The red curve shows the model prediction
-based on the true values of the parameters.\label{fig:transit_data}}
-\end{center}
-\end{figure}
-
 We want to know the values of the unknown parameters.
 The {\it sampling distribution} is the probability distribution would assign
 for the data, if we knew the true values of the parameters.
@@ -229,8 +229,19 @@ In many situations, it is conventional to assign a normal distribution
 (also known as a gaussian distribution) to each data point, where the mean
 of the normal distribution is the noise-free model prediction, and the
 standard deviation of the normal distribution is given by the size of the
-error bar. Later, we will see how to relax these assumptions.
+error bar. Later, we will see how to relax these assumptions in a useful way.
+The probability density for the data given the parameters (i.e. the sampling
+distribution) is:
 
+\begin{eqnarray}
+p(D | A, b, t_c, w) &=& \prod_{i=1}^N \frac{1}{\sigma_i \sqrt{2\pi}}
+\exp\left[-\frac{1}{2\sigma_i^2}\left(D_i - \mu(t_i; A, b, t_c, w)\right)^2\right]
+\end{eqnarray}
+This is a product of $N$ terms, one for each data point. We have assumed that
+each data point is {\it independent} (given the parameters). That is, if we
+knew the parameters and some of the data points, in predicting other data points
+we would be able to make use of the parameters, but not the data points we
+already knew.
 
 
 
