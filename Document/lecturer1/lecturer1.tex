@@ -167,9 +167,17 @@ p(\data | I) &=& \int p(\btheta | I)p(\data | \btheta, I) \, d^N \btheta.
 \section{Transit Example}
 To become more familiar with Bayesian calculations, we will work through a
 simple curve-fitting example. Many astronomical data analysis problems can be
-considered as examples of curve fitting.
+considered as examples of curve fitting. Consider a transiting exoplanet, like
+one observed by {\it Kepler}. The light curve of the star will show an
+approximately constant brightness as a function of time, with a small dip as
+the exoplanet moves directly in front of the star. Clearly, real Kepler data
+is much more complex than this example, as stars vary in brightness in
+complicated ways, and the shape of the transit signal itself is more complex
+than the model we'll use here. Nevertheless, this example contains all the
+features and complications that will also arise in a more realistic analysis.
 
-The true curve, shown in red in Figure~\ref{fig:transit_data}, was given by:
+The data set, along with the true curve, is shown in 
+Figure~\ref{fig:transit_data}. The equation for the true curve was:
 \begin{eqnarray*}
 \mu(t) &=& \left\{
 \begin{array}{lr}
