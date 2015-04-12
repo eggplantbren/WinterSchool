@@ -240,7 +240,7 @@ distribution) is:
 
 \begin{eqnarray}
 p(D | A, b, t_c, w) &=& \prod_{i=1}^N \frac{1}{\sigma_i \sqrt{2\pi}}
-\exp\left[-\frac{1}{2\sigma_i^2}\left(D_i - \mu(t_i)\right)^2\right]\label{eq:lgaussian}
+\exp\left[-\frac{1}{2\sigma_i^2}\left(D_i - \mu(t_i)\right)^2\right]\label{eq:gaussian}
 \end{eqnarray}
 This is a product of $N$ terms, one for each data point. We have assumed that
 each data point is {\it independent} (given the parameters). That is, if we
@@ -575,6 +575,24 @@ P(A=a | B=b, C=c) &=&
 \end{eqnarray}
 which is much harder to read and manipulate.
 
+\section{Appendix: A rough guide to popular Bayesian computation packages}
+This is far from an exhaustive list. It only includes packages which I know
+something about.
+
+MultiNest \citep{multinest} is one of the most popular implementations of
+Nested Sampling.
+
+Emcee \citep{emcee} is useful for getting quick, efficient results on low
+dimensional ($\lesssim 30$) unimodal posterior distributions.
+It is written in Python, and one of its main advantages is that the user only
+needs to write a function that evaluates the log of the posterior density.
+
+JAGS \citep{jags} ... (cite STATS331)
+
+Stan
+
+DNest
+
 
 \begin{thebibliography}{99}
 
@@ -584,6 +602,9 @@ Statistics and Computing, 21, 4, 649-656. arXiv:0912.2380
 
 \bibitem[\protect\citeauthoryear{Feroz, Hobson,
 \& Bridges}{2009}]{multinest} Feroz F., Hobson M.~P., Bridges M., 2009, MNRAS, 398, 1601
+
+\bibitem[Foreman-Mackey et al.(2012)]{emcee} Foreman-Mackey, 
+D., Hogg, D.~W., Lang, D., \& Goodman, J.\ 2012, emcee: The MCMC Hammer, arXiv:1202.3665 
 
 \bibitem[\protect\citeauthoryear{Plummer}{2003}]{jags}
 Plummer, M., 2003, JAGS: A Program for Analysis of Bayesian Graphical Models
