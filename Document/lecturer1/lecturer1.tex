@@ -240,14 +240,17 @@ distribution) is:
 
 \begin{eqnarray}
 p(D | A, b, t_c, w) &=& \prod_{i=1}^N \frac{1}{\sigma_i \sqrt{2\pi}}
-\exp\left[-\frac{1}{2\sigma_i^2}\left(D_i - \mu(t_i; A, b, t_c, w)\right)^2\right]\label{eq:lgaussian}
+\exp\left[-\frac{1}{2\sigma_i^2}\left(D_i - \mu(t_i)\right)^2\right]\label{eq:lgaussian}
 \end{eqnarray}
 This is a product of $N$ terms, one for each data point. We have assumed that
 each data point is {\it independent} (given the parameters). That is, if we
 knew the parameters and some of the data points, in predicting other data points
 we would be able to make use of the parameters, but not the data points we
 already knew. When the data is known, Equation~\ref{eq:gaussian} becomes a
-function of the parameters called the likelihood function.
+function of the parameters called the likelihood function. The curve predicted
+by the model, here written as $\mu(t_i)$ (where I have suppressed the implicit
+dependence on the parameters, for brevity), provides the mean of the gaussian
+distribution.
 
 Equation~\ref{eq:gaussian} is the sampling distribution
 (and the likelihood function) for our problem, but it
@@ -258,8 +261,12 @@ the entire equation for the probability density. To communicate
 Equation~\ref{eq:gaussian}, we can simply write
 
 \begin{eqnarray}
-D_i \sim \mathcal{N}\left(\mu(t_i; A, b, t_c, w), \sigma_i^2\right)
+D_i \sim \mathcal{N}\left(\mu(t_i), \sigma_i^2\right)
 \end{eqnarray}
+i.e. each data point has a normal distribution with mean $\mu(t_i)$ (which
+depends on the parameters) and standard deviation $\sigma$. For the normal
+distribution, it is traditional to write the {\it variance} (standard deviation
+squared) as the second argument.
 
 \section{Assigning Prior Distributions}
 There are only really two open problems in
@@ -577,6 +584,16 @@ Statistics and Computing, 21, 4, 649-656. arXiv:0912.2380
 
 \bibitem[\protect\citeauthoryear{Feroz, Hobson,
 \& Bridges}{2009}]{multinest} Feroz F., Hobson M.~P., Bridges M., 2009, MNRAS, 398, 1601
+
+\bibitem[\protect\citeauthoryear{Plummer}{2003}]{jags}
+Plummer, M., 2003, JAGS: A Program for Analysis of Bayesian Graphical Models
+Using Gibbs Sampling, Proceedings of the 3rd International Workshop on
+Distributed Statistical Computing (DSC 2003), March 20--22, Vienna, Austria.
+ISSN 1609-395X.
+
+\bibitem[\protect\citeauthoryear{Sivia \& Skilling}{2006}]{sivia} Sivia, 
+D.~ S., Skilling, J., 2006, Data Analysis: A Bayesian Tutorial, 2nd 
+Edition, Oxford University Press
 
 \bibitem[\protect\citeauthoryear{O'Hagan and Forster}{2004}]{ohagan}
 O'Hagan, A., Forster,~J., 2004, Bayesian inference. London: Arnold.
