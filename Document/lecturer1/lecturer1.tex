@@ -445,7 +445,7 @@ we don't know how many components (planets) there are.
 
 
 \section{Model Selection and Nested Sampling}
-Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling2006nested}.
+Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling}.
 Several variants of Nested Sampling exist, and most of them are somewhat
 complicated. Here, I will present a simple version of Nested Sampling which
 is sufficient to solve a wide range of problems. This approach is similar to
@@ -454,7 +454,7 @@ the one presented in the introductory textbook by \citet{sivia}.
 Many more complex and sophisticated versions of
 Nested Sampling exist, such as the popular MultiNest \citep{multinest},
 my own Diffusive Nested Sampling \citep{dnest}, and several others. These
-algorithms, while all based on the insights of \citet{skilling2006nested}, are very
+algorithms, while all based on the insights of \citet{skilling}, are very
 different in detail. See the appendix for more details.
 
 Consider two different models $M_1$ and $M_2$ which are mutually exclusive
@@ -563,8 +563,26 @@ P(A=a | B=b, C=c) &=&
 \end{eqnarray}
 which is much harder to read and manipulate.
 
-\bibliography{references}{}
-\bibliographystyle{plain}
+
+\begin{thebibliography}{99}
+
+\bibitem[\protect\citeauthoryear{Brewer, P{\'a}rtay,
+\& Cs{\'a}nyi}{2011}]{dnest} Brewer B.~J., P{\'a}rtay L.~B., Cs{\'a}nyi G., 2011,
+Statistics and Computing, 21, 4, 649-656. arXiv:0912.2380
+
+\bibitem[\protect\citeauthoryear{O'Hagan and Forster}{2004}]{ohagan}
+O'Hagan, A., Forster,~J., 2004, Bayesian inference. London: Arnold.
+
+\bibitem[\protect\citeauthoryear{Sivia \& Skilling}{2006}]{sivia} Sivia, 
+D.~ S., Skilling, J., 2006, Data Analysis: A Bayesian Tutorial, 2nd 
+Edition, Oxford University Press
+
+\bibitem[\protect\citeauthoryear{Skilling}{2006}]{skilling} Skilling, 
+J., 2006, ``Nested Sampling for General Bayesian Computation'', Bayesian 
+Analysis 4, pp. 833-860
+
+\end{thebibliography}
+
 \end{document}
 
 %Bla bla bla \citep{lecturer1:abreu10}, \citep{lecturer1:abreu100}
