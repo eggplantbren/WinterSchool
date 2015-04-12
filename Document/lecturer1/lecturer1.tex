@@ -379,7 +379,8 @@ but usually require problem-specific knowledge.
 Consider a problem with a single unknown
 parameter $x$. If the prior is some density $\pi(x)$ and the likelihood
 function is $\mathcal{L}(x)$, then the posterior distribution will be
-proportional to $\pi(x)\mathcal{L}(x)$. The normalising constant is unknown,
+proportional to $\pi(x)\mathcal{L}(x)$. The normalising constant
+$Z = \int \pi(x) \mathcal{L}(x) \, dx$ is unknown,
 but the Metropolis algorithm doesn't need to know it: all we need is the
 ability to evaluate $\pi$ and $\mathcal{L}$ at a given position in the parameter space.
 
@@ -444,7 +445,7 @@ we don't know how many components (planets) there are.
 
 
 \section{Model Selection and Nested Sampling}
-Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling}.
+Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling2006nested}.
 Several variants of Nested Sampling exist, and most of them are somewhat
 complicated. Here, I will present a simple version of Nested Sampling which
 is sufficient to solve a wide range of problems. This approach is similar to
@@ -453,7 +454,7 @@ the one presented in the introductory textbook by \citet{sivia}.
 Many more complex and sophisticated versions of
 Nested Sampling exist, such as the popular MultiNest \citep{multinest},
 my own Diffusive Nested Sampling \citep{dnest}, and several others. These
-algorithms, while all based on the insights of \citet{skilling}, are very
+algorithms, while all based on the insights of \citet{skilling2006nested}, are very
 different in detail. See the appendix for more details.
 
 Consider two different models $M_1$ and $M_2$ which are mutually exclusive
@@ -562,11 +563,9 @@ P(A=a | B=b, C=c) &=&
 \end{eqnarray}
 which is much harder to read and manipulate.
 
-
-\begin{thebibliography}{}
-
-\bibitem[\protect\citeauthoryear{Skilling}{2006}]{skilling} Skilling, J., 2006, Nested Sampling for General Bayesian Computation, Bayesian Analysis 4, pp. 833-860.
-\end{thebibliography}
+\bibliography{references}{}
+\bibliographystyle{plain}
+\end{document}
 
 %Bla bla bla \citep{lecturer1:abreu10}, \citep{lecturer1:abreu100}
 
