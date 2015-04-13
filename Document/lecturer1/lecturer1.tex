@@ -291,6 +291,21 @@ b &\sim& U(0, 10)\\
 t_c &\sim& U(t_{\rm min}, t_{\rm max})\\
 w &\sim& U(0, t_{\rm max} - t_{\rm min})
 \end{eqnarray}
+The full expression for the probability density is:
+\begin{eqnarray}
+p(A, b, t_c, w) &=&
+\left\{
+\begin{array}{lr}
+\frac{1}{2000\left(t_{\rm max} - t_{\rm min}\right)^2}, & (A, b, t_c, w) \in S\\
+0, & \textnormal{otherwise}
+\end{array}
+\right.
+\end{eqnarray}
+where $S$ is the set of allowed values. Even more simply, we can ignore the
+normalising constant and the prior boundaries and just write
+\begin{eqnarray}
+p(A, b, t_c, w) &\propto& 1.
+\end{eqnarray}
 
 
 
