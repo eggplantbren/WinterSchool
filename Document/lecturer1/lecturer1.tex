@@ -467,6 +467,30 @@ of the samples.
 There are some theoretical arguments, based on decision theory, that provide
 guidance about which point estimate is better under which circumstances.
 
+To compute a credible interval (the Bayesian version of a confidence interval),
+you find quantiles of the distribution. For example, if we want to find an
+interval that contains 95\% of the posterior probability, the lower end of the
+interval is the parameter value for which 2.5\% of the samples are lower.
+Similarly, the upper end of the interval is the value for which 2.5\% of the
+samples are higher (i.e. 97.5\% are lower). The simplest way to implement this
+calculation is by sorting the samples, as shown below.
+
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  sorted_samples = np.sort(samples)
+  # Left and right end of interval
+  left = sorted[int(0.025*len(sorted))]
+  right = sorted[int(0.975*len(sorted))]
+\end{minted}
+
+This kind of interval is sometimes called a {\it centered} credible interval,
+because the same amount of probability lies outside the interval on each side.
+In astronomy, it is more common to quote a 68\% credible interval, which is
+equivalent to ``plus or minus one posterior standard deviation'' if the
+posterior is gaussian.
 
 \section{Assigning Prior Distributions}
 There are only really two open problems in
