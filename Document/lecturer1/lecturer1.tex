@@ -449,6 +449,24 @@ summaries are point estimates (i.e. a single estimate for the value of the
 parameter, such as ``we estimate $\theta$ = 0.43'') and intervals (e.g.
 the probability that $\theta \in [0.3, 0.5]$ is 68\%).
 
+Thankfully, most of these summaries are trivial to calculate from Monte Carlo
+samples, such as those obtained from MCMC. The most popular point estimate is
+the posterior mean, which is approximated by the arithmetic mean of the samples.
+The posterior median can also be easily approximated by the arithmetic median
+of the samples.
+
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  post_mean = np.mean(samples)
+  post_median = np.median(samples)
+\end{minted}
+
+There are some theoretical arguments, based on decision theory, that provide
+guidance about which point estimate is better under which circumstances.
+
 
 \section{Assigning Prior Distributions}
 There are only really two open problems in
