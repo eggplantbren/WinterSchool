@@ -551,11 +551,25 @@ is a function of the model parameters), the term {\it marginal likelihood} or
 {\it evidence} is used. The marginal likelihood for $M_1$ is:
 \begin{eqnarray}
 p(D | M_1) &=& \int p(\btheta_1 | M_1) p(D | \btheta_1, M_1) \, d^{N_1} \btheta_1
+\label{eq:marginal_likelihood}
 \end{eqnarray}
+To do model selection, we need this as well as the marginal likelihood for
+$M_2$:
+\begin{eqnarray}
+p(D | M_2) &=& \int p(\btheta_2 | M_2) p(D | \btheta_2, M_2) \, d^{N_2} \btheta_2
+\end{eqnarray}
+Marginal likelihoods are integrals over the parameter space. They are
+expected values, but they are not expected values with respect to the posterior
+distribution, but rather the prior. Therefore, we cannot use standard MCMC
+methods (at least in any simple way) to calculate the marginal likelihood.
 
-
-
-
+A Monte Carlo approach that samples from the prior distribution will also fail
+in most cases. The likelihood function $p(D | \btheta_1, M_1)$ in
+Equation~\ref{eq:marginal_likelihood} is usually sharply peaked in a very
+small region of parameter space. The integral will be dominated by the values
+of the likelihood in the tiny region, yet a Monte Carlo approach based on
+sampling the prior will almost certainly not give any samples in the important
+region.
 
 \section{Appendix: Notation for Probability Distributions}
 There are two main types of notation that are used in probability theory. The
