@@ -2,10 +2,10 @@
 \newcommand{\data}{\boldsymbol{D}}
 \newcommand{\documentname}{chapter}
 
-\author[Lecturer1]{Brendon J. Brewer\\
+\author[Brendon J. Brewer]{Brendon J. Brewer\\
 Department of Statistics, The University of Auckland}
 
-\chapter{Bayesian Inference How-To}
+\chapter{Bayesian inference and computation: a beginner's guide}
 
 \section{Introduction}
 Most scientific observations are not sufficient to give us definite answers
@@ -435,6 +435,19 @@ $10^{-4.5} \approx 3.16 \times 10^{-5}$, and the maximum width is
 $10^{1.5} \approx 31.6$. The effective proposal distribution is now very heavy-tailed. As long as a good width is somewhere within our range, things should be
 okay.
 
+
+\subsection{Useful Plots}
+After running the Metropolis algorithm (or any other MCMC method), there are
+several useful plots 
+
+
+\subsection{Posterior Summaries}
+A probability distribution, such as the posterior,
+can potentially be arbitrarily complicated. For communication purposes, it is
+usually easier to summarise the distribution by a few numbers. The most common
+summaries are point estimates (i.e. a single estimate for the value of the
+parameter, such as ``we estimate $\theta$ = 0.43'') and intervals (e.g.
+the probability that $\theta \in [0.3, 0.5]$ is 68\%).
 
 
 \section{Assigning Prior Distributions}
