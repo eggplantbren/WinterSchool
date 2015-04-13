@@ -284,55 +284,15 @@ were to learn the value of one of the parameters, this wouldn't tell us anything
 about the others. This may or may not be realistic in a given application, but
 it is a useful starting point.
 
-\section{Assigning Prior Distributions}
-There are only really two open problems in
-Bayesian inference. The first is how to assign sensible prior distributions
-(and sampling distributions) in different circumstances, and the
-second is how to calculate the results efficiently.
-
-It is sometimes said that there are two different kinds of Bayesian inference,
-{\it subjective} and {\it objective}, with different methods for choosing
-priors. My view is that Bayesian describes a {\it hypothetical}
-state of prior knowledge, held by an idealised reasoner. When we apply
-Bayesian inference, we are studying how the idealised reasoner would update
-their state of knowledge based on the information we use in the calculation.
-
-In many cases, we can just use simple ``default'' choices for the prior and
-the sampling distribution (e.g. a uniform prior for a parameter, and a
-``gaussian noise'' assumption for the data). A lot of analyses work just fine
-with these assumptions. However, occasionally it makes sense to spend a lot of
-time and effort thinking about the prior distributions. Some Bayesian statisticians, who are not
-necessarily experts in the fields of their clients, conduct elaborate interviews
-with experts to try and create a prior that models the experts' beliefs well.
-This process is called {\it elicitation}.
-For example, consider the Intergovernmental Panel on Climate Change (IPCC),
-who periodically write immense reports summarising humanity's state of knowledge
-about global warming.
-Consider the question ``{\it How much will the global average temperature
-increase in the next 100 years?}''. This is exactly the kind of situation where
-elicitation of an expert's probabilities is very important: a lot is known,
-and a lot is at stake. In this situation, it wouldn't be very wise to rely on
-convenient ``vague'' priors!
-
-\subsection{Probability distributions have consequences}
-When you assign prior distributions, it is more easy than you might expect to
-build in an assumption that you don't really agree with. To demonstrate this,
-let's derive some consequences of the prior distributions we used in the
-transit example.
+Another useful starting point for priors is the uniform distribution.
+\begin{eqnarray}
+A &\sim& U(-100, 100)\\
+b &\sim& U(0, 10)\\
+t_c &\sim& U(t_{\rm min}, t_{\rm max})\\
+w &\sim& U(0, t_{\rm max} - t_{\rm min})
+\end{eqnarray}
 
 
-\section{What is the data?}
-It can sometimes be helpful to think carefully about exactly what your data set
-contains, and whether it is all ``data'' in the sense of Bayesian inference.
-In the transit example, we chose a sampling distribution for the data, but this
-sampling distribution was for the $y$-values of the data
-(the flux measurements). Note that we never assigned a probability distribution
-for the {\it times} of the data points, even though we might think of that as
-part of the data (it's probably in the same file as the measurements, after all).
-In fact, because we didn't assign a probability distribution for it, the
-timestamps were not data at all, but part of the prior information $I$.
-Therefore, it is completely justifiable to use the timestamps when assigning
-the prior and the sampling distribution.
 
 
 \section{Markov Chain Monte Carlo}
@@ -459,6 +419,59 @@ With this proposal, the minimum width is
 $10^{-4.5} \approx 3.16 \times 10^{-5}$, and the maximum width is
 $10^{1.5} \approx 31.6$. The effective proposal distribution is now very heavy-tailed. As long as a good width is somewhere within our range, things should be
 okay.
+
+
+
+\section{Assigning Prior Distributions}
+There are only really two open problems in
+Bayesian inference. The first is how to assign sensible prior distributions
+(and sampling distributions) in different circumstances, and the
+second is how to calculate the results efficiently.
+
+It is sometimes said that there are two different kinds of Bayesian inference,
+{\it subjective} and {\it objective}, with different methods for choosing
+priors. My view is that Bayesian describes a {\it hypothetical}
+state of prior knowledge, held by an idealised reasoner. When we apply
+Bayesian inference, we are studying how the idealised reasoner would update
+their state of knowledge based on the information we use in the calculation.
+
+In many cases, we can just use simple ``default'' choices for the prior and
+the sampling distribution (e.g. a uniform prior for a parameter, and a
+``gaussian noise'' assumption for the data). A lot of analyses work just fine
+with these assumptions. However, occasionally it makes sense to spend a lot of
+time and effort thinking about the prior distributions. Some Bayesian statisticians, who are not
+necessarily experts in the fields of their clients, conduct elaborate interviews
+with experts to try and create a prior that models the experts' beliefs well.
+This process is called {\it elicitation}.
+For example, consider the Intergovernmental Panel on Climate Change (IPCC),
+who periodically write immense reports summarising humanity's state of knowledge
+about global warming.
+Consider the question ``{\it How much will the global average temperature
+increase in the next 100 years?}''. This is exactly the kind of situation where
+elicitation of an expert's probabilities is very important: a lot is known,
+and a lot is at stake. In this situation, it wouldn't be very wise to rely on
+convenient ``vague'' priors!
+
+\subsection{Probability distributions have consequences}
+When you assign prior distributions, it is more easy than you might expect to
+build in an assumption that you don't really agree with. To demonstrate this,
+let's derive some consequences of the prior distributions we used in the
+transit example.
+
+
+\section{What is the data?}
+It can sometimes be helpful to think carefully about exactly what your data set
+contains, and whether it is all ``data'' in the sense of Bayesian inference.
+In the transit example, we chose a sampling distribution for the data, but this
+sampling distribution was for the $y$-values of the data
+(the flux measurements). Note that we never assigned a probability distribution
+for the {\it times} of the data points, even though we might think of that as
+part of the data (it's probably in the same file as the measurements, after all).
+In fact, because we didn't assign a probability distribution for it, the
+timestamps were not data at all, but part of the prior information $I$.
+Therefore, it is completely justifiable to use the timestamps when assigning
+the prior and the sampling distribution.
+
 
 
 
