@@ -227,7 +227,7 @@ $p(D)$ is not a function of the parameters, it plays the role of a normalising
 constant that ensures the posterior distribution integrates to 1, as any
 probability distribution must.
 
-We want to know the values of the unknown parameters.
+\subsection{Sampling Distribution}
 The {\it sampling distribution} is the probability distribution would assign
 for the data, if we knew the true values of the parameters.
 In many situations, it is conventional to assign a normal distribution
@@ -250,7 +250,9 @@ already knew. When the data is known, Equation~\ref{eq:gaussian} becomes a
 function of the parameters called the likelihood function. The curve predicted
 by the model, here written as $\mu(t_i)$ (where I have suppressed the implicit
 dependence on the parameters, for brevity), provides the mean of the gaussian
-distribution.
+distribution. It is important to remember that the independence assumption we
+used here is not an assumption about the actual data set, but an assumption
+about our prior information about the data set.
 
 Equation~\ref{eq:gaussian} is the sampling distribution
 (and the likelihood function) for our problem, but it
@@ -267,6 +269,20 @@ i.e. each data point has a normal distribution with mean $\mu(t_i)$ (which
 depends on the parameters) and standard deviation $\sigma$. For the normal
 distribution, it is traditional to write the {\it variance} (standard deviation
 squared) as the second argument.
+
+\subsection{Priors}
+Now we need a prior for the unknown parameters $A, b, t_c$, and $w$. This is
+a prior over a four dimensional parameter space. To simplify things, we can
+assign independent priors for each parameter, and multiply these together
+to produce the joint prior:
+\begin{eqnarray}
+p(A, b, t_c, w) &=& p(A)p(b)p(t_c)p(w).
+\end{eqnarray}
+This prior distribution models our uncertainty about the parameters before
+taking into account the data. The independence assumption implies that if we
+were to learn the value of one of the parameters, this wouldn't tell us anything
+about the others. This may or may not be realistic in a given application, but
+it is a useful starting point.
 
 \section{Assigning Prior Distributions}
 There are only really two open problems in
