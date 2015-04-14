@@ -438,7 +438,17 @@ okay.
 
 \subsection{Useful Plots}
 After running the Metropolis algorithm (or any other MCMC method), there are
-several useful plots 
+several useful plots that you should make.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{../Code/trace_plot.pdf}
+\caption{A ``trace plot''. At the beginning, because of the initial conditions
+of the algorithm, the results start in a region of parameter space that has
+very low probability. This initial phase is often called the ``burn-in'', and
+should be excluded from any subsequent calculations.\label{fig:trace_plot}}
+\end{center}
+\end{figure}
 
 
 \subsection{Posterior Summaries}
