@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 rng.seed(0)
 
 # Import the model
-from asteroseismology_model import from_prior, log_prior, log_likelihood, proposal,\
+from transit_model import from_prior, log_prior, log_likelihood, proposal,\
                               num_params
 
 # Generate a starting point from the prior
