@@ -417,7 +417,10 @@ will be accepted, but won't move very far. If the width is too large, most
 moves will be rejected, so you'll end up stuck in one place. Some authors
 recommend using preliminary runs to find an optimal width. Instead, I recommend
 that you use a mixture of widths. Basically, every time we make a proposal,
-the width is drawn from some range, rather than being constant.
+the width is drawn from some range, rather than being constant. The biggest
+possible width we would ever want should be roughly the order of magnitude of
+the width of the prior (since the posterior is usually narrower than the
+prior).
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
@@ -598,9 +601,19 @@ M \sim U(10^{5}, 10^{15})
 \end{eqnarray}
 However, this has an unfortunate feature: it implies that the prior probability
 of $M$ being greater than $10^{14}$ is 0.9, and the probability of $M$ being
-greater than $10^{12}$ is 0.999, which seems overly confident. In astronomy,
+greater than $10^{12}$ is 0.999, which seems overly confident, when we were
+trying to describe ignorance! In astronomy,
 we are often in the situation of having to ``put our error bars in the
-exponent''.
+exponent''. A prior that has this property is the ``log-uniform'' distribution
+(named by analogy with the lognormal distribution, and sometimes incorrectly
+called a Jeffreys prior), which assigns a uniform distribution to the logarithm
+of the parameter. If we replace the uniform prior by
+\begin{eqnarray}
+\log(M) \sim U(\log(10^{5}), \log(10^{15}))
+\end{eqnarray}
+then the prior probabilities are more moderate: $P(M > 10^{14}) = 0.1$,
+$P(M > 10^{12}) = 0.3$, and so on.
+
 
 
 \section{What is the data?}
