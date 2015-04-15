@@ -506,20 +506,22 @@ posterior is gaussian.
 There are only really two open problems in
 Bayesian inference. The first is how to assign sensible prior distributions
 (and sampling distributions) in different circumstances, and the
-second is how to calculate the results efficiently.
-
-It is sometimes said that there are two different kinds of Bayesian inference,
+second is how to calculate the results efficiently. With regard to the first
+problem ,it is sometimes said that there are two different kinds of Bayesian inference,
 {\it subjective} and {\it objective}, with different methods for choosing
 priors. My view is that Bayesian describes a {\it hypothetical}
 state of prior knowledge, held by an idealised reasoner. When we apply
 Bayesian inference, we are studying how the idealised reasoner would update
-their state of knowledge based on the information we use in the calculation.
+their state of knowledge based on the information we explicitly put into the
+calculation.
 
 In many cases, we can just use simple ``default'' choices for the prior and
 the sampling distribution (e.g. a uniform prior for a parameter, and a
 ``gaussian noise'' assumption for the data). A lot of analyses work just fine
-with these assumptions. However, occasionally it makes sense to spend a lot of
-time and effort thinking about the prior distributions. Some Bayesian statisticians, who are not
+with these assumptions, and taking more care wouldn't change the results in
+any important way. However, occasionally it makes sense to spend a lot of
+time and effort thinking about the prior distributions.
+So-called subjective Bayesians, who are not
 necessarily experts in the fields of their clients, conduct elaborate interviews
 with experts to try and create a prior that models the experts' beliefs well.
 This process is called {\it elicitation}.
@@ -531,6 +533,12 @@ increase in the next 100 years?}''. This is exactly the kind of situation where
 elicitation of an expert's probabilities is very important: a lot is known,
 and a lot is at stake. In this situation, it wouldn't be very wise to rely on
 convenient ``vague'' priors!
+
+On the other hand, so-called ``objective'' Bayesians search for principles
+based on symmetry or other arguments, which can help choose a prior that is
+an appropriate choice to describe a large amount of ignorance. Some examples
+include the principle of indifference, the Jeffreys prior, reference priors,
+default priors, and transformation groups.
 
 \subsection{Probability distributions have consequences}
 When you assign prior distributions, it is more easy than you might expect to
@@ -631,7 +639,7 @@ methods (at least in any simple way) to calculate the marginal likelihood.
 A Monte Carlo approach that samples from the prior distribution will also fail
 in most cases. The likelihood function $p(D | \btheta_1, M_1)$ in
 Equation~\ref{eq:marginal_likelihood} is usually sharply peaked in a very
-small region of parameter space. The integral will be dominated by the values
+small region of parameter space. The integral will be dominated by the high values
 of the likelihood in the tiny region, yet a Monte Carlo approach based on
 sampling the prior will almost certainly not give any samples in the important
 region.
