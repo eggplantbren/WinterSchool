@@ -435,6 +435,18 @@ $10^{-4.5} \approx 3.16 \times 10^{-5}$, and the maximum width is
 $10^{1.5} \approx 31.6$. The effective proposal distribution is now very heavy-tailed. As long as a good width is somewhere within our range, things should be
 okay.
 
+When there are multiple parameters (almost always, since MCMC isn't necessary
+on single parameter problems!), we need to decide how to construct the proposal.
+There are two main ways to do this. The first is that the proposal is to
+change all of the parameters simultaneously. This tends to be inefficient in
+high dimensions, because the only proposals that are likely to be accepted
+are those that change the parameter values only slightly: in a high dimensional
+space, there are many bad directions to travel, and not very many good ones.
+Usually, it's better to propose to change a subset of the parameters, or even
+just a single parameter.
+
+
+
 
 \subsection{Useful Plots}
 After running the Metropolis algorithm (or any other MCMC method), there are
