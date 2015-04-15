@@ -411,7 +411,7 @@ snippet showing a proposal with width {\tt L}:
   proposal = x + L*rng.randn()
 \end{minted}
 
-The performance of the Metropolis algorithm seems to depend quite strongly on
+The performance of the Metropolis algorithm depends quite strongly on
 the width of the proposal distribution. If the width is too small, most moves
 will be accepted, but won't move very far. If the width is too large, most
 moves will be rejected, so you'll end up stuck in one place. Some authors
@@ -443,9 +443,30 @@ high dimensions, because the only proposals that are likely to be accepted
 are those that change the parameter values only slightly: in a high dimensional
 space, there are many bad directions to travel, and not very many good ones.
 Usually, it's better to propose to change a subset of the parameters, or even
-just a single parameter.
+just a single parameter. In Python, a function that takes a numpy vector of
+parameters and input and returns a proposed value for the parameters is
+specified below.
 
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+def proposal(params):
+  """
+  Generate new values for the parameters, for the Metropolis algorithm.
+  """
+  # Copy the parameters
+  new = copy.deepcopy(params)
 
+  # Which one should we change?
+  which = rng.randint(num_params)
+  new[which] += jump_sizes[which]*10.**(1.5 - 6.*rng.rand())*rng.randn()
+  return new
+\end{minted}
+This function relies on {\tt num\_params} being the number of parameters,
+and a vector {\tt jump\_sizes}, of length {\tt num\_params}, which specifies
+the prior width for each parameter.
 
 
 \subsection{Useful Plots}
@@ -577,7 +598,9 @@ M \sim U(10^{5}, 10^{15})
 \end{eqnarray}
 However, this has an unfortunate feature: it implies that the prior probability
 of $M$ being greater than $10^{14}$ is 0.9, and the probability of $M$ being
-greater than $10^{12}$ is 0.999, which seems overly confident. 
+greater than $10^{12}$ is 0.999, which seems overly confident. In astronomy,
+we are often in the situation of having to ``put our error bars in the
+exponent''.
 
 
 \section{What is the data?}
