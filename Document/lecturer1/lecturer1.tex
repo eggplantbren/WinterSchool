@@ -556,9 +556,16 @@ default priors, and transformation groups.
 
 \subsection{Probability distributions have consequences}
 When you assign prior distributions, it is more easy than you might expect to
-build in an assumption that you don't really agree with. To demonstrate this,
-let's derive some consequences of the prior distributions we used in the
-transit example.
+build in an assumption that you don't really agree with. This is especially
+true in high dimensional problems. Imagine that you wanted to infer the mass
+$M$ of a galaxy. A suitable ``ignorance'' prior might be the uniform distribution
+between $10^{5}$ and $10^{15}$ solar masses:
+\begin{eqnarray}
+M \sim U(10^{5}, 10^{15})
+\end{eqnarray}
+However, this has an unfortunate feature: it implies that the prior probability
+of $M$ being greater than $10^{14}$ is 0.9, and the probability of $M$ being
+greater than $10^{12}$ is 0.999, which seems overly confident. 
 
 
 \section{What is the data?}
