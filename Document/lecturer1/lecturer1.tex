@@ -612,7 +612,16 @@ of the parameter. If we replace the uniform prior by
 \log(M) \sim U(\log(10^{5}), \log(10^{15}))
 \end{eqnarray}
 then the prior probabilities are more moderate: $P(M > 10^{14}) = 0.1$,
-$P(M > 10^{12}) = 0.3$, and so on.
+$P(M > 10^{12}) = 0.3$, and so on. The loguniform prior is appropriate for
+positive parameters whose uncertainty spans multiple orders of magnitude.
+The probability density, in terms of $M$, is proportional to $1/M$.
+
+There are two obvious ways to implement the log-uniform prior in the Metropolis
+algorithm. One is to keep $M$ as a parameter, and take the non-uniform prior
+into account in the acceptance probability. The other is to treat
+$\ell = \log(M)$ as the parameter, in which case the prior is still uniform.
+You'll just need to compute $M$ from $\ell$ before you can use it in the
+likelihood function.
 
 
 
