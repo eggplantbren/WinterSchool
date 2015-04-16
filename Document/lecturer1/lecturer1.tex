@@ -474,7 +474,10 @@ the prior width for each parameter.
 
 \subsection{Useful Plots}
 After running the Metropolis algorithm (or any other MCMC method), there are
-several useful plots that you should make.
+several useful plots that you should make. The first is known as a
+``trace plot'' (Figure~\ref{fig:trace_plot}),
+and is just a plot of one parameter over time as the algorithm run. Trace plots
+are the single most useful diagnostic of whether your algorithm is working well.
 
 \begin{figure}
 \begin{center}
@@ -485,6 +488,10 @@ very low probability. This initial phase is often called the ``burn-in'', and
 should be excluded from any subsequent calculations.\label{fig:trace_plot}}
 \end{center}
 \end{figure}
+
+As an exercise, try running the Metropolis algorithm on the transit problem
+with a proposal that is far too small. Look at the resulting trace plot and
+compare it to the healthy one in Figure~\ref{fig:trace_plot}.
 
 \begin{figure}
 \begin{center}
