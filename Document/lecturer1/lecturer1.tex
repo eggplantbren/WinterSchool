@@ -648,7 +648,11 @@ part of the data (it's probably in the same file as the measurements, after all)
 In fact, because we didn't assign a probability distribution for it, the
 timestamps were not data at all, but part of the prior information $I$.
 Therefore, it is completely justifiable to use the timestamps when assigning
-the prior and the sampling distribution.
+the prior and the sampling distribution. It is not ``cheating'', even slightly,
+to use the time information as we did to set the priors.
+
+However, if we had used the $y$-values in the dataset to help choose the prior
+(perhaps for $A$), this could be potentially problematic.
 
 
 
