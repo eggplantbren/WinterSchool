@@ -24,8 +24,12 @@ information we are going to use, and then compute the results.
 In the last two decades, Bayesian inference has become immensely popular in
 many fields of science, and astrophysics is no exception. Accessible textbooks
 for those with a physics background are those by \citet{gregory} and
-\citet{sivia}, and parts of the textbook by \citep{mackay}. The online tutorial
-by Jake Vanderplas is also useful (). For those with a statistics background,
+\citet{sivia}, and parts of the textbook by \citet{mackay}\footnote{Freely
+available online at\\
+{\tt http://www.inference.phy.cam.ac.uk/itila/}}.
+The online tutorial
+by Jake Vanderplas is also useful\footnote{Available online at\\
+{\tt http://jakevdp.github.io/blog/2014/03/11/frequentism-and-bayesianism-a-practical-intro/}}. For those with a statistics background,
 I recommend the books by \citet{ohagan} and \citep{gelman}.
 
 Any particular application of Bayesian inference involves making choices
@@ -798,7 +802,9 @@ something about.
 
 {\bf MultiNest} \citep{multinest} is one of the most popular implementations of
 Nested Sampling. It does not use MCMC, like the version presented in this
-chapter.
+chapter. It is designed to handle potentially multimodal posterior
+distributions in low to moderate dimensions. It is particularly useful in
+situations where the likelihood function is expensive to evaluate.
 
 {\bf Emcee} \citep{emcee} is useful for getting quick, efficient results on low
 dimensional ($\lesssim 30$) unimodal posterior distributions.
@@ -829,6 +835,10 @@ Statistics and Computing, 21, 4, 649-656. arXiv:0912.2380
 
 \bibitem[Foreman-Mackey et al.(2012)]{emcee} Foreman-Mackey, 
 D., Hogg, D.~W., Lang, D., \& Goodman, J.\ 2012, emcee: The MCMC Hammer, arXiv:1202.3665 
+
+\bibitem[\protect\citeauthoryear{Mackay}{2003}]{mackay} Mackay,
+D. J. C.\ 2003, Information theory, Inference, and Learning
+Algorithms, Cambridge University Press
 
 \bibitem[\protect\citeauthoryear{Plummer}{2003}]{jags}
 Plummer, M., 2003, JAGS: A Program for Analysis of Bayesian Graphical Models
