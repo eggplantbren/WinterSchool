@@ -747,13 +747,14 @@ region.
 
 \section{Appendix: Notation for Probability Distributions}
 There are two main types of notation that are used in probability theory. The
-first type is mathematically correct and conceptually
+first type is mathematically more correct and conceptually
 clear, yet results in equations that are very large, complicated,
 and difficult to read.
 The second type is a very compact notation which makes equations a lot
 shorter and easier to read, but could be misinterpreted if you are not used to
-it. I prefer the compact notation, but to prevent any misunderstandings
-I'll describe both below.
+it. I prefer the compact notation, and it is more popular in the Bayesian
+literature. To prevent any misunderstandings I'll describe both types of
+notation here.
 
 Suppose we're about to flip a coin $N$ times, and are interested in the
 quantity $X$, the number of times the result is heads. According
@@ -763,9 +764,9 @@ a binomial distribution:
 
 \begin{eqnarray}
 P(X = x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
-\left(\frac{1}{2}\right)^x\left(\frac{1}{2}\right)^{10 - x}\\
+\left(\frac{1}{2}\right)^x\left(\frac{1}{2}\right)^{10 - x}\nonumber\\
 &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
-\left(\frac{1}{2}\right)^{10}
+\left(\frac{1}{2}\right)^{10}\label{eq:binomial1}
 \end{eqnarray}
 The equation gives us all the probabilities we want, i.e. $P(X=0)$, $P(X=1)$,
 and so on. The lower case $x$ is a dummy variable: like the index in a sum, it
@@ -773,11 +774,12 @@ can be replaced by any other symbol and the equation still holds. For example,
 replacing $x$ with $a$ gives:
 \begin{eqnarray}
 P(X = a) &=& \left(\begin{array}{cc}10\\ a\end{array}\right)
-\left(\frac{1}{2}\right)^{10}.
+\left(\frac{1}{2}\right)^{10}\label{eq:binomial2}
 \end{eqnarray}
+which has exactly the same meaning as Equation~\ref{eq:binomial1}.
 
-The compact notation ignores all of this and simply writes $p(x)$ instead of
-$P(X=x)$:
+The compact notation is an alternative to the left hand sides of
+Equations~\ref{eq:binomial1} and~\ref{eq:binomial2}.
 \begin{eqnarray}
 p(x) &=& \left(\begin{array}{cc}10\\ x\end{array}\right)
 \left(\frac{1}{2}\right)^{10}
