@@ -665,12 +665,17 @@ not just about the values of the model parameters, but also how many model
 parameter exist in the first place. One example is
 the radial velocity technique for detecting extra-solar planets
 \citep{gregory}, where the goal is to fit a signal to a sparse data set, where
-we don't know how many components (planets) there are.
+we don't know how many components (planets) there are. Other examples are
+searching for emission lines in a noisy spectrum, and searching for faint
+sources in a noisy image.
 
 
 
 \section{Model Selection and Nested Sampling}
-Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling}.
+Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling}. It
+is not technically an MCMC algorithm, although MCMC can be used as part of the
+implementation. It has some advantages over other Monte Carlo methods, but it
+also brings with it its own challenges.
 Several variants of Nested Sampling exist, and most of them are somewhat
 complicated. Here, I will present a simple version of Nested Sampling which
 is sufficient to solve a wide range of problems. This approach is similar to
