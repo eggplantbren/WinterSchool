@@ -840,8 +840,14 @@ is based on the No U-Turn Sampler (NUTS), a variant of the Hamiltonian MCMC
 method \citep{hamiltonian}. This is a very efficient sampler in problems with
 a continuous parameter space and hierarchically defined priors.
 
-DNest
-
+{\bf DNest} \citep{dnest}: This is another version of Nested Sampling, but it
+is quite different from MultiNest. It uses MCMC, but rather than embedding
+MCMC in the standard Nested Sampling framework as we did in this chapter, it
+uses MCMC to explore a target distribution which is inspired by Nested Sampling.
+DNest is most useful on problems with large numbers of parameters and/or a
+complicated posterior distribution, but where the
+likelihood function can be evaluated quite quickly. The main downside is that
+you need to write a fair bit of C++ code in order to implement a new model.
 
 \begin{thebibliography}{99}
 
