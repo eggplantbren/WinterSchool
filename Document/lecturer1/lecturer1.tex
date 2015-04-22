@@ -676,7 +676,8 @@ sources in a noisy image.
 \section{Model Selection and Nested Sampling}
 Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling}. It
 is not technically an MCMC algorithm, although MCMC can be used as part of the
-implementation. It has some advantages over other Monte Carlo methods, but it
+implementation. It has some advantages over related Monte Carlo methods
+such as parallel tempering \citep{pt, gregory, tempering}
 also brings with it its own challenges.
 Several variants of Nested Sampling exist, and most of them are somewhat
 complicated. Here, I will present a simple version of Nested Sampling which
@@ -820,7 +821,7 @@ package is not listed here.
 {\bf MultiNest} \citep{multinest} is one of the most popular implementations of
 Nested Sampling. It does not use MCMC, like the version presented in this
 chapter. It is designed to handle potentially multimodal posterior
-distributions in moderate dimensions. It is particularly useful in
+distributions in low ($\lesssim 30$) dimensions. It is particularly useful in
 situations where the likelihood function is expensive to evaluate.
 
 {\bf Emcee} \citep{emcee} is useful for getting quick, efficient results on low
@@ -851,8 +852,7 @@ complicated posterior distribution, but where the
 likelihood function can be evaluated quite quickly. The main downside is that
 you need to write a fair bit of C++ code in order to implement a new model.
 
-\begin{thebibliography}{99}
-
+\begin{thebibliography}{999}
 \bibitem[\protect\citeauthoryear{Brewer, P{\'a}rtay,
 \& Cs{\'a}nyi}{2011}]{dnest} Brewer B.~J., P{\'a}rtay L.~B., Cs{\'a}nyi G., 2011,
 Statistics and Computing, 21, 4, 649-656. arXiv:0912.2380
@@ -860,17 +860,21 @@ Statistics and Computing, 21, 4, 649-656. arXiv:0912.2380
 \bibitem[\protect\citeauthoryear{Feroz, Hobson,
 \& Bridges}{2009}]{multinest} Feroz F., Hobson M.~P., Bridges M., 2009, MNRAS, 398, 1601
 
-\bibitem[Foreman-Mackey et al.(2012)]{emcee} Foreman-Mackey, 
+\bibitem[\protect\citeauthoryear{Foreman-Mackey et al.}{2012}]{emcee} Foreman-Mackey, 
 D., Hogg, D.~W., Lang, D., \& Goodman, J.\ 2012, emcee: The MCMC Hammer, arXiv:1202.3665 
 
 \bibitem[\protect\citeauthoryear{Homan and Gelman}{2014}]{nuts}
-Homan, Matthew D., and Andrew Gelman, 2014, ``The no-U-turn sampler: Adaptively setting path lengths in Hamiltonian Monte Carlo.''\\ The Journal of Machine Learning Research 15, no. 1 (2014): 1593-1623.
+Homan, Matthew D., and Andrew Gelman, 2014, ``The no-U-turn sampler: Adaptively setting path lengths in Hamiltonian Monte Carlo.'' The Journal of Machine Learning Research 15, no. 1 (2014): 1593-1623.
 
 \bibitem[\protect\citeauthoryear{Gelman}{2013}]{gelman}
 Gelman, Andrew, John B. Carlin, Hal S. Stern, and Donald B. Rubin. Bayesian data analysis, third edition. Chapman \& Hall/CRC, 2013.
 
 \bibitem[\protect\citeauthoryear{Gregory}{2005}]{gregory}
 Gregory, Phil. Bayesian Logical Data Analysis for the Physical Sciences: A Comparative Approach with Mathematica® Support. Cambridge University Press, 2005.
+
+\bibitem[\protect\citeauthoryear{Hansmann}{1997}]{pt} Hansmann, Ulrich HE.,
+1997, Parallel tempering algorithm for conformational studies of biological
+molecules., Chemical Physics Letters 281, no. 1 (1997): 140-150.
 
 \bibitem[\protect\citeauthoryear{Mackay}{2003}]{mackay} Mackay,
 D. J. C.\ 2003, Information theory, Inference, and Learning
@@ -883,28 +887,31 @@ Handbook of Markov Chain Monte Carlo 2.
 \bibitem[\protect\citeauthoryear{Plummer}{2003}]{jags}
 Plummer, M., 2003, JAGS: A Program for Analysis of Bayesian Graphical Models
 Using Gibbs Sampling, Proceedings of the 3rd International Workshop on
-Distributed Statistical Computing (DSC 2003), March 20--22, Vienna, Austria.
+Distributed Statistical Computing (DSC 2003), March 20-22, Vienna, Austria.
 ISSN 1609-395X.
 
 \bibitem[\protect\citeauthoryear{O'Hagan and Forster}{2004}]{ohagan}
 O'Hagan, A., Forster,~J., 2004, Bayesian inference. London: Arnold.
 
-\bibitem[\protect\citeauthoryear{Sivia \& Skilling}{2006}]{sivia} Sivia, 
+\bibitem[\protect\citeauthoryear{Sivia and Skilling}{2006}]{sivia} Sivia, 
 D.~ S., Skilling, J., 2006, Data Analysis: A Bayesian Tutorial, 2nd 
 Edition, Oxford University Press
 
-\bibitem[\protect\citeauthoryear{Skilling}{2006}]{skilling} Skilling, 
+\bibitem[\protect\citeauthoryear{Skilling}{2006}]{fred} Skilling, 
 J., 2006, ``Nested Sampling for General Bayesian Computation'', Bayesian 
-Analysis 4, pp. 833-860
+Analysis 4, pp. 833-860.
 
-\bibitem[\protect\citeauthoryear{Stan Development Team}{2014}]{stan}
-Stan Development Team, 2014,
+\bibitem[\protect\citeauthoryear{Stan Development Team}{2014}]{stan} Stan Development Team, 2014,
 Stan: A C++ Library for Probability and Sampling, Version 2.5.0
 {\tt http://mc-stan.org/}
 
+\bibitem[\protect\citeauthoryear{Vousden et al.}{2015}]{tempering} Vousden, W., Farr, 
+W.~M., Mandel, I. 2015. Dynamic temperature selection for 
+parallel-tempering in Markov chain Monte Carlo simulations. ArXiv e-prints 
+arXiv:1501.05823. 
+
 \end{thebibliography}
 
-\end{document}
 
 %Bla bla bla \citep{lecturer1:abreu10}, \citep{lecturer1:abreu100}
 
