@@ -510,6 +510,19 @@ several useful plots that you should make. The first is known as a
 ``trace plot'' (Figure~\ref{fig:trace_plot}),
 and is just a plot of one parameter over time as the algorithm run. Trace plots
 are the single most useful diagnostic of whether your algorithm is working well.
+In the attached code, the MCMC results are stored in a two dimensional
+{\tt numpy} array called {\tt keep}, each row of which is the parameter vector
+at a particular iteration. It is trivial to make a trace plot from this output:
+
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  # Trace plot of parameter zero
+  plt.plot(keep[:,0])
+\end{minted}
+The result is shown in Figure~\ref{fig:trace_plot}.
 
 \begin{figure}
 \begin{center}
