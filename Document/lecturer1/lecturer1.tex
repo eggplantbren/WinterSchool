@@ -476,7 +476,7 @@ high dimensions, because the only proposals that are likely to be accepted
 are those that change the parameter values only slightly: in a high dimensional
 space, there are many bad directions to travel, and not very many good ones.
 Usually, it's better to propose to change a subset of the parameters, or even
-just a single parameter. In Python, a function that takes a numpy vector of
+just a single parameter. A python function that takes a {\tt numpy} array of
 parameters and input and returns a proposed value for the parameters is
 specified below.
 
@@ -485,20 +485,22 @@ specified below.
                gobble=2,
                frame=lines,
                framesep=2mm]{python}
-def proposal(params):
-  """
-  Generate new values for the parameters, for the Metropolis algorithm.
-  """
-  # Copy the parameters
-  new = copy.deepcopy(params)
+  def proposal(params):
+    """
+    Generate new values for the parameters.
+    The proposal for the Metropolis algorithm.
+    """
+    # Copy the parameters
+    new = copy.deepcopy(params)
 
-  # Which one should we change?
-  which = rng.randint(num_params)
-  new[which] += jump_sizes[which]*10.**(1.5 - 6.*rng.rand())*rng.randn()
-  return new
+    # Which one should we change?
+    which = rng.randint(num_params)
+    new[which] += jump_sizes[which] \
+                    *10.**(1.5 - 6.*rng.rand())*rng.randn()
+    return new
 \end{minted}
 This function relies on {\tt num\_params} being the number of parameters,
-and a vector {\tt jump\_sizes}, of length {\tt num\_params}, which specifies
+and an array {\tt jump\_sizes}, of length {\tt num\_params}, which specifies
 the prior width for each parameter.
 
 
