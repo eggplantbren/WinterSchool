@@ -272,7 +272,7 @@ each data point is {\it independent} (given the parameters). That is, if we
 knew the parameters and some of the data points, in predicting other data points
 we would be able to make use of the parameters, but not the data points we
 already knew. When the data is known, Equation~\ref{eq:gaussian} becomes a
-function of the parameters called the likelihood function. The curve predicted
+function of the parameters only: the likelihood function. The curve predicted
 by the model, here written as $\mu(t_i)$ (where I have suppressed the implicit
 dependence on the parameters, for brevity), provides the mean of the gaussian
 distribution. It is important to remember that the independence assumption we
@@ -290,10 +290,15 @@ Equation~\ref{eq:gaussian}, we can simply write
 \begin{eqnarray}
 D_i \sim \mathcal{N}\left(\mu(t_i), \sigma_i^2\right)
 \end{eqnarray}
-i.e. each data point has a normal distribution with mean $\mu(t_i)$ (which
+i.e. each data point has a normal distribution (denoted by $\mathcal{N}$)
+with mean $\mu(t_i)$ (which
 depends on the parameters) and standard deviation $\sigma$. For the normal
 distribution, it is traditional to write the {\it variance} (standard deviation
-squared) as the second argument.
+squared) as the second argument, but since the standard deviation is a more
+intuitive quantity (being in the same units as the mean), we often literally
+write the standard deviation, squared (e.g. $3^2$). For other probability
+distributions the arguments in the parenthesis are whatever parameters make
+sense for that family of distributions.
 
 \subsection{Priors}
 Now we need a prior for the unknown parameters $A, b, t_c$, and $w$. This is
