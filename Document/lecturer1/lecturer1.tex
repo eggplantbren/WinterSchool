@@ -31,6 +31,8 @@ The online tutorial
 by Jake Vanderplas is also useful\footnote{Available online at\\
 {\tt http://jakevdp.github.io/blog/2014/03/11/frequentism-and-bayesianism-a-practical-intro/}}. For those with a statistics background,
 I recommend the books by \citet{ohagan} and \citep{gelman}.
+The aim of this chapter is to present a fairly minimal yet widely applicable set of techniques to
+allow you to start using Bayesian inference in your own research.
 
 Any particular application of Bayesian inference involves making choices
 about what data you are analysing, what questions you are
@@ -81,22 +83,23 @@ the most efficient methods possible. If you're mostly interested in one
 specific application, you'll probably be able to achieve better performance
 by using a more sophisticated algorithm, or by taking advantage of the particular
 properties of your problem.
-
 There are many popular software packages (and many more unpopular ones)
 available for doing Bayesian Inference, such as JAGS (Just Another Gibbs Sampler),
 Stan, emcee, MultiNest, my own DNest3, and many more.
 I won't be teaching you how to use any of these programs.
 If you or your collaborators already use one of them, that's a great reason to
-learn it! Please see the appendix for a discussion of the advantages and
-disadvantages of these packages.
+learn it. Please see the appendix for a brief discussion of the advantages and
+disadvantages of some of these packages.
 
 %JAGS is extremely convenient to use
 
 \section{Python}
 Due to its popularity and relatively shallow learning curve,
-I will be using Python to implement the algorithms. The code I use will be
-written so that it works in either Python 2 or 3. I will also assume that
-each program has imported the following libraries:
+I have implemented the algorithms in this chapter in the Python language.
+The code is written so that it works in either Python 2 or 3.
+The programs make use of the common numerical library {\tt numpy}, and also
+the plotting package {\tt matplotlib}. Any Python code snippets in this chapter
+will assume that the packages have been imported like so:
 
 \begin{minted}[mathescape,
                numbersep=5pt,
