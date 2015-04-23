@@ -161,18 +161,31 @@ data. The result is a probability distribution for $\btheta$ which describes
 our state of knowledge about $\btheta$ after taking into account the data.
 
 The denominator, since it doesn't depend on $\btheta$, is a normalizing
-constant. Since the posterior must integrate to one (or sum to one, if the
-hypothesis space is discrete), we can write the denominator as:
+constant, usually called the {\it marginal likelihood} or alternatively the
+{\it evidence}. Since the posterior is a probability distribution, its
+total integral (or sum, if the
+hypothesis space is discrete) must equal 1. Therefore we can write the
+marginal likelihood as:
 
 \begin{eqnarray}
 p(\data | I) &=& \int p(\btheta | I)p(\data | \btheta, I) \, d^N \btheta.
 \end{eqnarray}
 
+The posterior distribution is usually narrower than the prior distribution,
+indicating that we have learnt something from the data, and our uncertainty
+about the value of the parameters has decreased. See
+Figure~\ref{fig:bayes} for an example of the qualitative behaviour we usually
+see when updating from a prior distribution to a posterior distribution.
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{bayes.pdf}
-\caption{An example posterior distribution for a single parameter.
+\caption{An example prior distribution for a single parameter (blue)
+gets updated to the posterior distribution (red) by the data. The data
+enters through the likelihood function (cyan dotted line). Many traditional
+``best fit'' methods are based on finding the {\it maximum likelihood}
+estimate, which is the peak of the likelihood function, here denoted by a
+star.
 \label{fig:bayes}}
 \end{center}
 \end{figure}
