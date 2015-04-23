@@ -193,13 +193,15 @@ star.
 \section{Transit Example}
 To become more familiar with Bayesian calculations, we will work through a
 simple curve-fitting example. Many astronomical data analysis problems can be
-considered as examples of curve fitting. Consider a transiting exoplanet, like
+considered as examples of curve fitting.
+
+Consider a transiting exoplanet, like
 one observed by {\it Kepler}. The light curve of the star will show an
 approximately constant brightness as a function of time, with a small dip as
 the exoplanet moves directly in front of the star. Clearly, real Kepler data
 is much more complex than this example, as stars vary in brightness in
 complicated ways, and the shape of the transit signal itself is more complex
-than the model we'll use here. Nevertheless, this example contains all the
+than the model we'll use here. Nevertheless, this example contains many of the
 features and complications that will also arise in a more realistic analysis.
 
 The data set, along with the true curve, is shown in 
@@ -217,12 +219,13 @@ Figure~\ref{fig:transit_data}. The equation for the true curve was:
 \begin{center}
 \includegraphics[scale=0.5]{../Code/transit_data.pdf}
 \caption{The ``transit'' data set. The red curve shows the model prediction
-based on the true values of the parameters.\label{fig:transit_data}}
+based on the true values of the parameters, and the blue points are the
+noisy measurements.\label{fig:transit_data}}
 \end{center}
 \end{figure}
 
-Let's assume that we didn't know this, but we did know the true curve
-was a function of the following form:
+Let's assume that we didn't know the equation for the true curve,
+but we at least know it's a function of the following form:
 \begin{eqnarray*}
 \mu(t) &=& \left\{
 \begin{array}{lr}
@@ -232,8 +235,9 @@ A-b,  & \textnormal{otherwise}.
 \right.
 \end{eqnarray*}
 
-We don't know the values of $A$, $b$, $t_c$, and $w$,
-but we do know the data $D$. Applying Bayesian inference to this problem
+Thus, the problem has been reduced from not knowing the true curve $\mu(t)$
+to not knowing the values of four quantities (parameters)
+$A$, $b$, $t_c$, and $w$. Applying Bayesian inference to this problem
 involves calculating the posterior distribution for $A$, $b$, $t_c$, and $w$,
 given the data $D$. For this specific setup, Bayes' rule states:
 
