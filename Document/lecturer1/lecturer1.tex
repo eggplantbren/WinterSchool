@@ -156,11 +156,16 @@ For a prior distribution $p(\btheta | I)$, and a sampling
 distribution $p(\data | \btheta, I)$, Bayes' rule allows us to calculate
 the {\it posterior distribution} for $\btheta$:
 \begin{eqnarray}
-p(\btheta | \data, I) &=& \frac{p(\btheta | I)p(\data | \btheta, I)}{p(\data | I)}.
+p(\btheta | \data, I) &=& \frac{p(\btheta | I)p(\data | \btheta, I)}{p(\data | I)}.\label{eq:bayes}
 \end{eqnarray}
 The $I$ in this equation refers to background information and assumptions:
 basically, it stands for everything you know about the problem apart from the
-data. The result is a probability distribution for $\btheta$ which describes
+data. The $I$ appears in the background of all of the terms in
+Equation~\ref{eq:bayes}, and is often omitted. Note also that the notation
+used in Equation~\ref{eq:bayes} is highly simplified but conventional among
+Bayesians; see the appendix for a discussion of notation.
+
+The result is a probability distribution for $\btheta$ which describes
 our state of knowledge about $\btheta$ after taking into account the data.
 
 The denominator, since it doesn't depend on $\btheta$, is a normalizing
