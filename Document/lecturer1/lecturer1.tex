@@ -797,7 +797,16 @@ sampling the prior will almost certainly not give any samples in the important
 region.
 
 \section{An easy problem}
-
+Imagine a parameter estimation problem with a single parameter $x$ with a
+uniform prior distribution between 0 and 1. If the likelihood function was a
+decreasing function of $x$ (like in Figure~\ref{fig:nested1}). In this
+situation the marginal likelihood would be a straightforward integral
+$Z = \int_0^1 L(x) \,dx$. If we could obtain some points $x$, and measure their
+likelihoods $L$, we could approximate the integral numerically, using the
+trapezoidal rule or some other numerical quadrature method.
+The key insight of Nested Sampling is that any high dimensional Bayesian
+problem can be mapped into a one dimensional problem like that shown in
+Figure~\ref{eq:nested1}.
 
 \begin{figure}
 \begin{center}
