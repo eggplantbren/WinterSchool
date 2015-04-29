@@ -167,7 +167,6 @@ Bayesians; see the appendix for a discussion of notation.
 
 The result is a probability distribution for $\btheta$ which describes
 our state of knowledge about $\btheta$ after taking into account the data.
-
 The denominator, since it doesn't depend on $\btheta$, is a normalizing
 constant, usually called the {\it marginal likelihood} or alternatively the
 {\it evidence}. Since the posterior is a probability distribution, its
@@ -345,8 +344,20 @@ normalising constant and the prior boundaries and just write
 p(A, b, t_c, w) &\propto& 1.
 \end{eqnarray}
 
-
-
+Now that we have specified our assumed prior information in the form of a
+sampling distribution and a prior, we are ready to go. By Bayes' rule, we
+have an expression for the posterior distribution immediately:
+\begin{eqnarray}
+p(A, b, t_c, w | D) &\propto& p(A, b, t_c, w)p(D | A, b, t_c, w)
+\end{eqnarray}
+which is proportional to the prior times the likelihood. In the likelihood
+expression we would substitute in the actual observed dataset, so that it is
+a function of the parameters only.
+The main problem with using Bayes' rule this way is that a mathematical
+expression for a probability distribution in a four-dimensional space is not
+very easy to understand intuitively. For this reason, we usually calculate
+summaries of the posterior distribution. The main computational tool for doing
+this is Markov Chain Monte Carlo.
 
 \section{Markov Chain Monte Carlo}
 {\it Monte Carlo} methods allow us to calculate any property of a probability
