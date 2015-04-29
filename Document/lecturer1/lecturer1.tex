@@ -541,7 +541,18 @@ at a particular iteration. It is trivial to make a trace plot from this output:
   # Trace plot of parameter zero
   plt.plot(keep[:,0])
 \end{minted}
-The result is shown in Figure~\ref{fig:trace_plot}.
+The result is shown in Figure~\ref{fig:trace_plot}. When everything is working
+well, a trace plot should look like white noise when zoomed out. If this is the
+case, then things are {\it probably} working well (although you can never be
+100\% certain of this -- like optimisation methods, MCMC methods can get
+stuck in local maxima). In addition, if your MCMC run was initialised at a
+point in parameter space that is an ``outlier'' with respect to the posterior
+distribution, the first part of the run will be a transient feature where the
+MCMC chain (hopefully) moves towards the important regions of the space.
+This transient period is called the burn-in, and should usually be excluded
+from the sample, otherwise your Monte Carlo summaries will give too much
+importance to the part of the space the MCMC happened to go through during
+burn-in.
 
 \begin{figure}
 \begin{center}
@@ -664,8 +675,12 @@ default priors, and transformation groups.
 \subsection{Probability distributions have consequences}
 When you assign prior distributions, it is more easy than you might expect to
 build in an assumption that you don't really agree with. This is especially
-true in high dimensional problems. Imagine that you wanted to infer the mass
-$M$ of a galaxy. A suitable ``ignorance'' prior might be the uniform distribution
+true in high dimensional problems, but we'll look at single parameters to start
+with.
+
+Imagine that you wanted to infer the mass
+$M$ of a galaxy. It might seem reasonable to assume ``prior ignorance''
+about $M$, using a uniform distribution
 between $10^{5}$ and $10^{15}$ solar masses:
 \begin{eqnarray}
 M \sim U(10^{5}, 10^{15})
