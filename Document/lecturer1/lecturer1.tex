@@ -670,7 +670,7 @@ On the other hand, so-called ``objective'' Bayesians search for principles
 based on symmetry or other arguments, which can help choose a prior that is
 an appropriate choice to describe a large amount of ignorance. Some examples
 include the principle of indifference, the Jeffreys prior, reference priors,
-default priors, and transformation groups.
+default priors, transformation groups, and entropic priors.
 
 \subsection{Probability distributions have consequences}
 When you assign prior distributions, it is more easy than you might expect to
@@ -707,7 +707,11 @@ algorithm. One is to keep $M$ as a parameter, and take the non-uniform prior
 into account in the acceptance probability. The other is to treat
 $\ell = \log(M)$ as the parameter, in which case the prior is still uniform.
 You'll just need to compute $M$ from $\ell$ before you can use it in the
-likelihood function.
+likelihood function. The other way is to keep $M$ as the parameter, but the
+prior is then proportional to $1/M$ rather than being constant, so you need
+to take into account the prior ratio in the Metropolis acceptance probability.
+The first approach (parameterising by $\ell$ instead) is generally a better
+idea.
 
 
 
