@@ -522,6 +522,68 @@ This function relies on {\tt num\_params} being the number of parameters,
 and an array {\tt jump\_sizes}, of length {\tt num\_params}, which specifies
 the prior width for each parameter.
 
+For numerical reasons, instead of writing a function to evaluate the likelihood
+(and the prior density) at a particular point in parameter space, we usually
+deal with the logarithms of these quantities. For the transit example, the
+log prior function can be implemented like so:
+
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  def log_prior(params):
+    """
+    Evaluate the (log of the) prior distribution
+    """
+    A, b, tc, width = params[0], params[1], params[2], params[3]
+
+    # Minus infinity, if out of bounds
+    if A < -100. or A > 100.:
+      return -np.Inf
+    if b < 0. or b > 10.:
+      return -np.Inf
+    if tc < t_min or tc > t_max:
+      return -np.Inf
+    if width < 0. or width > t_range:
+      return -np.Inf
+
+    return 0.
+\end{minted}
+
+Since we chose uniform priors, the prior density is some constant if the
+parameters (here passed to the function as a numpy {\tt array} of four
+floating point values) are within the bounds of the uniform priors. Otherwise,
+the prior density is zero. We do not need to know the normalising constant
+of the prior density: we returned zero for the log-density, but the progress
+of the Metropolis algorithm would be the same if we had returned any other
+finite value, since the Metropolis algorithm only ever uses ratios of densities
+(i.e. differences in log-density).
+
+The log likelihood function is given below.
+
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  def log_likelihood(params):
+    """
+    Evaluate the (log of the) likelihood function
+    """
+    # Rename the parameters
+    A, b, tc, width = params[0], params[1], params[2], params[3]
+
+    # First calculate the expected signal
+    mu = A*np.ones(N)
+    mu[np.abs(data[:,0] - tc) < 0.5*width] = A - b
+
+    # Normal/gaussian distribution
+    return -0.5*N*np.log(2.*np.pi) - np.sum(np.log(data[:,2])) \
+        -0.5*np.sum((data[:,1] - mu)**2/data[:,2]**2)
+\end{minted}
+
+
 
 \subsection{Useful Plots}
 After running the Metropolis algorithm (or any other MCMC method), there are
