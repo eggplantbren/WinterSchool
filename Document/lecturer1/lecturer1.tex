@@ -796,7 +796,7 @@ sources in a noisy image.
 Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling}. It
 is not technically an MCMC algorithm, although MCMC can be used as part of the
 implementation. It has some advantages over related Monte Carlo methods
-such as parallel tempering \citep{pt, gregory, tempering}
+such as parallel tempering \citep{pt, gregory, tempering}, but
 also brings with it its own challenges.
 Several variants of Nested Sampling exist, and most of them are somewhat
 complicated. Here, I will present a simple version of Nested Sampling which
@@ -857,7 +857,11 @@ p(D | M_2) &=& \int p(\btheta_2 | M_2) p(D | \btheta_2, M_2) \, d^{N_2} \btheta_
 Marginal likelihoods are integrals over the parameter space. They are
 expected values, but they are not expected values with respect to the posterior
 distribution, but rather the prior. Therefore, we cannot use standard MCMC
-methods (at least in any simple way) to calculate the marginal likelihood.
+methods (at least in any simple way) to calculate the marginal
+likelihood\footnote{There is a method, called the ``harmonic mean estimator'',
+for estimating the marginal likelihood from posterior samples. Bayesian
+statistician Radford Neal has described it as the
+``worst Monte Carlo method ever''.}.
 
 A Monte Carlo approach that samples from the prior distribution will also fail
 in most cases. The likelihood function $p(D | \btheta_1, M_1)$ in
