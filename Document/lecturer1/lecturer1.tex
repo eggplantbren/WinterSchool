@@ -773,7 +773,10 @@ it is common practice to look at the data before assigning priors, and the
 real test of the legitimacy of this practice is whether it makes any difference
 to your results. In the transit example, if we had used a $U(-50, 50)$ prior
 instead of a $U(-100, 100)$ one, the posterior distribution would have been
-virtually the same.
+virtually the same. The only substantial difference would have been in the
+value of the marginal likelihood, had we calculated it
+(see Section~\ref{sec:model_selection} for more information about when this
+is important).
 
 
 
@@ -789,7 +792,7 @@ sources in a noisy image.
 
 
 
-\section{Model Selection and Nested Sampling}
+\section{Model Selection and Nested Sampling}\label{sec:model_selection}
 Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling}. It
 is not technically an MCMC algorithm, although MCMC can be used as part of the
 implementation. It has some advantages over related Monte Carlo methods
