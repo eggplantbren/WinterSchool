@@ -565,20 +565,38 @@ should be excluded from any subsequent calculations.\label{fig:trace_plot}}
 \end{figure}
 
 As an exercise, try running the Metropolis algorithm on the transit problem
-with a proposal that is far too small. Look at the resulting trace plot and
-compare it to the healthy one in Figure~\ref{fig:trace_plot}.
+with a proposal that is far too small, a proposal that is far too large, and
+with an initial condition that is very far from the bulk of the posterior
+distribution. Look at the resulting trace plots and
+compare them to the healthy one in Figure~\ref{fig:trace_plot}.
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{marginal_posterior.pdf}
-\caption{\label{fig:marginal_posterior}}
+\caption{The marginal posterior distribution for the parameter $A$ constructed
+from MCMC output.\label{fig:marginal_posterior}}
 \end{center}
 \end{figure}
+
+Another useful type of plot is a scatter plot showing the joint posterior
+distribution for a pair of parameters (with all of the other parameters
+marginalised out). See Figure~\ref{fig:joint_posterior} for an example.
+This allows us to visualise some of the dependences in the remaining
+uncertainty about the parameters. For example, there is a slight correlation
+between $A$ and $b$ in the posterior, so if we obtained further information
+about $A$ from elsewhere, this would affect our knowledge of $b$.
+In models with 2-10 interesting parameters, it is common to plot a grid
+of such plots, showing each parameter vs each other parameter. These are
+sometimes called `corner' or `triangle' plots, and a convenient Python package
+for using them is {\tt triangle.py} by Dan
+Foreman-Mackey\footnote{Available at
+{\tt https://github.com/dfm/triangle.py}}.
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{joint_posterior.pdf}
-\caption{\label{fig:joint_posterior}}
+\caption{The joint posterior distribution for $A$ in $b$ constructed from
+the MCMC output.\label{fig:joint_posterior}}
 \end{center}
 \end{figure}
 
