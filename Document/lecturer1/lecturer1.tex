@@ -713,6 +713,25 @@ to take into account the prior ratio in the Metropolis acceptance probability.
 The first approach (parameterising by $\ell$ instead) is generally a better
 idea.
 
+Let's now discuss some consequences of the sampling distribution, for which we
+used a normal distribution with known standard deviation for each data point,
+and asserted that the measurements were independent. One consequence of this
+is a high probability that the noise vector (i.e. all of the actual
+the differences between the true curve and the data points) looks
+macroscopically like noise, with little correlation between the data points.
+To see this, try generating simulated datasets from the sampling distribution
+for a particular setting of the parameters, and you will see that almost all
+datasets that you generate have this property.
+
+Another implication of our sampling distribution is that we would not expect
+very many measurements to depart from the model by more than a few standard
+deviations. Normal distributions have very ``light tails'', implying a very
+low probability for outliers. If the data set does in fact contain outliers,
+the model will try to fit them very closely because the normal distribution
+assumption is telling it to believe the data points. This problem also occurs
+in least squares fitting, and switching to Bayesian inference will only resolve
+the problem if we use something other than a normal distribution for the
+sampling distribution.
 
 
 \section{What is the data?}
