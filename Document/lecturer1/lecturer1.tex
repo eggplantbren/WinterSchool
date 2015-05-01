@@ -851,7 +851,21 @@ the error bars were produced, we don't really know to what extent we should
 trust them, and incorporate them literally into our sampling distribution like
 we did in Equation~\ref{eq:gaussian}.
 
-
+Instead of trusting the error bars, we can add an extra parameter which
+describes the degree to which we should trust the error bars. Let $K$ be a
+constant, by which we should multiply all the error bars before using them
+in the likelihood function. If $K=1$, this corresponds to complete trust,
+and if $K>1$ this means the error bars should have been bigger by a factor $K$.
+We will not allow $K < 1$. Let's use the following prior density for $K$:
+\begin{eqnarray}
+p(K) &=& \frac{1}{2}\delta(K - 1)
++ \frac{1}{2}\left\{
+\begin{array}{lr}
+\exp\left[-(K-1)\right], & K > 1\\
+0, & K \leq 1
+\end{array}
+\right.
+\end{eqnarray}
 
 \begin{minted}[mathescape,
                numbersep=5pt,
