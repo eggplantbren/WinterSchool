@@ -839,8 +839,19 @@ p(x|\nu, \mu, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}
 where $\mu$ is the location parameter, $\sigma$ is the scale parameter, and
 $\nu$ is the degrees of freedom. $\Gamma$ is the gamma function. Three
 $t$-distributions with different values of $\nu$ are shown in
-Figure~\ref{fig:tdist}. The log likelihood function when using a Student-$t$
-sampling distribution is given below.
+Figure~\ref{fig:tdist}. Another important use for these distributions is for
+informative priors. Traditionally, normal priors are frequently used when we
+have a lot of prior knowledge about the value of a parameter. The heavier tails
+of the Student-$t$ distribution are a more fail-safe option in this situation.
+
+\subsection{Should we trust the error bars?}
+In astronomy many data sets are accompanied by error bars, which give us some
+idea of the accuracy of a measurement. Without knowing all the details of how
+the error bars were produced, we don't really know to what extent we should
+trust them, and incorporate them literally into our sampling distribution like
+we did in Equation~\ref{eq:gaussian}.
+
+
 
 \begin{minted}[mathescape,
                numbersep=5pt,
