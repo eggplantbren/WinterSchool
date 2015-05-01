@@ -826,9 +826,18 @@ issue. A simple alternative to the normal distribution that is more appropriate
 if outliers are possible is the ``student-$t$'' distribution. Like the normal
 distribution, this has a ``location'' parameter (the center of the distribution)
 and a ``scale'' parameter (the width), but there is a third parameter $\nu$
+(often called the ``degrees of freedom'')
 which controls the shape of the distribution. When $\nu$ is high ($\gtrsim$ 30)
 the shape is very close to gaussian, but when $\nu$ is low (0-10) it has much
-heavier tails.
+heavier tails. For a single variable $x$, the probability density is
+\begin{eqnarray}
+p(x|\nu, \mu, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}
+{\Gamma\left(\frac{\nu}{2}\right)\sigma\sqrt{\pi\nu}}
+\left[1 + \frac{1}{\nu}\frac{(x - \mu)^2}{\sigma^2}
+\right]^{-\frac{\nu + 1}{2}}.
+\end{eqnarray}
+where $\mu$ is the location parameter, $\sigma$ is the scale parameter, and
+$\nu$ is the degrees of freedom. $\Gamma$ is the gamma function.
 
 \section{What is the data?}
 It can sometimes be helpful to think carefully about exactly what your data set
