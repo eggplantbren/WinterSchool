@@ -839,7 +839,33 @@ p(x|\nu, \mu, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}
 where $\mu$ is the location parameter, $\sigma$ is the scale parameter, and
 $\nu$ is the degrees of freedom. $\Gamma$ is the gamma function. Three
 $t$-distributions with different values of $\nu$ are shown in
-Figure~\ref{fig:tdist}.
+Figure~\ref{fig:tdist}. The log likelihood function when using a Student-$t$
+sampling distribution is given below.
+
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  def log_likelihood(params):
+    """
+    Evaluate the (log of the) likelihood function
+    """
+    # Rename the parameters
+    A, b, tc, width, log_nu = params[0], params[1], params[2], params[3]
+    nu = np.exp(log_nu)
+
+    # First calculate the expected signal
+    mu = A*np.ones(N)
+    mu[np.abs(data[:,0] - tc) < 0.5*width] = A - b
+
+    # Student t distribution
+    return scipy.special.gammaln(0.5*(nu+1.)) - scipy.special.gammaln(0.5*nu) \
+             -
+\end{minted}
+
+**** TODO: DESCRIBE THE OTHER CHANGES ****
+
 
 \begin{figure}
 \begin{center}
