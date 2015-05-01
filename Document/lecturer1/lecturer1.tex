@@ -834,10 +834,22 @@ heavier tails. For a single variable $x$, the probability density is
 p(x|\nu, \mu, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}
 {\Gamma\left(\frac{\nu}{2}\right)\sigma\sqrt{\pi\nu}}
 \left[1 + \frac{1}{\nu}\frac{(x - \mu)^2}{\sigma^2}
-\right]^{-\frac{\nu + 1}{2}}.
+\right]^{-\frac{\nu + 1}{2}}
 \end{eqnarray}
 where $\mu$ is the location parameter, $\sigma$ is the scale parameter, and
-$\nu$ is the degrees of freedom. $\Gamma$ is the gamma function.
+$\nu$ is the degrees of freedom. $\Gamma$ is the gamma function. Three
+$t$-distributions with different values of $\nu$ are shown in
+Figure~\ref{fig:tdist}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{tdist.pdf}
+\caption{Three $t$-distributions, with $\nu=1$, $\nu=3$, and $\nu=50$. Lower
+$\nu$ implies heavier tails and a greater probability for outliers. All three
+of these distributions have $\mu=0$ and $\sigma=1$.
+\label{fig:tdist}}
+\end{center}
+\end{figure}
 
 \section{What is the data?}
 It can sometimes be helpful to think carefully about exactly what your data set
