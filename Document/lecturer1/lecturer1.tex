@@ -800,13 +800,18 @@ idea.
 
 Let's now discuss some consequences of the sampling distribution, for which we
 used a normal distribution with known standard deviation for each data point,
-and asserted that the measurements were independent. One consequence of this
-is a high probability that the noise vector (i.e. all of the actual
+and asserted that the measurements were independent. In many applications
+(such as discrete-valued photon count data) other distributions such as the
+Poisson may be more appropriate. However, even for real-valued data the
+normal distribution has some consequences which may be undesirable.
+For example, there is a high probability that the noise vector (i.e. all of the actual
 the differences between the true curve and the data points) looks
 macroscopically like noise, with little correlation between the data points.
 To see this, try generating simulated datasets from the sampling distribution
 for a particular setting of the parameters, and you will see that almost all
-datasets that you generate have this property.
+datasets that you generate have this property. If this is not realistic,
+correlated noise models are possible (e.g. using gaussian processes), but we
+will not discuss these here.
 
 Another implication of our sampling distribution is that we would not expect
 very many measurements to depart from the model by more than a few standard
@@ -817,8 +822,13 @@ assumption is telling it to believe the data points. This problem also occurs
 in least squares fitting, and switching to Bayesian inference will only resolve
 the problem if we use something other than a normal distribution for the
 sampling distribution. See \citet{hoggline} for a detailed discussion of this
-issue.
-
+issue. A simple alternative to the normal distribution that is more appropriate
+if outliers are possible is the ``student-$t$'' distribution. Like the normal
+distribution, this has a ``location'' parameter (the center of the distribution)
+and a ``scale'' parameter (the width), but there is a third parameter $\nu$
+which controls the shape of the distribution. When $\nu$ is high ($\gtrsim$ 30)
+the shape is very close to gaussian, but when $\nu$ is low (0-10) it has much
+heavier tails.
 
 \section{What is the data?}
 It can sometimes be helpful to think carefully about exactly what your data set
@@ -844,8 +854,6 @@ virtually the same. The only substantial difference would have been in the
 value of the marginal likelihood, had we calculated it
 (see Section~\ref{sec:model_selection} for more information about when this
 is important).
-
-
 
 \section{Birth and death moves}
 Sometimes, when you are trying to fit a model to data, there is uncertainty
