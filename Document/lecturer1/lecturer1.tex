@@ -560,7 +560,10 @@ of the Metropolis algorithm would be the same if we had returned any other
 finite value, since the Metropolis algorithm only ever uses ratios of densities
 (i.e. differences in log-density).
 
-The log likelihood function is given below.
+The log likelihood function is given below. This implements the logarithm of
+Equation~\ref{eq:gaussian}. As with the log prior function, we could ignore the
+normalisation constants -- in this case any term that is not a function of the
+parameters. However, I have included them for completeness.
 
 \begin{minted}[mathescape,
                numbersep=5pt,
