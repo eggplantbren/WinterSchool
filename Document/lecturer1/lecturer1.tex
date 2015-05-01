@@ -1030,11 +1030,14 @@ The key insight of Nested Sampling is that any high dimensional Bayesian
 problem can be mapped into a one dimensional problem like that shown in
 Figure~\ref{fig:nested1}.
 
+Consider a function that takes the interval $[0, 1]$ and maps it onto the
+parameter space. 
+
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{nested1.pdf}
 \caption{A simple one dimensional parameter estimation problem where the
-prior was uniform between 0 and 1, and the curve shown is the likelihood
+prior was uniform between 0 and 1, and the decreasing curve shown is the likelihood
 function (which has the same shape as the posterior). The marginal likelihood
 is the integral of the likelihood function, and we could calculate this
 numerically if we had a few points along the curve.
@@ -1051,6 +1054,14 @@ numerically if we had a few points along the curve.
 \end{center}
 \end{figure}
 
+The Nested Sampling algorithm itself works as follows:
+
+\begin{itemize}
+\item Generate $N$ particles $\{\theta_1, \theta_2, ..., \theta_N\}$ from
+the prior, and calculate their likelihoods.
+\item Find the particle with the lowest likelihood, and save its properties.
+\item 
+\end{itemize}
 
 \section{Appendix: Notation for Probability Distributions}
 There are two main types of notation that are used in probability theory. The
