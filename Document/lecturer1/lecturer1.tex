@@ -181,8 +181,9 @@ hypothesis space is discrete) must equal 1. Therefore we can write the
 marginal likelihood as:
 
 \begin{eqnarray}
-p(\data | I) &=& \int p(\btheta | I)p(\data | \btheta, I) \, d^N \btheta.
+p(\data | I) &=& \int p(\btheta | I)p(\data | \btheta, I) \, d^N \btheta
 \end{eqnarray}
+where the integral is over the entire $N$-dimensional parameter space.
 
 The posterior distribution is usually narrower than the prior distribution,
 indicating that we have learnt something from the data, and our uncertainty
@@ -207,7 +208,6 @@ star.
 To become more familiar with Bayesian calculations, we will work through a
 simple curve-fitting example. Many astronomical data analysis problems can be
 considered as examples of curve fitting.
-
 Consider a transiting exoplanet, like
 one observed by {\it Kepler}. The light curve of the star will show an
 approximately constant brightness as a function of time, with a small dip as
@@ -247,21 +247,25 @@ A-b,  & \textnormal{otherwise}.
 \end{array}
 \right.
 \end{eqnarray*}
+where $A$ is the brightness away from the transit, $b$ is the depth of the
+transit, $t_c$ is the time in the middle of the transit, and $w$ is the width
+of the transit.
 
 Thus, the problem has been reduced from not knowing the true curve $\mu(t)$
 to not knowing the values of four quantities (parameters)
 $A$, $b$, $t_c$, and $w$. Applying Bayesian inference to this problem
 involves calculating the posterior distribution for $A$, $b$, $t_c$, and $w$,
-given the data $D$. For this specific setup, Bayes' rule states:
+given the data $\data$. For this specific setup, Bayes' rule states:
 
 \begin{eqnarray}
-p(A, b, t_c, w | D) &=& \frac{p(A, b, t_c, w)p(D | A, b, t_c, w)}{p(D)}
+p(A, b, t_c, w | \data) &=& \frac{p(A, b, t_c, w)p(\data | A, b, t_c, w)}
+{p(\data)}
 \end{eqnarray}
 
 So, in order for the posterior distribution to be well defined, we need to
 choose a prior distribution $p(A, b, t_c, w)$ for the parameters, and a
-sampling distribution $p(D | A, b, t_c, w)$ for the data. Since the denominator
-$p(D)$ is not a function of the parameters, it plays the role of a normalising
+sampling distribution $p(\data | A, b, t_c, w)$ for the data. Since the denominator
+$p(\data)$ is not a function of the parameters, it plays the role of a normalising
 constant that ensures the posterior distribution integrates to 1, as any
 probability distribution must.
 
@@ -436,13 +440,13 @@ The version of the Metropolis algorithm presented here is sometimes called
 {\it random walk} Metropolis. More sophisticated choices are possible,
 but usually require problem-specific knowledge.
 
-Consider a problem with a single unknown
-parameter $x$. If the prior is some density $\pi(x)$ and the likelihood
-function is $\mathcal{L}(x)$, then the posterior distribution will be
-proportional to $\pi(x)\mathcal{L}(x)$. The normalising constant
-$Z = \int \pi(x) \mathcal{L}(x) \, dx$ is unknown,
+Consider a problem with unknown
+parameters $\btheta$. If the prior is some density $\pi(\btheta)$ and the likelihood
+function is $L(\btheta)$, then the posterior distribution will be
+proportional to $\pi(\btheta)L(\btheta)$. The marginal likelihood
+$Z = \int \pi(\btheta) L(\theta) \, d^N\btheta$ is unknown,
 but the Metropolis algorithm doesn't need to know it: all we need is the
-ability to evaluate $\pi$ and $\mathcal{L}$ at a given position in the parameter space. The Metropolis algorithm tells us how to move a ``particle'' around the
+ability to evaluate $\pi$ and $L$ at a given position in the parameter space. The Metropolis algorithm tells us how to move a ``particle'' around the
 parameter space so that we eventually sample the posterior distribution.
 That is, the amount of time spent in any particular region of parameter space
 will be approximately proportional to the posterior probability in that
@@ -450,13 +454,13 @@ region.
 
 The Metropolis algorithm can be summarised as follows:
 \begin{enumerate}
-\item Choose a starting position $x$, somewhere in the parameter space.
-\item Generate a proposed position $x'$ from a proposal distribution
-$q(x'|x)$. A common choice is a ``random walk'' proposal, where a small
+\item Choose a starting position $\btheta$, somewhere in the parameter space.
+\item Generate a proposed position $\btheta'$ from a proposal distribution
+$q(\btheta'|\btheta)$. A common choice is a ``random walk'' proposal, where a small
 perturbation is added to the current position.
 \item With probability
-$\alpha=\min\left(1, \frac{q(x|x')}{q(x'|x)}\frac{\pi(x')}{\pi(x)}\frac{\mathcal{L}(x')}{\mathcal{L}(x)}\right)$, accept the proposal
-(i.e. replace $x$ with $x'$). Otherwise, do nothing (i.e. remain at $x$).
+$\alpha=\min\left(1, \frac{q(\btheta|\btheta')}{q(\btheta'|\btheta)}\frac{\pi(\btheta')}{\pi(\btheta)}\frac{L(\btheta')}{L(\btheta)}\right)$, accept the proposal
+(i.e. replace $\btheta$ with $\btheta'$). Otherwise, do nothing (i.e. remain at $\btheta$).
 \item Repeat steps (i)--(iii) until you have enough samples.
 \end{enumerate}
 
@@ -515,11 +519,8 @@ $b$ when at position $a$).
       logl = logl_new
 \end{minted}
 
-
-
-
-The ``random walk'' proposal generates a proposed value $x'$ from a normal
-(gaussian) distribution centered around the current position $x$. The user
+The ``random walk'' proposal generates a proposed value $\btheta'$ from a normal
+(gaussian) distribution centered around the current position $\btheta$. The user
 is free to choose the width of the normal distribution. Here is a Python code
 snippet showing a proposal with width {\tt L}:
 
@@ -529,7 +530,7 @@ snippet showing a proposal with width {\tt L}:
                frame=single,
                framesep=2mm, fontsize=\footnotesize]{python}
   # Generate a proposal
-  proposal = x + L*rng.randn()
+  proposal = theta + L*rng.randn()
 \end{minted}
 
 The performance of the Metropolis algorithm depends quite strongly on
@@ -552,7 +553,7 @@ prior).
   L = 10.**(1.5 - 6.*rng.rand())
 
   # Use the standard deviation for the proposal
-  proposal = x + L*rng.randn()
+  proposal = theta + L*rng.randn()
 \end{minted}
 With this proposal, the minimum width is
 $10^{-4.5} \approx 3.16 \times 10^{-5}$, and the maximum width is
