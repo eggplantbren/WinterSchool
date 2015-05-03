@@ -26,14 +26,14 @@ many fields of science, and astrophysics is no exception. Accessible textbooks
 for those with a physics background are those by \citet{gregory} and
 \citet{sivia}, and parts of the textbook by \citet{mackay}\footnote{Freely
 available online at\\
-{\tt http://www.inference.phy.cam.ac.uk/itila/}}.
+{\tt www.inference.phy.cam.ac.uk/itila/}}.
 The online tutorial
 by Jake Vanderplas is also useful\footnote{Available online at\\
-{\tt http://jakevdp.github.io/blog/2014/03/11/frequentism-and-bayesianism-a-practical-intro/}}. For those with a strong statistics background,
+{\tt jakevdp.github.io/blog/2014/03/11/frequentism-and-bayesianism-a-practical-intro/}}. For those with a strong statistics background,
 I recommend the books by \citet{ohagan} and \citet{gelman}. I also maintain
 a set of lecture notes for an undergraduate Bayesian statistics
 course\footnote{Available at\\
-{\tt http://www.github.com/eggplantbren/STATS331/}}.
+{\tt www.github.com/eggplantbren/STATS331/}}.
 The aim of this chapter is to present a fairly minimal yet widely applicable set of techniques to
 allow you to start using Bayesian inference in your own research.
 
@@ -192,8 +192,8 @@ see when updating from a prior distribution to a posterior distribution.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{bayes.pdf}
-\caption{An example prior distribution for a single parameter (blue)
+\includegraphics[scale=0.45]{bayes.pdf}
+\caption{\it An example prior distribution for a single parameter (blue)
 gets updated to the posterior distribution (red) by the data. The data
 enters through the likelihood function (cyan dotted line). Many traditional
 ``best fit'' methods are based on finding the {\it maximum likelihood}
@@ -230,8 +230,8 @@ Figure~\ref{fig:transit_data}. The equation for the true curve was:
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{../Code/transit_data.pdf}
-\caption{The ``transit'' data set. The red curve shows the model prediction
+\includegraphics[scale=0.45]{../Code/transit_data.pdf}
+\caption{\it The ``transit'' data set. The red curve shows the model prediction
 based on the true values of the parameters, and the blue points are the
 noisy measurements.\label{fig:transit_data}}
 \end{center}
@@ -415,8 +415,8 @@ demonstrated graphically in Figure~\ref{fig:marginalisation}.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{../marginalisation.pdf}
-\caption{An example posterior distribution for two parameters $a$ and $b$.
+\includegraphics[scale=0.45]{../marginalisation.pdf}
+\caption{\it An example posterior distribution for two parameters $a$ and $b$.
 Figure taken from ...
 \label{fig:marginalisation}}
 \end{center}
@@ -691,8 +691,8 @@ burn-in.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{trace_plot.pdf}
-\caption{A ``trace plot''. At the beginning, because of the initial conditions
+\includegraphics[scale=0.45]{trace_plot.pdf}
+\caption{\it A ``trace plot''. At the beginning, because of the initial conditions
 of the algorithm, the results start in a region of parameter space that has
 very low probability. This initial phase is often called the ``burn-in'', and
 should be excluded from any subsequent calculations.\label{fig:trace_plot}}
@@ -707,8 +707,8 @@ compare them to the healthy one in Figure~\ref{fig:trace_plot}.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{marginal_posterior.pdf}
-\caption{The marginal posterior distribution for the parameter $A$ constructed
+\includegraphics[scale=0.45]{marginal_posterior.pdf}
+\caption{\it The marginal posterior distribution for the parameter $A$ constructed
 from MCMC output.\label{fig:marginal_posterior}}
 \end{center}
 \end{figure}
@@ -729,9 +729,11 @@ Foreman-Mackey\footnote{Available at
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{joint_posterior.pdf}
-\caption{The joint posterior distribution for $A$ in $b$ constructed from
-the MCMC output.\label{fig:joint_posterior}}
+\includegraphics[scale=0.45]{joint_posterior.pdf}
+\caption{\it The joint posterior distribution for $A$ in $b$ constructed from
+the MCMC output. This is simply a scatterplot. Some authors prefer to
+apply some smoothing and approximate density contours.
+\label{fig:joint_posterior}}
 \end{center}
 \end{figure}
 
@@ -940,8 +942,8 @@ This prior is plotted in Figure~\ref{fig:delta_mixture}.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{delta_mixture.pdf}
-\caption{The prior for $K$, the amount by which we should scale the error
+\includegraphics[scale=0.45]{delta_mixture.pdf}
+\caption{\it The prior for $K$, the amount by which we should scale the error
 bars given with the data set. There is a 50\% probability that $K=1$, and
 a 50\% probability that $K > 1$. Given that $K > 1$ the prior distribution
 is exponential (with unit scale length), so we do not expect $K$ to be
@@ -976,8 +978,8 @@ greater than 1 by an order of magnitude.\label{fig:delta_mixture}}
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{tdist.pdf}
-\caption{Three $t$-distributions, with $\nu=1$, $\nu=3$, and $\nu=50$. Lower
+\includegraphics[scale=0.45]{tdist.pdf}
+\caption{\it Three $t$-distributions, with $\nu=1$, $\nu=3$, and $\nu=50$. Lower
 $\nu$ implies heavier tails and a greater probability for outliers. All three
 of these distributions have $\mu=0$ and $\sigma=1$.
 \label{fig:tdist}}
@@ -1124,8 +1126,8 @@ X(\ell) = \int \pi(\theta) \mathds{1}\left(L(\theta) > \ell\right)\, d\theta
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{nested1.pdf}
-\caption{A simple one dimensional parameter estimation problem where the
+\includegraphics[scale=0.45]{nested1.pdf}
+\caption{\it A simple one dimensional parameter estimation problem where the
 prior was uniform between 0 and 1, and the decreasing curve shown is the likelihood
 function (which has the same shape as the posterior). The marginal likelihood
 is the integral of the likelihood function, and we could calculate this
@@ -1138,8 +1140,8 @@ numerically if we had a few points along the curve.
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{nested2.pdf}
-\caption{\label{fig:nested2}}
+\includegraphics[scale=0.45]{nested2.pdf}
+\caption{\it \label{fig:nested2}}
 \end{center}
 \end{figure}
 
