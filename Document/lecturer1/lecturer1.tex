@@ -169,7 +169,7 @@ Bayesians; see the appendix for a discussion of notation. For brevity we can
 suppress the $I$ (remove it from the right hand side of all equations) and
 just write:
 \begin{eqnarray}
-p(\btheta | \data) &=& \frac{p(\btheta)p(\data | \btheta)}{p(\data)}.\label{eq:bayes}
+p(\btheta | \data) &=& \frac{p(\btheta)p(\data | \btheta)}{p(\data)}.\label{eq:bayes2}
 \end{eqnarray}
 
 
@@ -910,7 +910,21 @@ and a ``scale'' parameter (the width), but there is a third parameter $\nu$
 (often called the ``degrees of freedom'')
 which controls the shape of the distribution. When $\nu$ is high ($\gtrsim$ 30)
 the shape is very close to gaussian, but when $\nu$ is low (0-10) it has much
-heavier tails. For a single variable $x$, the probability density is
+heavier tails.  Three
+$t$-distributions with different values of $\nu$ are shown in
+Figure~\ref{fig:tdist}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.45]{tdist.pdf}
+\caption{\it Three $t$-distributions, with $\nu=1$, $\nu=3$, and $\nu=50$. Lower
+$\nu$ implies heavier tails and a greater probability for outliers. All three
+of these distributions have $\mu=0$ and $\sigma=1$.
+\label{fig:tdist}}
+\end{center}
+\end{figure}
+
+For a single variable $x$, the probability density function is:
 \begin{eqnarray}
 p(x|\nu, \mu, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}
 {\Gamma\left(\frac{\nu}{2}\right)\sigma\sqrt{\pi\nu}}
@@ -918,12 +932,18 @@ p(x|\nu, \mu, \sigma) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}
 \right]^{-\frac{\nu + 1}{2}}
 \end{eqnarray}
 where $\mu$ is the location parameter, $\sigma$ is the scale parameter, and
-$\nu$ is the degrees of freedom. $\Gamma$ is the gamma function. Three
-$t$-distributions with different values of $\nu$ are shown in
-Figure~\ref{fig:tdist}. Another important use for these distributions is for
-informative priors. Traditionally, normal priors are frequently used when we
+$\nu$ is the degrees of freedom. $\Gamma$ is the gamma function. This can
+be used as a drop-in replacement for the normal distribution in
+Equation~\ref{eq:gaussian}.
+
+Student-$t$ distributions are most well known because they arise naturally as
+the solution to some analytical problems in statistics, but they are also
+useful for allowing the possibility of outliers (as we are doing here), and
+for specifying informative priors.
+Traditionally, normal priors are frequently used when we
 have a lot of prior knowledge about the value of a parameter. The heavier tails
-of the Student-$t$ distribution are a more fail-safe option in this situation.
+of the Student-$t$ distribution can be a more fail-safe option in this
+situation.
 
 \subsection{Should we trust the error bars?}
 In astronomy many data sets are accompanied by error bars, which give us some
@@ -951,7 +971,7 @@ p(K) &=& \frac{1}{2}\delta(K - 1)
 
 This prior is plotted in Figure~\ref{fig:delta_mixture}.
 
-\begin{figure}
+\begin{figure}[h]
 \begin{center}
 \includegraphics[scale=0.45]{delta_mixture.pdf}
 \caption{\it The prior for $K$, the amount by which we should scale the error
@@ -995,18 +1015,6 @@ greater than 1 by an order of magnitude.\label{fig:delta_mixture}}
              1. + (data[:,1] - mu)**2/nu/sig**2)
 \end{minted}
 
-**** TODO: DESCRIBE THE OTHER CHANGES ****
-
-
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.45]{tdist.pdf}
-\caption{\it Three $t$-distributions, with $\nu=1$, $\nu=3$, and $\nu=50$. Lower
-$\nu$ implies heavier tails and a greater probability for outliers. All three
-of these distributions have $\mu=0$ and $\sigma=1$.
-\label{fig:tdist}}
-\end{center}
-\end{figure}
 
 \section{What is the data?}
 It can sometimes be helpful to think carefully about exactly what your data set
@@ -1247,32 +1255,40 @@ which is much harder to read and manipulate.
 This is a very brief list of popular Bayesian computation software packages
 that you might find useful. This is far from an exhaustive list; it only
 includes packages that I know something about. I apologise if your favourite
-package is not listed here.
+package is not listed here.\\
 
 {\bf MultiNest} \citep{multinest} is one of the most popular implementations of
 Nested Sampling. It does not use MCMC, like the version presented in this
 chapter. It is designed to handle potentially multimodal posterior
 distributions in low ($\lesssim 30$) dimensions. It is particularly useful in
-situations where the likelihood function is expensive to evaluate.
+situations where the likelihood function is expensive to evaluate.\\
 
-{\bf Emcee} \citep{emcee} is useful for getting quick, efficient results on low
+{\bf Emcee} \citep{emcee} is based on the affine-invariant ensamble sampling
+method introduced by \citep{goodman}. It is useful for getting quick, efficient results on low
 dimensional ($\lesssim 30$) unimodal posterior distributions.
 It is written in Python, and one of its main advantages is that the user only
-needs to write a function that evaluates the log of the posterior density.
+needs to write a function that evaluates the log of the posterior density;
+the proposal distribution is automatically generated by the algorithm and
+requires no tuning.\\
 
 {\bf JAGS} \citep{jags}: The main advantage of JAGS is that it
 uses the BUGS language, a neat way of specifying your modelling assumptions
 using a language similar to the ``$\sim$'' notation. This makes JAGS very
 suitable for quickly implementing analyses of small to medium complexity without
-having to worry too much about MCMC algorithms themselves. For a very gentle
+having to worry too much about MCMC algorithms themselves. JAGS can also be
+used easily from R (a programming language for statistics)
+through the {\tt rjags} package, and as such is very popular among
+statisticians. For a very gentle
 introduction to JAGS you can consult my lecture notes at
-{\tt www.github.com/eggplantbren/STATS331}.
+{\tt www.github.com/eggplantbren/STATS331}.\\
 
 {\bf Stan} \citep{stan}: The modelling language of Stan is similar to that of
 JAGS, although the underlying MCMC methods used are completely different. Stan
 is based on the No U-Turn Sampler (NUTS), a variant of the Hamiltonian MCMC
 method \citep{hamiltonian}. This is a very efficient sampler in problems with
-a continuous parameter space and hierarchically defined priors.
+a continuous parameter space and hierarchically defined priors. Like JAGS,
+Stan can also be used from within R, and interfaces also exist for Python,
+Julia, and MATLAB.\\
 
 {\bf DNest} \citep{dnest}: This is another version of Nested Sampling, but it
 is quite different from MultiNest. It uses MCMC, but rather than embedding
@@ -1284,8 +1300,10 @@ likelihood function can be evaluated quite quickly. The main downside is that
 you need to write a fair bit of C++ code in order to implement a new model.
 
 \section{Acknowledgements}
-I would like to thank the members of the `Astrostatistics' Facebook group for
-answering my query about MultiNest.
+I would like to thank the organisers of the Winter School for their invitation,
+generosity and hospitality, and the students and lecturers for many
+interesting discussions. The `Astrostatistics' Facebook group was very helpful
+with a query.
 
 \begin{thebibliography}{999}
 \bibitem[\protect\citeauthoryear{Brewer, P{\'a}rtay,
@@ -1303,6 +1321,9 @@ Homan, Matthew D., and Andrew Gelman, 2014, ``The no-U-turn sampler: Adaptively 
 
 \bibitem[\protect\citeauthoryear{Gelman et al}{2013}]{gelman}
 Gelman, Andrew, John B. Carlin, Hal S. Stern, and Donald B. Rubin. Bayesian data analysis, third edition. Chapman \& Hall/CRC, 2013.
+
+\bibitem[\protect\citeauthoryear{Goodman \& Weare}{2010}]{goodman}
+Goodman, J., Weare, J., 2010, Ensemble Samplers with Affine Invariance, Comm. App. Math. Comp. Sci., 5, 6.
 
 \bibitem[\protect\citeauthoryear{Gregory}{2005}]{gregory}
 Gregory, Phil. Bayesian Logical Data Analysis for the Physical Sciences: A Comparative Approach with Mathematica® Support. Cambridge University Press, 2005.
