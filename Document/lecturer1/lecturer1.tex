@@ -961,8 +961,18 @@ greater than 1 by an order of magnitude.\label{fig:delta_mixture}}
     Evaluate the (log of the) likelihood function
     """
     # Rename the parameters
-    A, b, tc, width, log_nu = params[0], params[1], params[2], params[3]
+    A, b, tc, width, log_nu, K = params[0], params[1], params[2], params[3]\
+                                    , params[4]
+
+    # Parameter is really log_nu
     nu = np.exp(log_nu)
+
+    # Compute K and 'inflated' error bars
+    if K < 0.:
+      K = 1.
+    else:
+      K = 1. - np.log(1. - K)
+    sig = K*data[:,2]
 
     # First calculate the expected signal
     mu = A*np.ones(N)
@@ -970,7 +980,8 @@ greater than 1 by an order of magnitude.\label{fig:delta_mixture}}
 
     # Student t distribution
     return scipy.special.gammaln(0.5*(nu+1.)) - scipy.special.gammaln(0.5*nu) \
-             -
+             -np.sum(np.log(sig*np.sqrt(nu))) - 0.5*(nu + 1.)*np.log(\
+             1. + (data[:,1] - mu)**2/nu/sig**2)
 \end{minted}
 
 **** TODO: DESCRIBE THE OTHER CHANGES ****
