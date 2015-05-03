@@ -464,10 +464,22 @@ When a proposed move is rejected (and the particle remains in the same place),
 it is important to count the particle's position again in the output. This is
 how the algorithm ends up spending more time in regions of high probability:
 moves {\it into} those regions tend to be accepted, whereas moves {\it out}
-of those regions are often rejected.
+of those regions are often rejected. The Metropolis algorithm is quite straightforward to implement and I encourage
+you to attempt this yourself if you haven't done so before.
 
-The Metropolis algorithm is quite straightforward to implement and I encourage
-you to attempt your own implementation.
+Python code implementing the Metropolis algorithm is given below. There are
+several features of note. Firstly, the functions used to measure the prior
+density and likelihood of any point, and the function to generate a proposal
+in the first place, are problem-specific and assumed to have
+been implemented elsewhere. Secondly, for numerical reasons we deal with the
+(natural) log of the prior density, the likelihood, and the acceptance
+probability. Thirdly, note how the {\tt log\_prior} and {\tt log\_likelihood}
+functions only need to be called once per iteration, not twice as one might
+naively think. Finally, no $q$ ratio is required in the acceptance probability:
+we will assume that we are working with a {\it symmetric} proposal distribution,
+where the probability of proposing a move to position $a$ given the current
+position is $b$ is the same as the probability of the reverse (proposing
+$b$ when at position $a$).
 
 \begin{minted}[mathescape,
                numbersep=5pt,
