@@ -107,7 +107,7 @@ will assume that the packages have been imported like so:
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   import numpy as np
   import numpy.random as rng
@@ -462,7 +462,7 @@ snippet showing a proposal with width {\tt L}:
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   # Generate a proposal
   proposal = x + L*rng.randn()
@@ -481,7 +481,7 @@ prior).
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   # A heavy-tailed proposal distribution
   # Generate a standard deviation
@@ -510,7 +510,7 @@ specified below.
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   def proposal(params):
     """
@@ -538,7 +538,7 @@ log prior function can be implemented like so:
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   def log_prior(params):
     """
@@ -576,7 +576,7 @@ parameters. However, I have included them for completeness.
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   def log_likelihood(params):
     """
@@ -600,7 +600,7 @@ The main part of the Metropolis algorithm implements the steps
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   # Generate a starting point (if you have a good guess, use it)
   params = np.array([1., 1., 1., 1.])
@@ -644,7 +644,7 @@ at a particular iteration. It is trivial to make a trace plot from this output:
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   # Trace plot of parameter zero
   plt.plot(keep[:,0])
@@ -726,7 +726,7 @@ of the samples.
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   post_mean = np.mean(samples)
   post_median = np.median(samples)
@@ -746,7 +746,7 @@ calculation is by sorting the samples, as shown below.
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   sorted_samples = np.sort(samples)
   # Left and right end of interval
@@ -925,7 +925,7 @@ greater than 1 by an order of magnitude.\label{fig:delta_mixture}}
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
-               frame=lines,
+               frame=single,
                framesep=2mm]{python}
   def log_likelihood(params):
     """
