@@ -1218,6 +1218,15 @@ must be greater than $L^*$.
 \item Repeat steps (ii) and (iii).
 \end{enumerate}
 
+This seems quite simple, but step (iii) hides a lot of complexity, and is the
+key point distinguishing different implementations of Nested Sampling from
+each other.
+
+In step (ii), we assume that there is a unique ``worst'' particle with the
+lowest likelihood. If you are working on a problem where likelihood ties are
+possible, you need to add an extra parameter to your model whose sole purpose
+is breaking ties in step (ii). See \citet{murray} for more details.
+
 \section{Appendix: Notation for Probability Distributions}
 There are two main types of notation that are used in probability theory. The
 first type is mathematically more correct and conceptually
@@ -1332,9 +1341,9 @@ you need to write a fair bit of C++ code in order to implement a new model.
 
 \section{Acknowledgements}
 I would like to thank the organisers of the Winter School for their invitation,
-generosity and hospitality, and the students and lecturers for many
+generosity and hospitality, and the students and other lecturers for many
 interesting discussions. The `Astrostatistics' Facebook group was very helpful
-with a query.
+with a query, as was Thomas Lumley (Auckland).
 
 \begin{thebibliography}{999}
 \bibitem[\protect\citeauthoryear{Brewer, P{\'a}rtay,
@@ -1370,6 +1379,10 @@ e-prints arXiv:1008.4686.
 \bibitem[\protect\citeauthoryear{Mackay}{2003}]{mackay} Mackay,
 D. J. C.\ 2003, Information theory, Inference, and Learning
 Algorithms, Cambridge University Press
+
+\bibitem[\protect\citeauthoryear{Murray}{2007}]{murray}
+Murray, Iain, 2007, ``Advances in Markov chain Monte Carlo methods.'',
+PhD thesis.
 
 \bibitem[\protect\citeauthoryear{Neal}{2011}]{hamiltonian}
 Neal, Radford M., 2011. ``MCMC using Hamiltonian dynamics.''
