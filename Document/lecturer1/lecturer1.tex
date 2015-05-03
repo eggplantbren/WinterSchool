@@ -594,7 +594,42 @@ parameters. However, I have included them for completeness.
         -0.5*np.sum((data[:,1] - mu)**2/data[:,2]**2)
 \end{minted}
 
+The main part of the Metropolis algorithm implements the steps
 
+
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=lines,
+               framesep=2mm]{python}
+  # Generate a starting point (if you have a good guess, use it)
+  params = np.array([1., 1., 1., 1.])
+  logp, logl = log_prior(params), log_likelihood(params)
+
+  # Total number of iterations
+  steps = 200000
+
+  # Main loop
+  for i in range(0, steps):
+    # Generate proposal
+    new = proposal(params)
+
+    # Evaluate prior and likelihood for the proposal
+    logp_new = log_prior(new)
+    if logp_new != -np.Inf:
+      logl_new = log_likelihood(new)
+
+    # Acceptance probability
+    log_alpha = (logl_new - logl) + (logp_new - logp)
+    if log_alpha > 0.:
+      log_alpha = 0.
+
+    # Accept?
+    if rng.rand() <= np.exp(log_alpha):
+      params = new
+      logp = logp_new
+      logl = logl_new
+\end{minted}
 
 \subsection{Useful Plots}
 After running the Metropolis algorithm (or any other MCMC method), there are
