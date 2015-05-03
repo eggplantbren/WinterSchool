@@ -153,7 +153,8 @@ to calculate the {\it posterior} distribution, which describes our updated
 state of knowledge about the values of the parameters, after taking the data
 $D$ into account.
 
-For a prior distribution $p(\btheta | I)$, and a sampling
+For a prior distribution $p(\btheta | I)$ (read as ``the probability distribution
+for $\btheta$ given $I$), and a sampling
 distribution $p(\data | \btheta, I)$, Bayes' rule allows us to calculate
 the {\it posterior distribution} for $\btheta$:
 \begin{eqnarray}
@@ -305,11 +306,10 @@ probability distributions.
 Equation~\ref{eq:gaussian} is the sampling distribution
 (and the likelihood function) for our problem, but it
 is fairly cumbersome to write down. Statisticians have developed a shorthand
-notation for writing down probability distributions, which is extremely useful
-for communicating what assumptions you are making, without having to write down
-the entire equation for the probability density. To communicate
-Equation~\ref{eq:gaussian}, we can simply write
-
+notation for writing down probability distributions. This is extremely useful
+for communicating your assumptions without having to write down
+the entire probability density equation. To communicate
+Equation~\ref{eq:gaussian}, we can simply write:
 \begin{eqnarray}
 D_i \sim \mathcal{N}\left(\mu(t_i), \sigma_i^2\right)
 \end{eqnarray}
@@ -320,12 +320,12 @@ distribution, it is traditional to write the {\it variance} (standard deviation
 squared) as the second argument, but since the standard deviation is a more
 intuitive quantity (being in the same units as the mean), we often literally
 write the standard deviation, squared (e.g. $3^2$). For other probability
-distributions the arguments in the parenthesis are whatever parameters make
+distributions the arguments in the parentheses are whatever parameters make
 sense for that family of distributions.
 
 \subsection{Priors}
 Now we need a prior for the unknown parameters $A, b, t_c$, and $w$. This is
-a prior over a four dimensional parameter space. To simplify things, we can
+a probability distribution over a four dimensional parameter space. To simplify things, we can
 assign independent priors for each parameter, and multiply these together
 to produce the joint prior:
 \begin{eqnarray}
@@ -355,7 +355,7 @@ p(A, b, t_c, w) &=&
 \right.
 \end{eqnarray}
 where $S$ is the set of allowed values. Even more simply, we can ignore the
-normalising constant and the prior boundaries and just write
+normalising constant and the prior boundaries and just write:
 \begin{eqnarray}
 p(A, b, t_c, w) &\propto& 1.
 \end{eqnarray}
@@ -367,7 +367,7 @@ have an expression for the posterior distribution immediately:
 p(A, b, t_c, w | D) &\propto& p(A, b, t_c, w)p(D | A, b, t_c, w)
 \end{eqnarray}
 which is proportional to the prior times the likelihood. In the likelihood
-expression we would substitute in the actual observed dataset, so that it is
+expression we would substitute the actual observed dataset into the equation, so that it is
 a function of the parameters only.
 The main problem with using Bayes' rule this way is that a mathematical
 expression for a probability distribution in a four-dimensional space is not
