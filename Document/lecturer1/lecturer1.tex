@@ -1033,6 +1033,13 @@ Figure~\ref{fig:nested1}.
 Consider a function that takes the interval $[0, 1]$ and maps it onto the
 parameter space. 
 
+Define $X(\ell)$ as the amount of prior probability corresponding to a
+likelihood greater than $\ell$:
+\begin{eqnarray}
+X(\ell) = \int \pi(\theta) \mathds{1}\left(L(\theta) > \ell\right)\, d\theta
+\end{eqnarray}
+
+
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.5]{nested1.pdf}
@@ -1058,8 +1065,11 @@ The Nested Sampling algorithm itself works as follows:
 
 \begin{itemize}
 \item Generate $N$ particles $\{\theta_1, \theta_2, ..., \theta_N\}$ from
-the prior, and calculate their likelihoods.
-\item Find the particle with the lowest likelihood, and save its properties.
+the prior, and calculate their likelihoods. Initialise a loop counter $i$ at
+1.
+\item Find the particle with the lowest likelihood estimate its $X$ value as
+$\exp(-i/N)$. Save its properties $(X_i, L_i)$, and its corresponding
+parameter values as well.
 \item 
 \end{itemize}
 
