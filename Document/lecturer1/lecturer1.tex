@@ -159,7 +159,7 @@ the {\it posterior distribution} for $\btheta$:
 \begin{eqnarray}
 p(\btheta | \data, I) &=& \frac{p(\btheta | I)p(\data | \btheta, I)}{p(\data | I)}.\label{eq:bayes}
 \end{eqnarray}
-The $I$ in this equation refers to background information and assumptions:
+The $I$ in this equation refers to background information and assumptions;
 basically, it stands for everything you know about the problem apart from the
 data. The $I$ appears in the background of all of the terms in
 Equation~\ref{eq:bayes}, and is often omitted. Note also that the notation
@@ -174,7 +174,7 @@ p(\btheta | \data) &=& \frac{p(\btheta)p(\data | \btheta)}{p(\data)}.\label{eq:b
 
 The result is a probability distribution for $\btheta$ which describes
 our state of knowledge about $\btheta$ after taking into account the data.
-The denominator, since it doesn't depend on $\btheta$, is a normalizing
+The denominator, since it doesn't depend on $\btheta$, is a normalising
 constant, usually called the {\it marginal likelihood} or alternatively the
 {\it evidence}. Since the posterior is a probability distribution, its
 total integral (or sum, if the
@@ -208,7 +208,7 @@ star.
 \section{Transit Example}
 To become more familiar with Bayesian calculations, we will work through a
 simple curve-fitting example. Many astronomical data analysis problems can be
-considered as examples of curve fitting.
+viewed as examples of curve fitting.
 Consider a transiting exoplanet, like
 one observed by {\it Kepler}. The light curve of the star will show an
 approximately constant brightness as a function of time, with a small dip as
@@ -219,7 +219,7 @@ than the model we'll use here. Nevertheless, this example contains many of the
 features and complications that will also arise in a more realistic analysis.
 
 The data set, along with the true curve, is shown in 
-Figure~\ref{fig:transit_data}. The equation for the true curve was:
+Figure~\ref{fig:transit_data}. The equation for the true curve is:
 \begin{eqnarray*}
 \mu(t) &=& \left\{
 \begin{array}{lr}
@@ -238,7 +238,8 @@ noisy measurements.\label{fig:transit_data}}
 \end{center}
 \end{figure}
 
-Let's assume that we didn't know the equation for the true curve,
+Let's assume we don't know the equation for the true curve (as we wouldn't in
+reality),
 but we at least know it's a function of the following form:
 \begin{eqnarray*}
 \mu(t) &=& \left\{
@@ -249,7 +250,7 @@ A-b,  & \textnormal{otherwise}.
 \right.
 \end{eqnarray*}
 where $A$ is the brightness away from the transit, $b$ is the depth of the
-transit, $t_c$ is the time in the middle of the transit, and $w$ is the width
+transit, $t_c$ is the time of the centre of the transit, and $w$ is the width
 of the transit.
 
 Thus, the problem has been reduced from not knowing the true curve $\mu(t)$
@@ -271,8 +272,10 @@ constant that ensures the posterior distribution integrates to 1, as any
 probability distribution must.
 
 \subsection{Sampling Distribution}
-The {\it sampling distribution} is the probability distribution would assign
-for the data, if we knew the true values of the parameters.
+The {\it sampling distribution} is the probability distribution we would assign
+for the data, if we knew the true values of the parameters. A useful way to
+think about the sampling distribution is to write some code whose input is the
+true parameter values, and whose output is a simulated dataset.
 In many situations, it is conventional to assign a normal distribution
 (also known as a gaussian distribution) to each data point, where the mean
 of the normal distribution is the noise-free model prediction, and the
@@ -287,21 +290,21 @@ p(D | A, b, t_c, w) &=& \prod_{i=1}^N \frac{1}{\sigma_i \sqrt{2\pi}}
 \end{eqnarray}
 This is a product of $N$ terms, one for each data point. We have assumed that
 each data point is {\it independent} (given the parameters). That is, if we
-knew the parameters and some of the data points, in predicting other data points
-we would be able to make use of the parameters, but not the data points we
-already knew. When the data is known, Equation~\ref{eq:gaussian} becomes a
-function of the parameters only: the likelihood function. The curve predicted
+knew the parameters and a subset of the data points, we would use {\it only} the parameters (not the data points) to predict the remaining data points.
+When the data is known, Equation~\ref{eq:gaussian} becomes a
+function of the parameters only, known as the likelihood function.
+The curve predicted
 by the model, here written as $\mu(t_i)$ (where I have suppressed the implicit
-dependence on the parameters, for brevity), provides the mean of the gaussian
+dependence on the parameters), provides the mean of the gaussian
 distribution. Remember that the independence assumption is not an assumption
 about the actual data set, but an assumption
 about our prior information about the data set. It does not make sense to say
-a particular data set is or is not independent, independence is a property of
+a particular data set is or is not independent. Independence is a property of
 probability distributions.
 
 Equation~\ref{eq:gaussian} is the sampling distribution
 (and the likelihood function) for our problem, but it
-was fairly cumbersome to write down. Statisticians have developed a shorthand
+is fairly cumbersome to write down. Statisticians have developed a shorthand
 notation for writing down probability distributions, which is extremely useful
 for communicating what assumptions you are making, without having to write down
 the entire equation for the probability density. To communicate
