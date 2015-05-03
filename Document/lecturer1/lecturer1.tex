@@ -1,5 +1,5 @@
-\newcommand{\btheta}{\boldsymbol{\theta}}
-\newcommand{\data}{\boldsymbol{D}}
+\newcommand{\btheta}{\theta}
+\newcommand{\data}{D}
 \newcommand{\documentname}{chapter}
 
 \author[Brendon J. Brewer]{Brendon J. Brewer\\
@@ -9,8 +9,8 @@ Department of Statistics, The University of Auckland}
 
 \section{Introduction}
 Most scientific observations are not sufficient to give us definite answers
-to all of our questions. It is rare that we get a data set that {\it totally}
-answers all of our questions with certainty. Even if that did happen, we would
+to all our questions. It is rare that we get a data set which {\it totally}
+answers every question with certainty. Even if that did happen, we would
 quickly move on to other questions.
 What a data set usually {\it can} do is make hypotheses more or less plausible,
 even if we don't achieve total certainty.
@@ -43,22 +43,23 @@ trying to answer, and what assumptions you are willing to make.
 Data analysis problems in astronomy vary widely, so in this \documentname~we
 cannot cover a huge variety of examples. Instead, we will look at a small
 number of examples. The assumptions we make in those examples will not always
-be appropriate, but they should be sufficient to show you where the assumptions
-enter and what you will need to consider when you work on a particular problem.
+be appropriate, but they should be sufficient to show you the points at which
+assumptions are needed, and what you will need to consider when you work on a particular problem.
 
 In principle, it's usually best to work with your data in the most
 raw form possible, although this is often too difficult in practice.
-Therefore, most scientists work with data that has been processed (by a ``pipeline'') and reduced to manageable size. To do Bayesian inference, you
+Therefore, most scientists work with data that has been processed (by a ``pipeline'') and reduced to a manageable size. To do Bayesian inference, you
 need to specify what {\it prior information} you have (or are willing to
 assume) about the problem, in addition to the data. Prior information is
-necessary: what you can learn from a data set depends on what you know, for
-example, about how it was produced.
+necessary; what you can learn from a data set depends on what you know
+about how it was produced.
 
 Once you have your data, and have specified your prior information as well,
 you are faced with the question of how to calculate the
 results. Usually you want to calculate the {\it posterior distribution} for some
-unknown quantities (also known as ``parameters'') given your data, which
-describes your uncertainty about the , but takes into account the data.
+unknown quantities (also known as ``parameters'') given your data. This
+posterior distribution
+describes your uncertainty about the parameters, but takes the data into account.
 Since we are often dealing with (potentially) complicated probability
 distributions in high dimensional spaces, we need to {\it summarise} the
 posterior distribution in an understandable way.
@@ -76,7 +77,7 @@ subjective elements involved. However, once MCMC made it easy to compute the
 consequences of Bayesian models more easily, people simply became more relaxed
 about these subjective elements.
 
-A huge variety of MCMC methods exists, and it would be
+A large number of MCMC methods exist, and it would be
 unwise to try to cover them all in this winter school. Therefore I will focus
 on a small number of methods that are relatively simple to implement, yet quite powerful
 and widely applicable. I will try to emphasise methods that are {\it general},
@@ -108,7 +109,7 @@ will assume that the packages have been imported like so:
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   import numpy as np
   import numpy.random as rng
   import matplotlib.pyplot as plt
@@ -420,8 +421,14 @@ demonstrated graphically in Figure~\ref{fig:marginalisation}.
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{../marginalisation.pdf}
-\caption{\it An example posterior distribution for two parameters $a$ and $b$.
-Figure taken from ...
+\caption{\it An example posterior distribution for two parameters $a$ and $b$,
+taken from my STATS 331 undergraduate lecture notes.
+The full joint distribution is shown in the top left, and the marginal
+distribution for $a$ (bottom left) is calculating by integrating over all
+possible $b$ values, a potentially non-trivial calculation.
+The top right panel has points drawn from the joint
+posterior. Points drawn from the marginal posterior (bottom right) are
+obtained by ignoring the $b$ values of the points, a trivial operation.
 \label{fig:marginalisation}}
 \end{center}
 \end{figure}
@@ -489,7 +496,7 @@ $b$ when at position $a$).
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   # Generate a starting point (if you have a good guess, use it)
   params = np.array([1., 1., 1., 1.])
   logp, logl = log_prior(params), log_likelihood(params)
@@ -528,7 +535,7 @@ snippet showing a proposal with width {\tt L}:
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   # Generate a proposal
   proposal = theta + L*rng.randn()
 \end{minted}
@@ -547,7 +554,7 @@ prior).
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   # A heavy-tailed proposal distribution
   # Generate a standard deviation
   L = 10.**(1.5 - 6.*rng.rand())
@@ -576,7 +583,7 @@ specified below.
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   def proposal(params):
     """
     Generate new values for the parameters.
@@ -604,7 +611,7 @@ log prior function can be implemented like so:
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   def log_prior(params):
     """
     Evaluate the (log of the) prior distribution
@@ -642,7 +649,7 @@ parameters. However, I have included them for completeness.
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   def log_likelihood(params):
     """
     Evaluate the (log of the) likelihood function
@@ -673,7 +680,7 @@ at a particular iteration. It is trivial to make a trace plot from this output:
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   # Trace plot of parameter zero
   plt.plot(keep[:,0])
 \end{minted}
@@ -757,7 +764,7 @@ of the samples.
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   post_mean = np.mean(samples)
   post_median = np.median(samples)
 \end{minted}
@@ -776,7 +783,7 @@ calculation is by sorting the samples, as shown below.
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   sorted_samples = np.sort(samples)
   # Left and right end of interval
   left = sorted[int(0.16*len(sorted))]
@@ -956,7 +963,7 @@ greater than 1 by an order of magnitude.\label{fig:delta_mixture}}
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm, fontsize=\footnotesize]{python}
+               framesep=2mm, fontsize=\small]{python}
   def log_likelihood(params):
     """
     Evaluate the (log of the) likelihood function
@@ -1291,7 +1298,7 @@ D., Hogg, D.~W., Lang, D., \& Goodman, J.\ 2012, emcee: The MCMC Hammer, arXiv:1
 \bibitem[\protect\citeauthoryear{Homan and Gelman}{2014}]{nuts}
 Homan, Matthew D., and Andrew Gelman, 2014, ``The no-U-turn sampler: Adaptively setting path lengths in Hamiltonian Monte Carlo.'' The Journal of Machine Learning Research 15, no. 1 (2014): 1593-1623.
 
-\bibitem[\protect\citeauthoryear{Gelman}{2013}]{gelman}
+\bibitem[\protect\citeauthoryear{Gelman et al}{2013}]{gelman}
 Gelman, Andrew, John B. Carlin, Hal S. Stern, and Donald B. Rubin. Bayesian data analysis, third edition. Chapman \& Hall/CRC, 2013.
 
 \bibitem[\protect\citeauthoryear{Gregory}{2005}]{gregory}
