@@ -442,17 +442,69 @@ function is $\mathcal{L}(x)$, then the posterior distribution will be
 proportional to $\pi(x)\mathcal{L}(x)$. The normalising constant
 $Z = \int \pi(x) \mathcal{L}(x) \, dx$ is unknown,
 but the Metropolis algorithm doesn't need to know it: all we need is the
-ability to evaluate $\pi$ and $\mathcal{L}$ at a given position in the parameter space.
+ability to evaluate $\pi$ and $\mathcal{L}$ at a given position in the parameter space. The Metropolis algorithm tells us how to move a ``particle'' around the
+parameter space so that we eventually sample the posterior distribution.
+That is, the amount of time spent in any particular region of parameter space
+will be approximately proportional to the posterior probability in that
+region.
 
 The Metropolis algorithm can be summarised as follows:
 \begin{enumerate}
 \item Choose a starting position $x$, somewhere in the parameter space.
 \item Generate a proposed position $x'$ from a proposal distribution
-$q(x'|x)$.
+$q(x'|x)$. A common choice is a ``random walk'' proposal, where a small
+perturbation is added to the current position.
 \item With probability
 $\alpha=\min\left(1, \frac{q(x|x')}{q(x'|x)}\frac{\pi(x')}{\pi(x)}\frac{\mathcal{L}(x')}{\mathcal{L}(x)}\right)$, accept the proposal
-(i.e. replace $x$ with $x'$). Otherwise, do nothing.
+(i.e. replace $x$ with $x'$). Otherwise, do nothing (i.e. remain at $x$).
+\item Repeat steps (i)--(iii) until you have enough samples.
 \end{enumerate}
+
+When a proposed move is rejected (and the particle remains in the same place),
+it is important to count the particle's position again in the output. This is
+how the algorithm ends up spending more time in regions of high probability:
+moves {\it into} those regions tend to be accepted, whereas moves {\it out}
+of those regions are often rejected.
+
+The Metropolis algorithm is quite straightforward to implement and I encourage
+you to attempt your own implementation.
+
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=single,
+               framesep=2mm]{python}
+  # Generate a starting point (if you have a good guess, use it)
+  params = np.array([1., 1., 1., 1.])
+  logp, logl = log_prior(params), log_likelihood(params)
+
+  # Total number of iterations
+  steps = 100000
+
+  # Main loop
+  for i in range(0, steps):
+    # Generate proposal
+    new = proposal(params)
+
+    # Evaluate prior and likelihood for the proposal
+    logp_new = log_prior(new)
+    if logp_new != -np.Inf:
+      logl_new = log_likelihood(new)
+
+    # Acceptance probability
+    log_alpha = (logl_new - logl) + (logp_new - logp)
+    if log_alpha > 0.:
+      log_alpha = 0.
+
+    # Accept?
+    if rng.rand() <= np.exp(log_alpha):
+      params = new
+      logp = logp_new
+      logl = logl_new
+\end{minted}
+
+
+
 
 The ``random walk'' proposal generates a proposed value $x'$ from a normal
 (gaussian) distribution centered around the current position $x$. The user
@@ -592,43 +644,6 @@ parameters. However, I have included them for completeness.
     # Normal/gaussian distribution
     return -0.5*N*np.log(2.*np.pi) - np.sum(np.log(data[:,2])) \
         -0.5*np.sum((data[:,1] - mu)**2/data[:,2]**2)
-\end{minted}
-
-The main part of the Metropolis algorithm implements the steps
-
-
-\begin{minted}[mathescape,
-               numbersep=5pt,
-               gobble=2,
-               frame=single,
-               framesep=2mm]{python}
-  # Generate a starting point (if you have a good guess, use it)
-  params = np.array([1., 1., 1., 1.])
-  logp, logl = log_prior(params), log_likelihood(params)
-
-  # Total number of iterations
-  steps = 200000
-
-  # Main loop
-  for i in range(0, steps):
-    # Generate proposal
-    new = proposal(params)
-
-    # Evaluate prior and likelihood for the proposal
-    logp_new = log_prior(new)
-    if logp_new != -np.Inf:
-      logl_new = log_likelihood(new)
-
-    # Acceptance probability
-    log_alpha = (logl_new - logl) + (logp_new - logp)
-    if log_alpha > 0.:
-      log_alpha = 0.
-
-    # Accept?
-    if rng.rand() <= np.exp(log_alpha):
-      params = new
-      logp = logp_new
-      logl = logl_new
 \end{minted}
 
 \subsection{Useful Plots}
