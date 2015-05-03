@@ -108,7 +108,7 @@ will assume that the packages have been imported like so:
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   import numpy as np
   import numpy.random as rng
   import matplotlib.pyplot as plt
@@ -485,7 +485,7 @@ $b$ when at position $a$).
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   # Generate a starting point (if you have a good guess, use it)
   params = np.array([1., 1., 1., 1.])
   logp, logl = log_prior(params), log_likelihood(params)
@@ -527,7 +527,7 @@ snippet showing a proposal with width {\tt L}:
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   # Generate a proposal
   proposal = x + L*rng.randn()
 \end{minted}
@@ -546,7 +546,7 @@ prior).
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   # A heavy-tailed proposal distribution
   # Generate a standard deviation
   L = 10.**(1.5 - 6.*rng.rand())
@@ -575,7 +575,7 @@ specified below.
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   def proposal(params):
     """
     Generate new values for the parameters.
@@ -603,7 +603,7 @@ log prior function can be implemented like so:
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   def log_prior(params):
     """
     Evaluate the (log of the) prior distribution
@@ -641,7 +641,7 @@ parameters. However, I have included them for completeness.
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   def log_likelihood(params):
     """
     Evaluate the (log of the) likelihood function
@@ -672,7 +672,7 @@ at a particular iteration. It is trivial to make a trace plot from this output:
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   # Trace plot of parameter zero
   plt.plot(keep[:,0])
 \end{minted}
@@ -754,7 +754,7 @@ of the samples.
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   post_mean = np.mean(samples)
   post_median = np.median(samples)
 \end{minted}
@@ -773,7 +773,7 @@ calculation is by sorting the samples, as shown below.
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   sorted_samples = np.sort(samples)
   # Left and right end of interval
   left = sorted[int(0.16*len(sorted))]
@@ -953,7 +953,7 @@ greater than 1 by an order of magnitude.\label{fig:delta_mixture}}
                numbersep=5pt,
                gobble=2,
                frame=single,
-               framesep=2mm]{python}
+               framesep=2mm, fontsize=\footnotesize]{python}
   def log_likelihood(params):
     """
     Evaluate the (log of the) likelihood function
