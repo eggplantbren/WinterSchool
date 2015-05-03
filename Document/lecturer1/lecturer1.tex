@@ -1208,10 +1208,14 @@ The Nested Sampling algorithm itself works as follows:
 \item Generate $N$ particles $\{\theta_1, \theta_2, ..., \theta_N\}$ from
 the prior, and calculate their likelihoods. Initialise a loop counter $i$ at
 1.
-\item Find the particle with the lowest likelihood. Estimate its $X$ value as
+\item Find the particle with the lowest likelihood (call this likelihood $L^*$).
+Estimate its $X$ value as
 $\exp(-i/N)$. Save its properties $(X_i, L_i)$, and its corresponding
 parameter values as well.
-\item Generate a 
+\item Generate a new particle to replace the one found in step (ii). The new
+particle should be drawn from the prior distribution, but its likelihood
+must be greater than $L^*$.
+\item Repeat steps (ii) and (iii).
 \end{enumerate}
 
 \section{Appendix: Notation for Probability Distributions}
