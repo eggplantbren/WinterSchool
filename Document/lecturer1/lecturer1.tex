@@ -163,7 +163,13 @@ basically, it stands for everything you know about the problem apart from the
 data. The $I$ appears in the background of all of the terms in
 Equation~\ref{eq:bayes}, and is often omitted. Note also that the notation
 used in Equation~\ref{eq:bayes} is highly simplified but conventional among
-Bayesians; see the appendix for a discussion of notation.
+Bayesians; see the appendix for a discussion of notation. For brevity we can
+suppress the $I$ (remove it from the right hand side of all equations) and
+just write:
+\begin{eqnarray}
+p(\btheta | \data) &=& \frac{p(\btheta)p(\data | \btheta)}{p(\data)}.\label{eq:bayes}
+\end{eqnarray}
+
 
 The result is a probability distribution for $\btheta$ which describes
 our state of knowledge about $\btheta$ after taking into account the data.
@@ -439,14 +445,14 @@ but the Metropolis algorithm doesn't need to know it: all we need is the
 ability to evaluate $\pi$ and $\mathcal{L}$ at a given position in the parameter space.
 
 The Metropolis algorithm can be summarised as follows:
-\begin{itemize}
+\begin{enumerate}
 \item Choose a starting position $x$, somewhere in the parameter space.
 \item Generate a proposed position $x'$ from a proposal distribution
 $q(x'|x)$.
 \item With probability
 $\alpha=\min\left(1, \frac{q(x|x')}{q(x'|x)}\frac{\pi(x')}{\pi(x)}\frac{\mathcal{L}(x')}{\mathcal{L}(x)}\right)$, accept the proposal
 (i.e. replace $x$ with $x'$). Otherwise, do nothing.
-\end{itemize}
+\end{enumerate}
 
 The ``random walk'' proposal generates a proposed value $x'$ from a normal
 (gaussian) distribution centered around the current position $x$. The user
@@ -848,7 +854,8 @@ of the Student-$t$ distribution are a more fail-safe option in this situation.
 In astronomy many data sets are accompanied by error bars, which give us some
 idea of the accuracy of a measurement. Without knowing all the details of how
 the error bars were produced, we don't really know to what extent we should
-trust them, and incorporate them literally into our sampling distribution like
+trust them, and hence whether it is a good idea to
+incorporate them literally into our sampling distribution like
 we did in Equation~\ref{eq:gaussian}.
 
 Instead of trusting the error bars, we can add an extra parameter which
@@ -866,6 +873,19 @@ p(K) &=& \frac{1}{2}\delta(K - 1)
 \end{array}
 \right.
 \end{eqnarray}
+
+This prior is plotted in Figure~\ref{fig:delta_mixture}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.5]{delta_mixture.pdf}
+\caption{The prior for $K$, the amount by which we should scale the error
+bars given with the data set. There is a 50\% probability that $K=1$, and
+a 50\% probability that $K > 1$. Given that $K > 1$ the prior distribution
+is exponential (with unit scale length), so we do not expect $K$ to be
+greater than 1 by an order of magnitude.\label{fig:delta_mixture}}
+\end{center}
+\end{figure}
 
 \begin{minted}[mathescape,
                numbersep=5pt,
@@ -1063,15 +1083,15 @@ numerically if we had a few points along the curve.
 
 The Nested Sampling algorithm itself works as follows:
 
-\begin{itemize}
+\begin{enumerate}
 \item Generate $N$ particles $\{\theta_1, \theta_2, ..., \theta_N\}$ from
 the prior, and calculate their likelihoods. Initialise a loop counter $i$ at
 1.
-\item Find the particle with the lowest likelihood estimate its $X$ value as
+\item Find the particle with the lowest likelihood. Estimate its $X$ value as
 $\exp(-i/N)$. Save its properties $(X_i, L_i)$, and its corresponding
 parameter values as well.
-\item 
-\end{itemize}
+\item Generate a 
+\end{enumerate}
 
 \section{Appendix: Notation for Probability Distributions}
 There are two main types of notation that are used in probability theory. The
