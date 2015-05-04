@@ -1338,6 +1338,72 @@ has a bell-shaped peak, but can be more complex.\label{fig:nested2}}
 \end{figure}
 
 
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=0,
+               frame=single,
+               framesep=2mm, fontsize=\small]{python}
+# Number of particles
+N = 5
+
+# Number of NS iterations
+steps = 5*30
+
+# MCMC steps per NS iteration
+mcmc_steps = 1000
+
+# Generate N particles from the prior
+# and calculate their log likelihoods
+particles = []
+logp = np.empty(N)
+logl = np.empty(N)
+for i in range(0, N):
+ x = from_prior()
+ particles.append(x)
+ logl[i] = log_likelihood(x)
+
+# Main NS loop
+for i in range(0, steps):
+  # Find worst particle
+  worst = np.nonzero(logl == logl.min())[0]
+
+  # Save its details
+  # ...
+
+  # Copy survivor
+  if N > 1:
+    which = rng.randint(N)
+    while which == worst:
+      which = rng.randint(N)
+    particles[worst] = copy.deepcopy(particles[which])
+
+  # Likelihood threshold for new point
+  threshold = copy.deepcopy(logl[worst])
+
+  # Evolve within likelihood constraint using Metropolis
+  for j in range(0, mcmc_steps):
+    new = proposal(particles[worst])
+    logp_new = log_prior(new)
+    # Only evaluate likelihood if prior prob isn't zero
+    logl_new = -np.Inf
+    if logp_new != -np.Inf:
+      logl_new = log_likelihood(new)
+    loga = logp_new - logp[worst]
+    if loga > 0.:
+      loga = 0.
+
+    # Accept
+    if logl_new >= threshold and rng.rand() <= np.exp(loga):
+      particles[worst] = new
+      logp[worst] = logp_new
+      logl[worst] = logl_new
+
+  # Use the deterministic approximation
+  # Estimate the X-values of the discarded worst points
+  logX = -(np.arange(0, i+1) + 1.)/N
+\end{minted}
+
+
 \section{Nested Sampling on the transit example}\label{sec:model_selection}
 For the original version of the model, we get
 $\log(Z) = -161$
