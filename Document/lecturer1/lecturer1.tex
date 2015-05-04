@@ -781,8 +781,8 @@ of the samples.
                gobble=2,
                frame=single,
                framesep=2mm, fontsize=\small]{python}
-  post_mean = np.mean(samples)
-  post_median = np.median(samples)
+  post_mean = np.mean(keep[:,0])
+  post_median = np.median(keep[:,0])
 \end{minted}
 
 There are some theoretical arguments, based on decision theory, that provide
@@ -1299,31 +1299,21 @@ is the marginal likelihood $Z$.
 The Nested Sampling algorithm itself works by starting with a population
 of $N$ ``particles'' (points in parameter space) drawn from the prior. In
 terms of $X$, these points will be uniformly distributed between 0 and 1.
-If we were to find the worst point (with the lowest likelihood), this would
+If we were to find the worst point (with the lowest likelihood, $L_{\rm worst}$), this would
 correspond to the highest $X$ value. We could also guess that the highest
 $X$ value will not be close to $X=0$, but instead will be close to $X=1$
-(exactly how close depends on $N$).
+(exactly how close depends on $N$). The simplest prescription given by
+\citet{skilling} is to estimate $X_{\rm worst} = \exp(-1/N)$
+(more sophisticated possibilities exist but do not make much of a difference).
+We also know the likelihood of this point (we must have measured it in order
+to identify the worst point!), and can put it on a graph like the one in
+Figure~\ref{fig:nested1}.
 
-\begin{enumerate}
-\item Generate $N$ particles $\{\theta_1, \theta_2, ..., \theta_N\}$ from
-the prior, and calculate their likelihoods. Initialise a loop counter $i$ at
-1.
-\item Find the particle with the lowest likelihood (call this likelihood $L^*$).
-Estimate its $X$ value as
-$\exp(-i/N)$. Save its properties $(X_i, L_i)$, and its corresponding
-parameter values as well.
-\item Generate a new particle to replace the one found in step (ii). The new
-particle should be drawn from the prior distribution, but its likelihood
-must be greater than $L^*$.
-\item Repeat steps (ii) and (iii).
-\end{enumerate}
-
-This seems quite simple, but step (iii) hides a lot of complexity, and is the
-key point distinguishing different implementations of Nested Sampling from
-each other. In step (ii), we assume that there is a unique ``worst'' particle with the
-lowest likelihood. If you are working on a problem where likelihood ties are
-possible, you need to add an extra parameter to your model whose sole purpose
-is breaking ties in step (ii). See \citet{murray} for more details.
+To obtain more points, we generate a new point to replace the one just identified
+as the worst. This point is drawn from the prior, but with the restriction that
+its likelihood must exceed $L_{\rm worst}$. In terms of $X$, the new point's
+location has a uniform distribution between 0 and $\exp(-1/N)$: just the same
+as the other $N-1$ points. If we find the worst point now, 
 
 \begin{figure}
 \begin{center}
@@ -1336,6 +1326,35 @@ for $\log(X)$. The posterior (proportional to prior times likelihood) usually
 has a bell-shaped peak, but can be more complex.\label{fig:nested2}}
 \end{center}
 \end{figure}
+
+
+
+
+\begin{enumerate}
+\item Generate $N$ particles $\{\theta_1, \theta_2, ..., \theta_N\}$ from
+the prior, and calculate their likelihoods. Initialise a loop counter $i$ at
+1.
+\item Find the particle with the lowest likelihood (call this likelihood $L_{\rm worst}$).
+Estimate its $X$ value as
+$\exp(-i/N)$. Save its properties $(X_i, L_i)$, and its corresponding
+parameter values as well.
+\item Generate a new particle to replace the one found in step (ii). The new
+particle should be drawn from the prior distribution, but its likelihood
+must be greater than $L_{\rm worst}$.
+\item Repeat steps (ii) and (iii).
+\end{enumerate}
+
+This seems quite simple, but step (iii) hides a lot of complexity, and is the
+key point distinguishing different implementations of Nested Sampling from
+each other. 
+
+
+
+
+In step (ii), we assume that there is a unique ``worst'' particle with the
+lowest likelihood. If you are working on a problem where likelihood ties are
+possible, you need to add an extra parameter to your model whose sole purpose
+is breaking ties in step (ii). See \citet{murray} for more details.
 
 
 \begin{minted}[mathescape,
@@ -1416,7 +1435,9 @@ $\log(Z) = -161$
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{ns_output.pdf}
-\caption{\it \label{fig:ns_output}}
+\caption{\it Numerical versions of the plots in Figure~\ref{fig:nested2},
+produced using Nested Sampling on the transit problem with the original
+priors.\label{fig:ns_output}}
 \end{center}
 \end{figure}
 
