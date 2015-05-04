@@ -1299,7 +1299,10 @@ is the marginal likelihood $Z$.
 The Nested Sampling algorithm itself works by starting with a population
 of $N$ ``particles'' (points in parameter space) drawn from the prior. In
 terms of $X$, these points will be uniformly distributed between 0 and 1.
-If we were to find the 
+If we were to find the worst point (with the lowest likelihood), this would
+correspond to the highest $X$ value. We could also guess that the highest
+$X$ value will not be close to $X=0$, but instead will be close to $X=1$
+(exactly how close depends on $N$).
 
 \begin{enumerate}
 \item Generate $N$ particles $\{\theta_1, \theta_2, ..., \theta_N\}$ from
