@@ -38,6 +38,8 @@ for i in range(0, steps):
 
   # Evaluate prior and likelihood for the proposal
   logp_new = log_prior(new)
+  logl_new = -np.Inf
+  # Only evaluate likelihood if prior prob isn't zero
   if logp_new != -np.Inf:
     logl_new = log_likelihood(new)
 
