@@ -1256,23 +1256,31 @@ likelihoods $L$, we could approximate the integral numerically, using the
 trapezoidal rule or some other numerical quadrature method.
 The key insight of Nested Sampling is that any high dimensional Bayesian
 problem can be mapped into a one dimensional problem like that shown in
-Figure~\ref{fig:nested1}.
+Figure~\ref{fig:nested1}. In this introductory discussion, I will ignore some
+mathematical technicalities and focus more on the ideas behind the algorithm.
 
 Consider a function that takes the entire parameter space and maps it to the
 real line between 0 and 1. The best fit (highest likelihood) point in the
-parameter space is mapped to $X=0$ (modulo mathemetical technicalities),
+parameter space is mapped to $X=0$,
 and the worst point in the space is mapped to $X=1$.
 For all of the intermediate points, the $X$ value is given by:
 \begin{eqnarray}
-X(\theta) = \int \pi(\theta) \mathds{1}\left(L(\theta) > L(\theta'\right)\, d\theta'
+X(\theta) = \int \pi(\theta) \mathds{1}\left(L(\theta) > L(\theta')\right)\, d\theta'
 \end{eqnarray}
-$X$ can also be considered a function of a likelihood value:
+Since $X$ only depends on $\theta$ through the likelihood function,
+it can also be considered a function of a likelihood value:
 \begin{eqnarray}
 X(\ell) = \int \pi(\theta) \mathds{1}\left(L(\theta) > \ell\right)\, d\theta
 \end{eqnarray}
 An intuitive interpretation of $X$ is the ``fraction of points in the space
-which this point beats'', that is, $X$ is a rank.
-
+which beat this point'', that is, $X$ is a rank. Importantly, the prior
+distribution $\pi(\theta)$ for the parameters implies a uniform distribution
+$U(0, 1)$ for the ranks $X$. To see this, imagine measuring the height of all
+900,000 residents of Tenerife, sorted them from tallest to shortest,
+and assigned a rank $X$ to each. The tallest
+person would get a rank of 0, the shortest a rank of 1, and the person exactly
+in the middle would get a rank of 0.5. If you made a histogram of the ranks, it
+would be uniform since the range of $X$ values (from 0 to 1) is divided evenly between the 900,000 people.
 
 \begin{figure}
 \begin{center}
