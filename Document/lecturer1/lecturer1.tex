@@ -518,6 +518,8 @@ $b$ when at position $a$).
 
     # Evaluate prior and likelihood for the proposal
     logp_new = log_prior(new)
+    logl_new = -np.Inf
+    # Only evaluate likelihood if prior prob isn't zero
     if logp_new != -np.Inf:
       logl_new = log_likelihood(new)
 
@@ -1020,17 +1022,17 @@ a uniform prior) and the mixture prior for $K$.
     Evaluate the (log of the) likelihood function
     """
     # Rename the parameters
-    A, b, tc, width, log_nu, K = params[0], params[1], params[2],\
-                                 params[3], params[4]
+    A, b, tc, width, log_nu, u_K = params[0], params[1], params[2]\
+                                  ,params[3], params[4], params[5]
 
     # Parameter is really log_nu
     nu = np.exp(log_nu)
 
     # Compute K and 'inflated' error bars
-    if K < 0.:
+    if u_K < 0.:
       K = 1.
     else:
-      K = 1. - np.log(1. - K)
+        K = 1. - np.log(1. - u_K)
     sig = K*data[:,2]
 
     # First calculate the expected signal
@@ -1038,10 +1040,11 @@ a uniform prior) and the mixture prior for $K$.
     mu[np.abs(data[:,0] - tc) < 0.5*width] = A - b
 
     # Student t distribution
-    return scipy.special.gammaln(0.5*(nu+1.))\
-         - scipy.special.gammaln(0.5*nu)\
-         - np.sum(np.log(sig*np.sqrt(nu)))\
-         - 0.5*(nu + 1.)*np.log(1. + (data[:,1] - mu)**2/nu/sig**2)
+    return N*scipy.special.gammaln(0.5*(nu+1.))\
+         - N*scipy.special.gammaln(0.5*nu)\
+         - np.sum(np.log(sig*np.sqrt(np.pi*nu)))\
+         - 0.5*(nu + 1.)*np.sum(\
+           np.log(1. + (data[:,1] - mu)**2/nu/sig**2))
 \end{minted}
 
 
@@ -1173,14 +1176,21 @@ The key insight of Nested Sampling is that any high dimensional Bayesian
 problem can be mapped into a one dimensional problem like that shown in
 Figure~\ref{fig:nested1}.
 
-Consider a function that takes the best fit (highest likelihood) point in the
-parameter space and maps it to $X=0$. 
-
-Define $X(\ell)$ as the amount of prior probability corresponding to a
-likelihood greater than $\ell$:
+Consider a function that takes the entire parameter space and maps it to the
+real line between 0 and 1. The best fit (highest likelihood) point in the
+parameter space is mapped to $X=0$ (modulo mathemetical technicalities),
+and the worst point in the space is mapped to $X=1$.
+For all of the intermediate points, the $X$ value is given by:
+\begin{eqnarray}
+X(\theta) = \int \pi(\theta) \mathds{1}\left(L(\theta') > L(\theta'\right)\, d\theta'
+\end{eqnarray}
+$X$ can also be considered a function of a likelihood value:
 \begin{eqnarray}
 X(\ell) = \int \pi(\theta) \mathds{1}\left(L(\theta) > \ell\right)\, d\theta
 \end{eqnarray}
+
+An intuitive interpretation of $X$ is the ``fraction of points in the space
+which this point beats''.
 
 
 \begin{figure}
@@ -1222,16 +1232,14 @@ must be greater than $L^*$.
 
 This seems quite simple, but step (iii) hides a lot of complexity, and is the
 key point distinguishing different implementations of Nested Sampling from
-each other.
-
-In step (ii), we assume that there is a unique ``worst'' particle with the
+each other. In step (ii), we assume that there is a unique ``worst'' particle with the
 lowest likelihood. If you are working on a problem where likelihood ties are
 possible, you need to add an extra parameter to your model whose sole purpose
 is breaking ties in step (ii). See \citet{murray} for more details.
 
 \section{Nested Sampling on the transit example}\label{sec:model_selection}
 For the original version of the model, we get
-$log(Z) = -161$
+$\log(Z) = -161$
 
 %logZ = -161.038664757
 %Information = 15.1328174099 nats
