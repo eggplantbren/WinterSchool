@@ -1296,16 +1296,10 @@ is the marginal likelihood $Z$.
 \end{center}
 \end{figure}
 
-
-
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.45]{nested2.pdf}
-\caption{\it \label{fig:nested2}}
-\end{center}
-\end{figure}
-
-The Nested Sampling algorithm itself works as follows:
+The Nested Sampling algorithm itself works by starting with a population
+of $N$ ``particles'' (points in parameter space) drawn from the prior. In
+terms of $X$, these points will be uniformly distributed between 0 and 1.
+If we were to find the 
 
 \begin{enumerate}
 \item Generate $N$ particles $\{\theta_1, \theta_2, ..., \theta_N\}$ from
@@ -1327,6 +1321,19 @@ each other. In step (ii), we assume that there is a unique ``worst'' particle wi
 lowest likelihood. If you are working on a problem where likelihood ties are
 possible, you need to add an extra parameter to your model whose sole purpose
 is breaking ties in step (ii). See \citet{murray} for more details.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.45]{nested2.pdf}
+\caption{\it The same as Figure~\ref{fig:nested1}, but with logarithmic
+axes, since the important parts of parameter space tend to occupy a very
+small volume of parameter space. The black curve is the likelihood function,
+and the uniform prior for $X$ corresponds to the dotted red exponential prior
+for $\log(X)$. The posterior (proportional to prior times likelihood) usually
+has a bell-shaped peak, but can be more complex.\label{fig:nested2}}
+\end{center}
+\end{figure}
+
 
 \section{Nested Sampling on the transit example}\label{sec:model_selection}
 For the original version of the model, we get
