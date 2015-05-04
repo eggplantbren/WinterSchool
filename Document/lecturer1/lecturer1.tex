@@ -510,7 +510,8 @@ $b$ when at position $a$).
                frame=single,
                framesep=2mm, fontsize=\small]{python}
   # Generate a starting point (if you have a good guess, use it)
-  # In the full version of the code, the initial point is drawn from the prior.
+  # In the full version of the code, the initial point is drawn
+  # from the prior.
   params = np.array([1., 1., 1., 1.])
   logp, logl = log_prior(params), log_likelihood(params)
 
@@ -1005,7 +1006,7 @@ $F(x) = \int_{-\infty}^x f(t) \, dt$.}
 is used to transform a variable from a $U(0, 1)$
 distribution to some other distribution.
 
-\begin{figure}[h]
+\begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{delta_mixture.pdf}
 \caption{\it The prior for $K$, the amount by which we should scale the error
@@ -1061,15 +1062,45 @@ With this modified likelihood function, a log-uniform prior for $\nu$ between
 0.1 and 100, and a uniform prior for $u_K$ between -1 and 1, we can
 calculate the consequences of this model for the transit example. The two
 extra parameters $\nu$ and $K$ might be of interest, but unfortunately are not
-directly accessible since we parameterised things by $\log(\nu)$ and $u_K$
-instead. However, since these both had uniform priors, their marginal posteriors
+directly accessible since we elected to use $\log(\nu)$ and $u_K$ as
+parameters instead, and derived $\nu$ and $K$ from them.
+However, since these both had uniform priors, their marginal posteriors
 should be straightforward to interpret. These are plotted in
-Figure~\ref{fig:nu_K}.
+Figure~\ref{fig:nu_K}. The data has basically ruled out low values of
+$\log(\nu)$ as the posterior distribution favours high values. The student-$t$
+distribution becomes approximately gaussian when $\nu$ is high, so this result
+suggests the original gaussian assumption was fine
+(even though the original gaussian assumption is not technically even
+in this hypothesis space). For $u_K$, the data has ruled out values
+$\gtrsim 0.2$, implying that $K$ is unlikely to be greater than about 1.2,
+so there is no real evidence that the error bars needed to be inflated.
+
+Unlike with $\nu$, with $K$ our original assumption (equivalent to $K=1$)
+is a part of the parameter space, so we can compute its posterior probability.
+Its prior probability was 50\%, and its posterior probability can be
+estimated using the fraction of MCMC samples for which $u_K < 0$:
+
+\begin{minted}[mathescape,
+               numbersep=5pt,
+               gobble=2,
+               frame=single,
+               framesep=2mm, fontsize=\small]{python}
+  np.mean(keep[:,5] < 0.)
+\end{minted}
+The result is 92\%, i.e. given this data and these assumptions, we should be
+quite confident that the error bars are of the appropriate size.
+This should be of no surprise, since I in fact generated the data using
+a normal distribution, and the error bars in the data file were the same
+as the standard deviation of the normal distribution I used.
+
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{nu_K.pdf}
-\caption{\label{fig:nu_K}}
+\caption{Marginal posterior distributions for $\log(\nu)$, which describes the
+shape of the Student-$t$ distribution for the noise, and $u_K$, which
+determines the error bar inflation factor $K$.
+\label{fig:nu_K}}
 \end{center}
 \end{figure}
 
@@ -1215,7 +1246,7 @@ $X$ can also be considered a function of a likelihood value:
 X(\ell) = \int \pi(\theta) \mathds{1}\left(L(\theta) > \ell\right)\, d\theta
 \end{eqnarray}
 An intuitive interpretation of $X$ is the ``fraction of points in the space
-which this point beats''. 
+which this point beats'', that is, $X$ is a rank.
 
 
 \begin{figure}
