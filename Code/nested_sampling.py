@@ -7,14 +7,14 @@ import copy
 rng.seed(0)
 
 # Import the model
-from asteroseismology_model import from_prior, log_prior, log_likelihood, proposal,\
+from transit_model import from_prior, log_prior, log_likelihood, proposal,\
                               num_params
 
 # Number of particles
 N = 5
 
 # Number of NS iterations
-steps = 5*50
+steps = 5*30
 
 # MCMC steps per NS iteration
 mcmc_steps = 1000
@@ -58,13 +58,16 @@ for i in range(0, steps):
   for j in range(0, mcmc_steps):
     new = proposal(particles[worst])
     logp_new = log_prior(new)
-    logl_new = log_likelihood(new)
+    # Only evaluate likelihood if prior prob isn't zero
+    logl_new = -np.Inf
+    if logp_new != -np.Inf:
+      logl_new = log_likelihood(new)
     loga = logp_new - logp[worst]
     if loga > 0.:
       loga = 0.
 
     # Accept
-    if log_likelihood(new) >= threshold and rng.rand() <= np.exp(loga):
+    if logl_new >= threshold and rng.rand() <= np.exp(loga):
       particles[worst] = new
       logp[worst] = logp_new
       logl[worst] = logl_new
