@@ -1093,7 +1093,6 @@ This should be of no surprise, since I in fact generated the data using
 a normal distribution, and the error bars in the data file were the same
 as the standard deviation of the normal distribution I used.
 
-
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{nu_K.pdf}
@@ -1104,6 +1103,32 @@ determines the error bar inflation factor $K$.
 \end{center}
 \end{figure}
 
+\section{When the results are sensitive to the prior}
+The kind of prior we used for $K$ (Figure~\ref{fig:delta_mixture}), with
+a spike at an especially-plausible parameter value, is
+notorious for producing conclusions that depend sensitively on the
+shape of the prior. To see this for yourself, try keeping the prior probability
+for $K=1$ constant at 50\%, but make the scale length of the exponential
+part of the prior larger. You will find that the posterior probability for
+$K=1$ decreases when you do this.
+
+In the limit that the exponential scale length tends to infinity, the
+posterior probability for $K=1$ will tend to zero, regardless of the dataset.
+This is not a mystery, but a logical consequence of the assumptions
+used. For example, if the scale length of the exponential were 1,000,000,
+then if $K > 1$ we would expect to see data scattered by an amount much
+greater than the error bars suggest. Since this was not observed, the data
+will favour $K=1$. On the other hand, if the scale length of the exponential
+were 0.001, we would expect to see basically the same data whether $K=1$ or not.
+In this situation, we'd obtain a posterior probability very close to 50\%
+(the same as the prior) for $K=1$, unless we had a huge amount of data.
+
+When the results of an analysis are very sensitive to the prior information
+assumed in the prior distribution and the sampling distribution, it is
+prudent to demonstrate this sensitivity to your readers. The problem may
+go away with more careful consideration of your priors, or it may just signal
+that the data cannot answer your question in a way that will satisfy
+everybody.
 
 \section{What is the data?}
 It can sometimes be helpful to think carefully about exactly what your dataset
