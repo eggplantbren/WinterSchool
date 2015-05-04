@@ -483,7 +483,9 @@ moves {\it into} those regions tend to be accepted, whereas moves {\it out}
 of those regions are often rejected. The Metropolis algorithm is quite straightforward to implement and I encourage
 you to attempt this yourself if you haven't done so before.
 
-Python code implementing the Metropolis algorithm is given below. There are
+Python code implementing the Metropolis algorithm is given below (this code
+has been stripped of ``book-keeping'' features for keeping track of the output,
+and shows just the algorithm itself). There are
 several features of note. Firstly, the functions used to measure the prior
 density and likelihood of any point, and the function to generate a proposal
 in the first place, are problem-specific and assumed to have
@@ -1164,15 +1166,15 @@ Imagine a parameter estimation problem with a single parameter $x$ with a
 uniform prior distribution between 0 and 1. If the likelihood function was a
 decreasing function of $x$ (like in Figure~\ref{fig:nested1}). In this
 situation the marginal likelihood would be a straightforward integral
-$Z = \int_0^1 L(x) \,dx$. If we could obtain some points $x$, and measure their
+$Z = \int_0^1 L(X) \,dX$. If we could obtain some points $X$, and measure their
 likelihoods $L$, we could approximate the integral numerically, using the
 trapezoidal rule or some other numerical quadrature method.
 The key insight of Nested Sampling is that any high dimensional Bayesian
 problem can be mapped into a one dimensional problem like that shown in
 Figure~\ref{fig:nested1}.
 
-Consider a function that takes the interval $[0, 1]$ and maps it onto the
-parameter space. 
+Consider a function that takes the best fit (highest likelihood) point in the
+parameter space and maps it to $X=0$. 
 
 Define $X(\ell)$ as the amount of prior probability corresponding to a
 likelihood greater than $\ell$:
@@ -1226,6 +1228,24 @@ In step (ii), we assume that there is a unique ``worst'' particle with the
 lowest likelihood. If you are working on a problem where likelihood ties are
 possible, you need to add an extra parameter to your model whose sole purpose
 is breaking ties in step (ii). See \citet{murray} for more details.
+
+\section{Nested Sampling on the transit example}\label{sec:model_selection}
+For the original version of the model, we get
+$log(Z) = -161$
+
+%logZ = -161.038664757
+%Information = 15.1328174099 nats
+%Effective Sample Size = 21
+
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.45]{ns_output.pdf}
+\caption{\it \label{fig:ns_output}}
+\end{center}
+\end{figure}
+
+
 
 \section{Appendix: Notation for Probability Distributions}
 There are two main types of notation that are used in probability theory. The
