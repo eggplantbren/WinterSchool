@@ -9,10 +9,10 @@ Department of Statistics, The University of Auckland}
 
 \section{Introduction}
 Most scientific observations are not sufficient to give us definite answers
-to all our questions. It is rare that we get a data set which {\it totally}
+to all our questions. It is rare that we get a dataset which {\it totally}
 answers every question with certainty. Even if that did happen, we would
 quickly move on to other questions.
-What a data set usually {\it can} do is make hypotheses more or less plausible,
+What a dataset usually {\it can} do is make hypotheses more or less plausible,
 even if we don't achieve total certainty.
 Bayesian inference is a model of this
 reasoning process, and also a tool we can use
@@ -51,7 +51,7 @@ raw form possible, although this is often too difficult in practice.
 Therefore, most scientists work with data that has been processed (by a ``pipeline'') and reduced to a manageable size. To do Bayesian inference, you
 need to specify what {\it prior information} you have (or are willing to
 assume) about the problem, in addition to the data. Prior information is
-necessary; what you can learn from a data set depends on what you know
+necessary; what you can learn from a dataset depends on what you know
 about how it was produced.
 
 Once you have your data, and have specified your prior information as well,
@@ -114,11 +114,14 @@ will assume that the packages have been imported like so:
   import numpy.random as rng
   import matplotlib.pyplot as plt
   import copy
+  import scipy.special
 \end{minted}
 
 Full programs implementing the methods (and the particular problems) used in
-this chapter are provided online at
-{\tt http://www.iac.es/winterschool/2014/pages/teaching-material.php}.
+this chapter are provided online at the following URL:\\
+\begin{center}
+{\tt \small http://www.iac.es/winterschool/2014/pages/teaching-material.php}
+\end{center}
 
 \section{Parameter Estimation}
 Almost all data analysis problems can be interpreted as {\it parameter
@@ -185,7 +188,7 @@ hypothesis space is discrete) must equal 1. Therefore we can write the
 marginal likelihood as:
 
 \begin{eqnarray}
-p(\data | I) &=& \int p(\btheta | I)p(\data | \btheta, I) \, d^N \btheta
+p(\data | I) &=& \int p(\btheta | I)p(\data | \btheta, I) \, d\btheta
 \end{eqnarray}
 where the integral is over the entire $N$-dimensional parameter space.
 
@@ -221,7 +224,7 @@ complicated ways, and the shape of the transit signal itself is more complex
 than the model we'll use here. Nevertheless, this example contains many of the
 features and complications that will also arise in a more realistic analysis.
 
-The data set, along with the true curve, is shown in 
+The dataset, along with the true curve, is shown in 
 Figure~\ref{fig:transit_data}. The equation for the true curve is:
 \begin{eqnarray*}
 \mu(t) &=& \left\{
@@ -235,7 +238,7 @@ Figure~\ref{fig:transit_data}. The equation for the true curve is:
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{../Code/transit_data.pdf}
-\caption{\it The ``transit'' data set. The red curve shows the model prediction
+\caption{\it The ``transit'' dataset. The red curve shows the model prediction
 based on the true values of the parameters, and the blue points are the
 noisy measurements.\label{fig:transit_data}}
 \end{center}
@@ -300,9 +303,9 @@ The curve predicted
 by the model, here written as $\mu(t_i)$ (where I have suppressed the implicit
 dependence on the parameters), provides the mean of the gaussian
 distribution. Remember that the independence assumption is not an assumption
-about the actual data set, but an assumption
-about our prior information about the data set. It does not make sense to say
-a particular data set is or is not independent. Independence is a property of
+about the actual dataset, but an assumption
+about our prior information about the dataset. It does not make sense to say
+a particular dataset is or is not independent. Independence is a property of
 probability distributions.
 
 Equation~\ref{eq:gaussian} is the sampling distribution
@@ -456,13 +459,15 @@ Consider a problem with unknown
 parameters $\btheta$. If the prior is some density $\pi(\btheta)$ and the likelihood
 function is $L(\btheta)$, then the posterior distribution will be
 proportional to $\pi(\btheta)L(\btheta)$. The marginal likelihood
-$Z = \int \pi(\btheta) L(\theta) \, d^N\btheta$ is unknown,
+$Z = \int \pi(\btheta) L(\theta) \, d\btheta$ is unknown,
 but the Metropolis algorithm doesn't need to know it: all we need is the
 ability to evaluate $\pi$ and $L$ at a given position in the parameter space. The Metropolis algorithm tells us how to move a ``particle'' around the
 parameter space so that we eventually sample the posterior distribution.
 That is, the amount of time spent in any particular region of parameter space
 will be approximately proportional to the posterior probability in that
-region.
+region. Note the change of notation from $p(\theta)$, $p(D|\theta)$, and
+$p(D)$ to $\pi$, $L$, and $Z$ respectively. This is a convention when discussing
+computational methods (as opposed to discussing priors, datasets, etc).
 
 The Metropolis algorithm can be summarised as follows:
 \begin{enumerate}
@@ -505,6 +510,7 @@ $b$ when at position $a$).
                frame=single,
                framesep=2mm, fontsize=\small]{python}
   # Generate a starting point (if you have a good guess, use it)
+  # In the full version of the code, the initial point is drawn from the prior.
   params = np.array([1., 1., 1., 1.])
   logp, logl = log_prior(params), log_likelihood(params)
 
@@ -842,13 +848,17 @@ On the other hand, so-called ``objective'' Bayesians search for principles
 based on symmetry or other arguments, which can help choose a prior that is
 an appropriate choice to describe a large amount of ignorance. Some examples
 include the principle of indifference, the Jeffreys prior, reference priors,
-default priors, transformation groups, and entropic priors.
+default priors, transformation groups, maximum entropy, and entropic priors.
 
 \subsection{Probability distributions have consequences}
 When you assign prior distributions, it is more easy than you might expect to
-build in an assumption that you don't really agree with. This is especially
-true in high dimensional problems, but we'll look at single parameters to start
-with.
+build in an assumption that you don't really agree with, which can end up
+affecting your results in ways you may not have predicted (but which are
+ultimately understandable). This is especially
+true in high dimensional problems, which is why
+``hierarchical models'' (beyond the scope of this chapter) are so useful.
+Here, we'll look at some common issues that can arise in non-hierarchical
+models.
 
 Imagine that you wanted to infer the mass
 $M$ of a galaxy. It might seem reasonable to assume ``prior ignorance''
@@ -903,7 +913,7 @@ will not discuss these here.
 Another implication of our sampling distribution is that we would not expect
 very many measurements to depart from the model by more than a few standard
 deviations. Normal distributions have very ``light tails'', implying a very
-low probability for outliers. If the data set does in fact contain outliers,
+low probability for outliers. If the dataset does in fact contain outliers,
 the model will try to fit them very closely because the normal distribution
 assumption is telling it to believe the data points. This problem also occurs
 in least squares fitting, and switching to Bayesian inference will only resolve
@@ -952,7 +962,7 @@ of the Student-$t$ distribution can be a more fail-safe option in this
 situation.
 
 \subsection{Should we trust the error bars?}
-In astronomy many data sets are accompanied by error bars, which give us some
+In astronomy many datasets are accompanied by error bars, which give us some
 idea of the accuracy of a measurement. Without knowing all the details of how
 the error bars were produced, we don't really know to what extent we should
 trust them, and hence whether it is a good idea to
@@ -999,7 +1009,7 @@ distribution to some other distribution.
 \begin{center}
 \includegraphics[scale=0.45]{delta_mixture.pdf}
 \caption{\it The prior for $K$, the amount by which we should scale the error
-bars given with the data set. There is a 50\% probability that $K=1$, and
+bars given with the dataset. There is a 50\% probability that $K=1$, and
 a 50\% probability that $K > 1$. Given that $K > 1$ the prior distribution
 is exponential (with unit scale length), so we do not expect $K$ to be
 greater than 1 by an order of magnitude.\label{fig:delta_mixture}}
@@ -1047,9 +1057,25 @@ a uniform prior) and the mixture prior for $K$.
            np.log(1. + (data[:,1] - mu)**2/nu/sig**2))
 \end{minted}
 
+With this modified likelihood function, a log-uniform prior for $\nu$ between
+0.1 and 100, and a uniform prior for $u_K$ between -1 and 1, we can
+calculate the consequences of this model for the transit example. The two
+extra parameters $\nu$ and $K$ might be of interest, but unfortunately are not
+directly accessible since we parameterised things by $\log(\nu)$ and $u_K$
+instead. However, since these both had uniform priors, their marginal posteriors
+should be straightforward to interpret. These are plotted in
+Figure~\ref{fig:nu_K}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.45]{nu_K.pdf}
+\caption{\label{fig:nu_K}}
+\end{center}
+\end{figure}
+
 
 \section{What is the data?}
-It can sometimes be helpful to think carefully about exactly what your data set
+It can sometimes be helpful to think carefully about exactly what your dataset
 contains, and whether it is all ``data'' in the sense of Bayesian inference.
 In the transit example, we chose a sampling distribution for the data, but this
 sampling distribution was for the $y$-values of the data
@@ -1073,15 +1099,15 @@ value of the marginal likelihood, had we calculated it
 (see Section~\ref{sec:model_selection} for more information about when this
 is important).
 
-\section{Birth and death moves}
-Sometimes, when you are trying to fit a model to data, there is uncertainty
-not just about the values of the model parameters, but also how many model
-parameter exist in the first place. One example is
-the radial velocity technique for detecting extra-solar planets
-\citep{gregory}, where the goal is to fit a signal to a sparse data set, where
-we don't know how many components (planets) there are. Other examples are
-searching for emission lines in a noisy spectrum, and searching for faint
-sources in a noisy image.
+%\section{Birth and death moves}
+%Sometimes, when you are trying to fit a model to data, there is uncertainty
+%not just about the values of the model parameters, but also how many model
+%parameter exist in the first place. One example is
+%the radial velocity technique for detecting extra-solar planets
+%\citep{gregory}, where the goal is to fit a signal to a sparse dataset, where
+%we don't know how many components (planets) there are. Other examples are
+%searching for emission lines in a noisy spectrum, and searching for faint
+%sources in a noisy image.
 
 
 
@@ -1139,13 +1165,13 @@ as a whole. To distinguish this kind of likelihood from the standard kind (which
 is a function of the model parameters), the term {\it marginal likelihood} or
 {\it evidence} is used. The marginal likelihood for $M_1$ is:
 \begin{eqnarray}
-p(D | M_1) &=& \int p(\btheta_1 | M_1) p(D | \btheta_1, M_1) \, d^{N_1} \btheta_1
+p(D | M_1) &=& \int p(\btheta_1 | M_1) p(D | \btheta_1, M_1) \, d\btheta_1
 \label{eq:marginal_likelihood}
 \end{eqnarray}
 To do model selection, we need this as well as the marginal likelihood for
 $M_2$:
 \begin{eqnarray}
-p(D | M_2) &=& \int p(\btheta_2 | M_2) p(D | \btheta_2, M_2) \, d^{N_2} \btheta_2
+p(D | M_2) &=& \int p(\btheta_2 | M_2) p(D | \btheta_2, M_2) \, d\btheta_2
 \end{eqnarray}
 Marginal likelihoods are integrals over the parameter space. They are
 expected values, but they are not expected values with respect to the posterior
@@ -1182,25 +1208,26 @@ parameter space is mapped to $X=0$ (modulo mathemetical technicalities),
 and the worst point in the space is mapped to $X=1$.
 For all of the intermediate points, the $X$ value is given by:
 \begin{eqnarray}
-X(\theta) = \int \pi(\theta) \mathds{1}\left(L(\theta') > L(\theta'\right)\, d\theta'
+X(\theta) = \int \pi(\theta) \mathds{1}\left(L(\theta) > L(\theta'\right)\, d\theta'
 \end{eqnarray}
 $X$ can also be considered a function of a likelihood value:
 \begin{eqnarray}
 X(\ell) = \int \pi(\theta) \mathds{1}\left(L(\theta) > \ell\right)\, d\theta
 \end{eqnarray}
-
 An intuitive interpretation of $X$ is the ``fraction of points in the space
-which this point beats''.
+which this point beats''. 
 
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{nested1.pdf}
 \caption{\it A simple one dimensional parameter estimation problem where the
-prior was uniform between 0 and 1, and the decreasing curve shown is the likelihood
+prior is uniform between 0 and 1, and the decreasing curve shown is the likelihood
 function (which has the same shape as the posterior). The marginal likelihood
 is the integral of the likelihood function, and we could calculate this
-numerically if we had a few points along the curve.
+numerically if we had a few points along the curve. Nested Sampling takes a
+high dimensional space and uses it to compute a curve like this whose integral
+is the marginal likelihood $Z$.
 \label{fig:nested1}}
 \end{center}
 \end{figure}

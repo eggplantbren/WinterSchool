@@ -27,3 +27,22 @@ plt.ylabel('$b$')
 plt.savefig('joint_posterior.pdf', bbox_inches='tight')
 plt.show()
 
+
+# If we're doing transit_model2
+if keep.shape[1] == 7:
+  plt.figure(figsize=(13, 6))
+  plt.subplot(1, 2, 1)
+  plt.hist(keep[100:,4], 100, alpha=0.5)
+  plt.xlabel('$\\log(\\nu)$')
+  plt.ylabel('Number of samples')
+  plt.xlim([np.log(0.1), np.log(100.)])
+
+  plt.subplot(1, 2, 2)
+  plt.hist(keep[100:,5], 100, alpha=0.5)
+  plt.xlabel('$u_K$')
+  plt.ylabel('Number of samples')
+  plt.xlim([-1., 1.])
+
+  plt.savefig('nu_K.pdf', bbox_inches='tight')
+  plt.show()
+
