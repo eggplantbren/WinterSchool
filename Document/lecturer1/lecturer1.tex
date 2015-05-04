@@ -1313,7 +1313,18 @@ To obtain more points, we generate a new point to replace the one just identifie
 as the worst. This point is drawn from the prior, but with the restriction that
 its likelihood must exceed $L_{\rm worst}$. In terms of $X$, the new point's
 location has a uniform distribution between 0 and $\exp(-1/N)$: just the same
-as the other $N-1$ points. If we find the worst point now, 
+as the other $N-1$ points. If we find the worst point now, we'll be doing the
+same thing but instead of looking at $X$ values between 0 and 1 we are looking
+at $X$ values between 0 and $\exp(-1/N)$. Therefore our estimate of the $X$
+value of the worst particle in the second iteration is
+$\exp(-1/N)\times\exp(-1/N) = \exp(-2/N)$. Since we know the likelihood, we
+can add another point to our graph and continue.
+
+In most problems, the region of the parameter space with high likelihood is
+quite small. Therefore, in practice, most of the marginal likelihood integral
+will be dominated by a very small range to the left of the plot in
+Figure~\ref{fig:nested1}. For this reason, logarithmic axes are more useful
+(Figure~\ref{fig:nested2}). 
 
 \begin{figure}
 \begin{center}
@@ -1425,7 +1436,7 @@ for i in range(0, steps):
 
 \section{Nested Sampling on the transit example}\label{sec:model_selection}
 For the original version of the model, we get
-$\log(Z) = -161$
+$\log(Z) = -161.0$
 
 %logZ = -161.038664757
 %Information = 15.1328174099 nats
