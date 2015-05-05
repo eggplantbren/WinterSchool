@@ -119,7 +119,7 @@ effective_sample_size = int(np.exp(-np.sum(wt*np.log(wt + 1E-300))))
 # Calculate information
 H = np.sum(wt*(keep[:,-1] - logZ))
 
-print('logZ = {logZ} += {err}'.format(logZ=logZ, err=np.sqrt(H/N)))
+print('logZ = {logZ} +- {err}'.format(logZ=logZ, err=np.sqrt(H/N)))
 print('Information = {H} nats'.format(H=H))
 print('Effective Sample Size = {ess}'.format(ess=effective_sample_size))
 

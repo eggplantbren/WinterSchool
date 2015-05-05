@@ -1168,18 +1168,18 @@ is important).
 
 
 \section{Model Selection and Nested Sampling}\label{sec:model_selection}
-Nested Sampling is a Monte Carlo algorithm introduced by \citet{skilling}. It
+Nested Sampling (NS) is a Monte Carlo algorithm introduced by \citet{skilling}. It
 is not technically an MCMC algorithm, although MCMC can be used as part of the
 implementation. It has some advantages over related Monte Carlo methods
 such as parallel tempering \citep{pt, gregory, tempering}, but
 also brings with it its own challenges.
-Several variants of Nested Sampling exist, and most of them are somewhat
-complicated. Here, I will present a simple version of Nested Sampling which
+Several variants of NS exist, and most of them are somewhat
+complicated. Here, I will present a simple version of the algorithm which
 is sufficient to solve a wide range of problems. This approach is similar to
 the one presented in the introductory textbook by \citet{sivia}.
 
 Many more complex and sophisticated versions of
-Nested Sampling exist, such as the popular MultiNest \citep{multinest},
+NS exist, such as the popular MultiNest \citep{multinest},
 my own Diffusive Nested Sampling \citep{dnest}, and several others. These
 algorithms, while all based on the insights of \citet{skilling}, are very
 different in detail. See the appendix for more details.
@@ -1254,7 +1254,7 @@ situation the marginal likelihood would be a straightforward integral
 $Z = \int_0^1 L(X) \,dX$. If we could obtain some points $X$, and measure their
 likelihoods $L$, we could approximate the integral numerically, using the
 trapezoidal rule or some other numerical quadrature method.
-The key insight of Nested Sampling is that any high dimensional Bayesian
+The key insight of NS is that any high dimensional Bayesian
 problem can be mapped into a one dimensional problem like that shown in
 Figure~\ref{fig:nested1}. In this introductory discussion, I will ignore some
 mathematical technicalities and focus more on the ideas behind the algorithm.
@@ -1324,7 +1324,9 @@ In most problems, the region of the parameter space with high likelihood is
 quite small. Therefore, in practice, most of the marginal likelihood integral
 will be dominated by a very small range to the left of the plot in
 Figure~\ref{fig:nested1}. For this reason, logarithmic axes are more useful
-(Figure~\ref{fig:nested2}). 
+(Figure~\ref{fig:nested2}). In terms of the plots in Figure~\ref{fig:nested2},
+NS steps towards the left, obtaining $(X, L)$ pairs, 
+
 
 \begin{figure}
 \begin{center}
@@ -1357,8 +1359,13 @@ must be greater than $L_{\rm worst}$.
 
 This seems quite simple, but step (iii) hides a lot of complexity, and is the
 key point distinguishing different implementations of Nested Sampling from
-each other. 
-
+each other. We have to be able to generate a point from a restricted version
+of the prior, proportional to
+$\pi(\theta)\mathds{1}\left(L(\theta) > L_{\rm worst}\right)$. Naive ``rejection
+sampling'', i.e. generating from the prior until you get a point that
+satisfies the likelihood constraint, will not work because the region satisfying
+the constraint may be very small (this is, in fact, exactly what $X$ measures,
+and $X$ decreases exponentially).
 
 
 
@@ -1380,7 +1387,7 @@ N = 5
 steps = 5*30
 
 # MCMC steps per NS iteration
-mcmc_steps = 1000
+mcmc_steps = 10000
 
 # Generate N particles from the prior
 # and calculate their log likelihoods
@@ -1433,15 +1440,20 @@ for i in range(0, steps):
   logX = -(np.arange(0, i+1) + 1.)/N
 \end{minted}
 
-
 \section{Nested Sampling on the transit example}\label{sec:model_selection}
-For the original version of the model, we get
-$\log(Z) = -161.0$
+Since the NS code given requires 
+For the original version of the model, I got
+$\log(Z_1) = -163.0 \pm 1.8$, and the graphical output is shown in
+Figure~\ref{fig:ns_output}.
 
-%logZ = -161.038664757
-%Information = 15.1328174099 nats
-%Effective Sample Size = 21
+For the modified version of the model with the different sampling distribution,
+I got $\log(Z_2) = -165.0 \pm 1.9$. Thus, the data are approximately
+$e^2 \approx 10$ times as likely if the original model is true, compared to
+the modified model.
 
+
+With 30 particles, I got $\log(Z_1) = -163.0 \pm 0.7$ for the original model and
+$\log(Z) = -165.8 \pm 0.8$ for the modified model.
 
 \begin{figure}
 \begin{center}
