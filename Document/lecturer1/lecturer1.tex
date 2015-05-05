@@ -1483,27 +1483,14 @@ for i in range(0, steps):
 \end{minted}
 
 \section{Nested Sampling on the transit example}\label{sec:model_selection}
-To demonstrate NS, we can run it on the original version of the transit model,
-and the revised version with the $t$-distributed sampling distribution, to
+To demonstrate NS, we can run it on the original version (Model 1)
+of the transit model,
+and the revised version with the $t$-distributed sampling distribution (Model 2), to
 calculate the two marginal likelihoods. I used $N=5$ particles and 10,000
 MCMC steps to generate a new particle in each iteration.
-For the original version of the model, I obtained
+For Model 1, I obtained
 $\log(Z_1) = -163.0 \pm 1.8$, and the graphical output is shown in
 Figure~\ref{fig:ns_output}.
-
-For the modified version of the model with the different sampling distribution,
-I got $\log(Z_2) = -165.0 \pm 1.9$. Thus, the data are approximately
-$e^2 \approx 10$ times as likely if the original model is true, compared to
-the modified model. At least, that's if we ignore the numerical error bars!
-With 30 particles, I got $\log(Z_1) = -163.0 \pm 0.7$ for the original model and
-$\log(Z) = -165.8 \pm 0.8$ for the modified model, so this conclusion seems
-robust.
-
-If the Bayes Factor (ratio of marginal likelihoods) favours the original model
-by a factor of 10, that doesn't necessarily imply that the original model is
-10 times more plausible. We must always remember the prior odds factor in
-Equation~\ref{eq:odds}.
-
 
 \begin{figure}
 \begin{center}
@@ -1517,7 +1504,24 @@ can happen in ``phase change'' problems \citep{skilling}.\label{fig:ns_output}}
 \end{center}
 \end{figure}
 
+For Model 2,
+I got $\log(Z_2) = -165.0 \pm 1.9$. Thus, the data are approximately
+$e^2 \approx 10$ times as likely if the original model is true, compared to
+the modified model. At least, that's if we ignore the numerical error bars!
+With 30 particles, I got $\log(Z_1) = -163.0 \pm 0.7$ for the original model and
+$\log(Z) = -165.8 \pm 0.8$ for the modified model, so this conclusion seems
+robust.
 
+If the Bayes Factor (ratio of marginal likelihoods) favours Model 1
+by a factor of 10, that doesn't necessarily imply it is
+10 times more plausible. We must always remember the prior odds factor in
+Equation~\ref{eq:odds}. It may be that we completely agree with the assumptions
+of Model 2, in which case the marginal likelihoods are irrelevant. Or we may
+consider the union of the two models to be sensible, but 50/50 prior
+probabilities to be inappropriate. Marginal likelihoods are not everything,
+but they are still important and worth calculating. As always, if a result
+is surprising, or depends on assumptions in a way you didn't expect, treat it
+as a learning opportunity.
 
 \section{Appendix: Notation for Probability Distributions}
 There are two main types of notation that are used in probability theory. The
@@ -1643,8 +1647,15 @@ you need to write a fair bit of C++ code in order to implement a new model.
 \section{Acknowledgements}
 I would like to thank the organisers of the Winter School for their invitation,
 generosity and hospitality, and the students and other lecturers for many
-interesting discussions. The `Astrostatistics' Facebook group was very helpful
-with a query, as was Thomas Lumley (Auckland).
+interesting discussions. I would also like to apologise to Earth's atmosphere
+and future inhabitants for my antipodal journey to Tenerife.
+
+The `Astrostatistics' Facebook group was very helpful
+with a MultiNest query, as was Thomas Lumley (Auckland) who helped me understand
+the finer mathematical points of the Nested Sampling ``mapping'' trick.
+I am grateful to all the friends I have met through this subject, from whom
+I (hope I) have learned so much.
+Finally I would like to thank my wife Lianne for her support and understanding.
 
 \begin{thebibliography}{999}
 \bibitem[\protect\citeauthoryear{Brewer, P{\'a}rtay,
