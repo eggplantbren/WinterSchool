@@ -1266,8 +1266,9 @@ problem can be mapped into a one dimensional problem like that shown in
 Figure~\ref{fig:nested1}. In this introductory discussion, I will ignore some
 mathematical technicalities and focus more on the ideas behind the algorithm.
 
+\section{Making hard problems easy}
 Consider a function that takes the entire parameter space and maps it to the
-real line between 0 and 1. The best fit (highest likelihood) point in the
+real line between 0 and 1, such that the best fit (highest likelihood) point in the
 parameter space is mapped to $X=0$,
 and the worst point in the space is mapped to $X=1$.
 For all of the intermediate points, the $X$ value is given by:
@@ -1540,9 +1541,15 @@ exists and just use the lower case $x$ for that purpose, even though it was
 originally a dummy variable!
 The key to understanding this notation is to read $p(x)$ as ``the probability
 distribution for $x$'', and to understand what the expression following it
-really means. If the set of possible $x$ values is continuous (so $p(x)$ gives
+really means. If we have an expression involving $p(x)$ and $p(y)$, the two
+$p$s may not be the same function!
+If the set of possible $x$ values is continuous (so $p(x)$ gives
 the probability {\it density} instead of a probability itself) then the
-notation doesn't change.
+concise notation doesn't change. Whether you're dealing with a probability
+density function or a probability mass function (the discrete case) must be
+understood from the context. For completeness, the full
+(non-compact) notation for the
+probability density for a variable $X$ is $f_X(x)$.
 
 The compact notation is especially helpful in Bayesian statistics because
 we deal with conditional probability distributions a lot. For example, if we
@@ -1555,10 +1562,12 @@ Written in the non-compact notation, we'd have three variables $A$, $B$, and
 $C$, and the corresponding equation would be
 \begin{eqnarray}
 P(A=a | B=b, C=c) &=&
- P(A=a)P(B=b|A=a)\\
+ P(A=a)P(B=b|A=a)\nonumber\\
 & & \times P(C=c|B=b,A=a)
 \end{eqnarray}
 which is much harder to read and manipulate.
+
+
 
 \section{Appendix: A rough guide to popular Bayesian computation packages}
 This is a very brief list of popular Bayesian computation software packages
