@@ -17,7 +17,7 @@ N = 5
 steps = 5*30
 
 # MCMC steps per NS iteration
-mcmc_steps = 1000
+mcmc_steps = 10000
 
 # Generate N particles from the prior
 # and calculate their log likelihoods
@@ -110,7 +110,6 @@ logw -= logsumexp(logw)
 
 # Calculate marginal likelihood
 logZ = logsumexp(logw + keep[:,-1])
-print('logZ = {logZ}'.format(logZ=logZ))
 
 # Normalised posterior weights
 wt = wt/wt.sum()
@@ -119,8 +118,9 @@ effective_sample_size = int(np.exp(-np.sum(wt*np.log(wt + 1E-300))))
 
 # Calculate information
 H = np.sum(wt*(keep[:,-1] - logZ))
-print('Information = {H} nats'.format(H=H))
 
+print('logZ = {logZ} += {err}'.format(logZ=logZ, err=np.sqrt(H/N)))
+print('Information = {H} nats'.format(H=H))
 print('Effective Sample Size = {ess}'.format(ess=effective_sample_size))
 
 posterior_samples = np.empty((effective_sample_size, keep.shape[1]))
