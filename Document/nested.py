@@ -39,9 +39,8 @@ show()
 
 logX = linspace(-30, 0, 1001)
 logL = sqrt(-logX/0.02)
-plot(logX, logL, 'k', linewidth=2, label='True Curve')
+plot(logX, logL, 'k', linewidth=2, label='Log Likelihood')
 xlabel('$\log(X)$')
-ylabel('$\log(L)$')
 
 post = exp(logX + logL)
 post /= trapz(post, x=logX)
