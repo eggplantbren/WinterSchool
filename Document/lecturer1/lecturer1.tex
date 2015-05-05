@@ -1216,12 +1216,12 @@ posterior probabilities, which is sometimes called the {\it posterior odds
 ratio}:
 \begin{eqnarray}
 \frac{P(M_2 | D)}{P(M_1 | D)} &=& \frac{P(M_2)}{P(M_1)}
-\times \frac{P(D | M_2)}{P(D | M_1)}
+\times \frac{P(D | M_2)}{P(D | M_1)}\label{eq:odds}
 \end{eqnarray}
 
 As you might expect, the posterior odds for $M_2$ over $M_1$ depends on the
 prior odds: was $M_2$ more plausible than $M_1$ before taking into account the
-data? The other ratio is a ratio of likelihoods, how probable was the data
+data? The other ratio is a ratio of likelihoods, sometimes called a Bayes Factor; how probable was the data
 assuming $M_2$ vs assuming $M_1$? These likelihoods aren't the likelihoods
 for a specific value of the parameters, but instead likelihoods for the model
 as a whole. To distinguish this kind of likelihood from the standard kind (which
@@ -1390,6 +1390,17 @@ H &=& \int \frac{\pi(\theta)L(\theta)}{Z}\log\left[\frac{L(\theta)}{Z}\right] \,
 &=& \int_0^1 \frac{L(X)}{Z} \log\left[\frac{L(X)}{Z}\right] \, dX
 \end{eqnarray}
 and this can be computed numerically once $Z$ has been calculated.
+The information also gives an estimate of the uncertainty in
+$\log(Z)$, given by $\sqrt{H/N}$ \citep{skilling}.
+
+As you might expect, NS can also be used to generate posterior samples; it's
+unlikely anyone would use it if it didn't.
+Each discarded point (the worst point at each iteration) is assigned a
+prior ``width'' based on the distance from its neighbours in terms of $X$,
+and a posterior weighting factor is given by the prior width times the
+likelihood. In the code provided with this chapter, a resampling technique
+is used to create equally-weighted posterior samples which can be used
+like standard MCMC output.
 
 \begin{figure}
 \begin{center}
@@ -1472,26 +1483,37 @@ for i in range(0, steps):
 \end{minted}
 
 \section{Nested Sampling on the transit example}\label{sec:model_selection}
-Since the NS code given requires 
-For the original version of the model, I got
+To demonstrate NS, we can run it on the original version of the transit model,
+and the revised version with the $t$-distributed sampling distribution, to
+calculate the two marginal likelihoods. I used $N=5$ particles and 10,000
+MCMC steps to generate a new particle in each iteration.
+For the original version of the model, I obtained
 $\log(Z_1) = -163.0 \pm 1.8$, and the graphical output is shown in
 Figure~\ref{fig:ns_output}.
 
 For the modified version of the model with the different sampling distribution,
 I got $\log(Z_2) = -165.0 \pm 1.9$. Thus, the data are approximately
 $e^2 \approx 10$ times as likely if the original model is true, compared to
-the modified model.
-
-
+the modified model. At least, that's if we ignore the numerical error bars!
 With 30 particles, I got $\log(Z_1) = -163.0 \pm 0.7$ for the original model and
-$\log(Z) = -165.8 \pm 0.8$ for the modified model.
+$\log(Z) = -165.8 \pm 0.8$ for the modified model, so this conclusion seems
+robust.
+
+If the Bayes Factor (ratio of marginal likelihoods) favours the original model
+by a factor of 10, that doesn't necessarily imply that the original model is
+10 times more plausible. We must always remember the prior odds factor in
+Equation~\ref{eq:odds}.
+
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.45]{ns_output.pdf}
 \caption{\it Numerical versions of the plots in Figure~\ref{fig:nested2},
 produced using Nested Sampling on the transit problem with the original
-priors.\label{fig:ns_output}}
+priors. For an NS run to be satisfactorily completed, the posterior weights
+in the lower panel must peak and decline, as seen here. There is little point
+continuing the run further unless you suspect another peak may appear. This
+can happen in ``phase change'' problems \citep{skilling}.\label{fig:ns_output}}
 \end{center}
 \end{figure}
 
