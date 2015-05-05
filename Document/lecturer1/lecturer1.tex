@@ -565,7 +565,9 @@ that you use a mixture of widths. Basically, every time we make a proposal,
 the width is drawn from some range, rather than being constant. The biggest
 possible width we would ever want should be roughly the order of magnitude of
 the width of the prior (since the posterior is usually narrower than the
-prior).
+prior). It's rare that we would need proposals many orders of magnitude
+smaller than that. My default suggestion is to randomise the logarithm of
+the step size, as in this code snippet:
 \begin{minted}[mathescape,
                numbersep=5pt,
                gobble=2,
@@ -581,7 +583,10 @@ prior).
 With this proposal, the minimum width is
 $10^{-4.5} \approx 3.16 \times 10^{-5}$, and the maximum width is
 $10^{1.5} \approx 31.6$. The effective proposal distribution is now very heavy-tailed. As long as a good width is somewhere within our range, things should be
-okay.
+okay. Remember, this is not an optimal suggestion, but a fail-safe conservative
+one. It is possible to spend time (doing preliminary runs) to eventually save
+time (by having a more efficient final run), but my personal preference is
+usually not to do this.
 
 When there are multiple parameters (almost always, since MCMC isn't necessary
 on single parameter problems!), we need to decide how to construct the proposal.
@@ -591,7 +596,7 @@ high dimensions, because the only proposals that are likely to be accepted
 are those that change the parameter values only slightly: in a high dimensional
 space, there are many bad directions to travel, and not very many good ones.
 Usually, it's better to propose to change a subset of the parameters, or even
-just a single parameter. A python function that takes a {\tt numpy} array of
+just a single parameter. A Python function that takes a {\tt numpy} array of
 parameters and input and returns a proposed value for the parameters is
 specified below.
 
@@ -711,7 +716,9 @@ MCMC chain (hopefully) moves towards the important regions of the space.
 This transient period is called the burn-in, and should usually be excluded
 from the sample, otherwise your Monte Carlo summaries will give too much
 importance to the part of the space the MCMC happened to go through during
-burn-in.
+burn-in. When using Metropolis, it's worthwhile to monitor the fraction of the proposed
+moves that are accepted. This fraction shouldn't be too close to zero or one,
+and generally somewhere between 15 and 50\% is usually advised.
 
 \begin{figure}
 \begin{center}
@@ -1247,9 +1254,9 @@ sampling the prior will almost certainly not give any samples in the important
 region.
 
 \section{An easy problem}
-Imagine a parameter estimation problem with a single parameter $x$ with a
+Imagine a parameter estimation problem with a single parameter $X$ with a
 uniform prior distribution between 0 and 1. If the likelihood function was a
-decreasing function of $x$ (like in Figure~\ref{fig:nested1}). In this
+decreasing function of $X$ (like in Figure~\ref{fig:nested1}). In this
 situation the marginal likelihood would be a straightforward integral
 $Z = \int_0^1 L(X) \,dX$. If we could obtain some points $X$, and measure their
 likelihoods $L$, we could approximate the integral numerically, using the
@@ -1318,30 +1325,8 @@ same thing but instead of looking at $X$ values between 0 and 1 we are looking
 at $X$ values between 0 and $\exp(-1/N)$. Therefore our estimate of the $X$
 value of the worst particle in the second iteration is
 $\exp(-1/N)\times\exp(-1/N) = \exp(-2/N)$. Since we know the likelihood, we
-can add another point to our graph and continue.
-
-In most problems, the region of the parameter space with high likelihood is
-quite small. Therefore, in practice, most of the marginal likelihood integral
-will be dominated by a very small range to the left of the plot in
-Figure~\ref{fig:nested1}. For this reason, logarithmic axes are more useful
-(Figure~\ref{fig:nested2}). In terms of the plots in Figure~\ref{fig:nested2},
-NS steps towards the left, obtaining $(X, L)$ pairs, 
-
-
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.45]{nested2.pdf}
-\caption{\it The same as Figure~\ref{fig:nested1}, but with logarithmic
-axes, since the important parts of parameter space tend to occupy a very
-small volume of parameter space. The black curve is the likelihood function,
-and the uniform prior for $X$ corresponds to the dotted red exponential prior
-for $\log(X)$. The posterior (proportional to prior times likelihood) usually
-has a bell-shaped peak, but can be more complex.\label{fig:nested2}}
-\end{center}
-\end{figure}
-
-
-
+can add another point to our graph and continue. The NS algorithm is summarised
+below.
 
 \begin{enumerate}
 \item Generate $N$ particles $\{\theta_1, \theta_2, ..., \theta_N\}$ from
@@ -1357,23 +1342,68 @@ must be greater than $L_{\rm worst}$.
 \item Repeat steps (ii) and (iii).
 \end{enumerate}
 
-This seems quite simple, but step (iii) hides a lot of complexity, and is the
+In step (ii), we assume that there is a unique ``worst'' particle with the
+lowest likelihood. If you are working on a problem where likelihood ties are
+possible, you need to add an extra parameter to your model whose sole purpose
+is breaking ties in step (ii). See \citet{murray} for more details.
+
+Step (iii) also hides a lot of complexity, and is the
 key point distinguishing different implementations of Nested Sampling from
 each other. We have to be able to generate a point from a restricted version
 of the prior, proportional to
 $\pi(\theta)\mathds{1}\left(L(\theta) > L_{\rm worst}\right)$. Naive ``rejection
 sampling'', i.e. generating from the prior until you get a point that
 satisfies the likelihood constraint, will not work because the region satisfying
-the constraint may be very small (this is, in fact, exactly what $X$ measures,
-and $X$ decreases exponentially).
+the constraint may be very small in volume. This volume is, in fact,
+exactly what $X$ measures, and $X$ decreases exponentially during NS.
+A simple and popular approach, which we will
+use, is to copy one of the surviving particles (which has a likelihood above
+$L_{\rm worst}$ by construction) and evolve it using MCMC as though we were
+trying to sample the prior, but rejecting any proposed move that would take
+the likelihood below $L_{\rm worst}$. The main disadvantage of this approach
+is that the initial diversity of the $N$ particles can become depleted
+quite quickly, leading to problems if there are multiple likelihood peaks.
 
+In most problems, the region of the parameter space with high likelihood is
+quite small. Therefore, in practice, most of the marginal likelihood integral
+will be dominated by a very small range to the left of the plot in
+Figure~\ref{fig:nested1}. For this reason, logarithmic axes are more useful
+(Figure~\ref{fig:nested2}). In terms of the plots in Figure~\ref{fig:nested2},
+NS steps towards the left, obtaining $(X, L)$ pairs each time the worst point
+is found. In terms of $\log(X)$ the steps are of equal size ($1/N$). Once
+the algorithm has been running for a while, the marginal likelihood can be
+obtained by numerically approximating the integral:
+\begin{eqnarray}
+Z = \int_0^1 L(X) \, dX.
+\end{eqnarray}
+An additional output of NS is the ``information'', also known as the
+Kullback-Leibler divergence of the posterior distribution from the prior
+distribution, which measures how compressed the posterior distribution is.
+Loosely speaking, the information is (minus the log of) the fraction of the
+prior volume occupied by the posterior. An information of zero means the
+posterior is the same as the prior, and an information of 100 means the
+posterior occupies about $e^{-100}$ times the prior volume.
+The definition is:
+\begin{eqnarray}
+H &=& \int \frac{\pi(\theta)L(\theta)}{Z}\log\left[\frac{L(\theta)}{Z}\right] \, d\theta\\
+&=& \int_0^1 \frac{L(X)}{Z} \log\left[\frac{L(X)}{Z}\right] \, dX
+\end{eqnarray}
+and this can be computed numerically once $Z$ has been calculated.
 
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.45]{nested2.pdf}
+\caption{\it The same as Figure~\ref{fig:nested1}, but with logarithmic
+axes, since the important parts of parameter space tend to occupy a very
+small volume of parameter space. The black curve is the likelihood function,
+and the uniform prior for $X$ corresponds to the dotted red exponential prior
+for $\log(X)$. The posterior (proportional to prior times likelihood) usually
+has a bell-shaped peak, but can be more complex.\label{fig:nested2}}
+\end{center}
+\end{figure}
 
-In step (ii), we assume that there is a unique ``worst'' particle with the
-lowest likelihood. If you are working on a problem where likelihood ties are
-possible, you need to add an extra parameter to your model whose sole purpose
-is breaking ties in step (ii). See \citet{murray} for more details.
-
+Python code (minus bookkeeping) implementing basic Nested Sampling is given
+below.
 
 \begin{minted}[mathescape,
                numbersep=5pt,
@@ -1575,7 +1605,8 @@ MCMC in the standard Nested Sampling framework as we did in this chapter, it
 uses MCMC to explore a target distribution which is inspired by Nested Sampling.
 DNest is most useful on problems with large numbers of parameters and/or a
 complicated posterior distribution, but where the
-likelihood function can be evaluated quite quickly. The main downside is that
+likelihood function can be evaluated quite quickly. It tends to outperform
+the version of NS presented here by a substantial margin. The main downside is that
 you need to write a fair bit of C++ code in order to implement a new model.
 
 \section{Acknowledgements}
