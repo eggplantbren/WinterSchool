@@ -22,7 +22,11 @@ of data analysis, because we no longer have to come up with a new method
 every time we face a new problem. Instead, we simply specify exactly what
 information we are going to use, and then compute the results.
 In the last two decades, Bayesian inference has become immensely popular in
-many fields of science, and astrophysics is no exception. Accessible textbooks
+many fields of science, and astrophysics is no exception. Therefore it is
+becoming increasingly important for researchers to have at least a basic
+understanding of these methods.
+
+Accessible textbooks
 for those with a physics background are those by \citet{gregory} and
 \citet{sivia}, and parts of the textbook by \citet{mackay}\footnote{Freely
 available online at\\
@@ -41,19 +45,24 @@ Any particular application of Bayesian inference involves making choices
 about what data you are analysing, what questions you are
 trying to answer, and what assumptions you are willing to make.
 Data analysis problems in astronomy vary widely, so in this \documentname~we
-cannot cover a huge variety of examples. Instead, we will look at a small
-number of examples. The assumptions we make in those examples will not always
+cannot cover a huge variety of examples. Instead, we will only study a single
+example, but will spend a lot of time looking at the methods and thinking that
+go into such an analysis, and will be applicable in other examples.
+The specific assumptions we make in the example will not always
 be appropriate, but they should be sufficient to show you the points at which
 assumptions are needed, and what you will need to consider when you work on a particular problem.
 
 In principle, it's usually best to work with your data in the most
 raw form possible, although this is often too difficult in practice.
-Therefore, most scientists work with data that has been processed (by a ``pipeline'') and reduced to a manageable size. To do Bayesian inference, you
+Therefore, most scientists work with data that has been processed (by a ``pipeline'') and reduced to a manageable size. While many Bayesian
+practitioners often have strong ideals about data analysis, a large dose of
+pragmatism is still very necessary in the real world.
+
+To do Bayesian inference, you
 need to specify what {\it prior information} you have (or are willing to
 assume) about the problem, in addition to the data. Prior information is
 necessary; what you can learn from a dataset depends on what you know
 about how it was produced.
-
 Once you have your data, and have specified your prior information as well,
 you are faced with the question of how to calculate the
 results. Usually you want to calculate the {\it posterior distribution} for some
@@ -103,7 +112,7 @@ I have implemented the algorithms in this chapter in the Python language.
 The code is written so that it works in either Python 2 or 3.
 The programs make use of the common numerical library {\tt numpy}, and also
 the plotting package {\tt matplotlib}. Any Python code snippets in this chapter
-will assume that the packages have been imported like so:
+will assume that the following packages have been imported:
 
 \begin{minted}[mathescape,
                numbersep=5pt,
@@ -281,7 +290,10 @@ probability distribution must.
 The {\it sampling distribution} is the probability distribution we would assign
 for the data, if we knew the true values of the parameters. A useful way to
 think about the sampling distribution is to write some code whose input is the
-true parameter values, and whose output is a simulated dataset.
+true parameter values, and whose output is a simulated dataset. Whatever
+probability distribution you use to simulate your dataset is your sampling
+distribution.
+
 In many situations, it is conventional to assign a normal distribution
 (also known as a gaussian distribution) to each data point, where the mean
 of the normal distribution is the noise-free model prediction, and the
@@ -294,14 +306,17 @@ distribution) is:
 p(D | A, b, t_c, w) &=& \prod_{i=1}^N \frac{1}{\sigma_i \sqrt{2\pi}}
 \exp\left[-\frac{1}{2\sigma_i^2}\left(D_i - \mu(t_i)\right)^2\right]\label{eq:gaussian}
 \end{eqnarray}
-This is a product of $N$ terms, one for each data point. We have assumed that
+This is a product of $N$ terms, one for each data point, and is really a
+probability distribution over the $N$-dimensional space of possible datasets.
+We have assumed that
 each data point is {\it independent} (given the parameters). That is, if we
 knew the parameters and a subset of the data points, we would use {\it only} the parameters (not the data points) to predict the remaining data points.
-When the data is known, Equation~\ref{eq:gaussian} becomes a
+
+When the dataset is known, Equation~\ref{eq:gaussian} becomes a
 function of the parameters only, known as the likelihood function.
 The curve predicted
 by the model, here written as $\mu(t_i)$ (where I have suppressed the implicit
-dependence on the parameters), provides the mean of the gaussian
+dependence on the parameters), provides the mean of the normal
 distribution. Remember that the independence assumption is not an assumption
 about the actual dataset, but an assumption
 about our prior information about the dataset. It does not make sense to say
@@ -342,14 +357,16 @@ were to learn the value of one of the parameters, this wouldn't tell us anything
 about the others. This may or may not be realistic in a given application, but
 it is a useful starting point.
 
-Another useful starting point for priors is the uniform distribution.
+Another useful starting point for priors is the uniform distribution, which
+has a constant probability density between some lower and upper limit. Let's
+use four uniform distributions for our priors:
 \begin{eqnarray}
 A &\sim& U(-100, 100)\\
 b &\sim& U(0, 10)\\
 t_c &\sim& U(t_{\rm min}, t_{\rm max})\\
 w &\sim& U(0, t_{\rm max} - t_{\rm min})
 \end{eqnarray}
-The full expression for the probability density is:
+The full expression for the joint prior probability density is:
 \begin{eqnarray}
 p(A, b, t_c, w) &=&
 \left\{
@@ -362,8 +379,10 @@ p(A, b, t_c, w) &=&
 where $S$ is the set of allowed values. Even more simply, we can ignore the
 normalising constant and the prior boundaries and just write:
 \begin{eqnarray}
-p(A, b, t_c, w) &\propto& 1.
+p(A, b, t_c, w) &\propto& 1,
 \end{eqnarray}
+although if we use this shortcut, we must remember that the boundaries are
+implicit.
 
 Now that we have specified our assumed prior information in the form of a
 sampling distribution and a prior, we are ready to go. By Bayes' rule, we
@@ -809,8 +828,8 @@ calculation is by sorting the samples, as shown below.
                framesep=2mm, fontsize=\small]{python}
   sorted_samples = np.sort(samples)
   # Left and right end of interval
-  left = sorted[int(0.16*len(sorted))]
-  right = sorted[int(0.84*len(sorted))]
+  left = sorted_samples[int(0.16*len(sorted_samples))]
+  right = sorted_samples[int(0.84*len(sorted_samples))]
 \end{minted}
 
 This kind of interval is sometimes called a {\it centered} credible interval,
@@ -892,26 +911,24 @@ $P(M > 10^{12}) = 0.3$, and so on. The loguniform prior is appropriate for
 positive parameters whose uncertainty spans multiple orders of magnitude.
 The probability density, in terms of $M$, is proportional to $1/M$.
 
-There are two obvious ways to implement the log-uniform prior in the Metropolis
+There are two main ways to implement the log-uniform prior in the Metropolis
 algorithm. One is to keep $M$ as a parameter, and take the non-uniform prior
-into account in the acceptance probability. The other is to treat
+into account in the acceptance probability (i.e. implement the $1/M$ prior in
+your {\tt log\_prior} function). The other is to treat
 $\ell = \log(M)$ as the parameter, in which case the prior is still uniform.
 You'll just need to compute $M$ from $\ell$ before you can use it in the
-likelihood function. The other way is to keep $M$ as the parameter, but the
-prior is then proportional to $1/M$ rather than being constant, so you need
-to take into account the prior ratio in the Metropolis acceptance probability.
-The first approach (parameterising by $\ell$ instead) is generally a better
-idea.
+likelihood function. The second approach (parameterising by $\ell$ instead) is generally a better idea.
 
 Let's now discuss some consequences of the sampling distribution, for which we
 used a normal distribution with known standard deviation for each data point,
 and asserted that the measurements were independent. In many applications
 (such as discrete-valued photon count data) other distributions such as the
-Poisson may be more appropriate. However, even for real-valued data the
+Poisson may be more appropriate. However, even for real-valued ``model plus
+noise'' situations the
 normal distribution has some consequences which may be undesirable.
 For example, there is a high probability that the noise vector (i.e. all of the actual
 the differences between the true curve and the data points) looks
-macroscopically like noise, with little correlation between the data points.
+macroscopically like white noise, with little correlation between the data points.
 To see this, try generating simulated datasets from the sampling distribution
 for a particular setting of the parameters, and you will see that almost all
 datasets that you generate have this property. If this is not realistic,
@@ -1231,6 +1248,8 @@ is a function of the model parameters), the term {\it marginal likelihood} or
 p(D | M_1) &=& \int p(\btheta_1 | M_1) p(D | \btheta_1, M_1) \, d\btheta_1
 \label{eq:marginal_likelihood}
 \end{eqnarray}
+which you may recognise as the normalising constant in the denominator of
+Bayes' theorem in the context of getting the posterior for $\btheta_1$.
 To do model selection, we need this as well as the marginal likelihood for
 $M_2$:
 \begin{eqnarray}
@@ -1255,7 +1274,7 @@ region.
 
 \section{An easy problem}
 Imagine a parameter estimation problem with a single parameter $X$ with a
-uniform prior distribution between 0 and 1. If the likelihood function was a
+uniform prior distribution between 0 and 1, and a likelihood function which is a
 decreasing function of $X$ (like in Figure~\ref{fig:nested1}). In this
 situation the marginal likelihood would be a straightforward integral
 $Z = \int_0^1 L(X) \,dX$. If we could obtain some points $X$, and measure their
@@ -1284,8 +1303,8 @@ An intuitive interpretation of $X$ is the ``fraction of points in the space
 which beat this point'', that is, $X$ is a rank. Importantly, the prior
 distribution $\pi(\theta)$ for the parameters implies a uniform distribution
 $U(0, 1)$ for the ranks $X$. To see this, imagine measuring the height of all
-900,000 residents of Tenerife, sorted them from tallest to shortest,
-and assigned a rank $X$ to each. The tallest
+900,000 residents of Tenerife, sorting them from tallest to shortest,
+and assigning a rank $X$ to each. The tallest
 person would get a rank of 0, the shortest a rank of 1, and the person exactly
 in the middle would get a rank of 0.5. If you made a histogram of the ranks, it
 would be uniform since the range of $X$ values (from 0 to 1) is divided evenly between the 900,000 people.
@@ -1340,7 +1359,7 @@ parameter values as well.
 \item Generate a new particle to replace the one found in step (ii). The new
 particle should be drawn from the prior distribution, but its likelihood
 must be greater than $L_{\rm worst}$.
-\item Repeat steps (ii) and (iii).
+\item Repeat steps (ii) and (iii) until enough iterations have been performed.
 \end{enumerate}
 
 In step (ii), we assume that there is a unique ``worst'' particle with the
@@ -1371,7 +1390,12 @@ will be dominated by a very small range to the left of the plot in
 Figure~\ref{fig:nested1}. For this reason, logarithmic axes are more useful
 (Figure~\ref{fig:nested2}). In terms of the plots in Figure~\ref{fig:nested2},
 NS steps towards the left, obtaining $(X, L)$ pairs each time the worst point
-is found. In terms of $\log(X)$ the steps are of equal size ($1/N$). Once
+is found. In terms of $\log(X)$ the steps are of equal size ($1/N$). Therefore,
+to cover a certain distance in terms of $\log(X)$, the number of iterations you
+need is proportional to $N$. As you might expect, higher $N$ leads to more
+accurate results but takes more CPU time.
+
+Once
 the algorithm has been running for a while, the marginal likelihood can be
 obtained by numerically approximating the integral:
 \begin{eqnarray}
